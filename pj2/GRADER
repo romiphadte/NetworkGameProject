@@ -63,17 +63,62 @@ project.  Your design of classes and interfaces with be worth about 10% of your
 grade.
 
 Player
-  public Move chooseMove()
-  public boolean opponentMove(Move m)
-  public boolean forceMove(Move m)
+  public Move chooseMove();
+  public boolean opponentMove(Move m);
+  public boolean forceMove(Move m);
 
   MachinePlayer
-    #record internal state
-    public MachinePlayer(int color)
-    public MachinePlayer(int color, int searchDepth)
-    public Move chooseMove()
-    public boolean opponentMove(Move m)
-    public boolean forceMove(Move m)
+    #ME is the machineplayer
+    public final static int ME = 1;
+    
+    #YOU is the opposing player
+    public final static int YOU = -1;
+  
+    Board gameboard;
+    protected final int color;
+    protected int searchDepth;
+
+    #makes a new MachinePlayer with variable search depth
+    public MachinePlayer(int color);
+    public MachinePlayer(int color, int searchDepth);
+    public Move chooseMove();
+    public boolean opponentMove(Move m);
+    public boolean forceMove(Move m);
+    
+    #recursive function that gives the best move
+    #given a limited search depth and a board
+    private Move bestMove(Board board, int searchDepth);
+
+
 
 Move
 #may extend
+
+#a game state
+Board
+  
+  private int[][] gameboard;
+
+  #makes a blank board
+  public Board();
+
+  #used for making new hypothetical boards
+  public Board(Board b, Move m, int player);
+
+  #used for changing the board
+  public void makeMove(Move m, int player);
+
+  #returns a score between (-100) - (100)
+  #where 100 is a win for self
+  public int value(int player);
+
+  #win: 1
+  #neutral: 0
+  #loss: -1
+  private int winner();
+
+  #gives all possible moves for given player
+  public Move[] validMoves(int player);
+
+  #checks if Move for given player is valid
+  public boolean isValid(Move m, int player);
