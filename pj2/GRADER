@@ -61,3 +61,19 @@ You will probably need to change some of your design decisions as you go; be
 sure to modify this file to reflect these changes before you submit your
 project.  Your design of classes and interfaces with be worth about 10% of your
 grade.
+
+Player
+  public Move chooseMove()
+  public boolean opponentMove(Move m)
+  public boolean forceMove(Move m)
+
+  MachinePlayer
+    #record internal state
+    public MachinePlayer(int color)
+    public MachinePlayer(int color, int searchDepth)
+    public Move chooseMove()
+    public boolean opponentMove(Move m)
+    public boolean forceMove(Move m)
+
+Move
+#may extend
