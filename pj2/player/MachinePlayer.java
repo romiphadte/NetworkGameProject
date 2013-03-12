@@ -8,6 +8,12 @@ package player;
  */
 public class MachinePlayer extends Player {
 
+  public final static int ME = 1;
+  public final static int YOU = -1;
+  protected Board gameboard;
+  protected int color;
+  protected int searchDepth;
+
   // Creates a machine player with the given color.  Color is either 0 (black)
   // or 1 (white).  (White has the first move.)
   public MachinePlayer(int color) {
@@ -39,6 +45,10 @@ public class MachinePlayer extends Player {
   // player to solve.
   public boolean forceMove(Move m) {
     return false;
+  }
+
+  private Move bestMove(Board board, int searchDepth) {
+    return new Move();
   }
 
 }
