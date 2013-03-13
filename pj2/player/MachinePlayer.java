@@ -8,8 +8,6 @@ package player;
  */
 public class MachinePlayer extends Player {
 
-  public final static int ME = 1;
-  public final static int YOU = -1;
   protected Board gameboard;
   protected int color;
   protected int searchDepth;
