@@ -11,9 +11,9 @@ class Chip{
    
 
     public void Chip(){
-        x=-1;
-        y=-1;
-        color=-1;
+    //    x=-1;
+    //    y=-1;
+    //    color=-1;
     }
     
     public void Chip(int X, int Y, int Color){
@@ -30,13 +30,13 @@ class Chip{
     }
 
     public int color(){
-        return color;
+    //    return color;
     }
 
     public void remove(){
-        x=-1;
-        y=-1;
-        color=-1;
+    //    x=-1;
+    //    y=-1;
+    //    color=-1;
         //Add code that goes through all nodes in networkedTo and deletes this chip from their lists.
     }
 }
