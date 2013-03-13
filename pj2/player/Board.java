@@ -4,19 +4,13 @@ package player;
 
 class Board {
 
-  //private Chip[][] gameboard;
-  //private int color;
+  private Chip[][] gameboard;
 
   /**
    * makes a blank board
    */
   public Board() {
     //gameboard = new Chip[8][8];
-  }
-
-  public Board(int color) {
-    //gameboard = new Chip[8][8];
-    //this.color = color;
   }
 
   /**
@@ -43,14 +37,14 @@ class Board {
   /**
    * win: 1  neither: 0  loss: -1
    */
-  private int winner() {
+  private int winner(int color) {
     return 0;
   }
 
   /**
-   * returns all valid moves for given color
+   * returns all valid moves for given color and move
    */
-  public Move[] validMoves(int color) {
+  public Move[] validMoves(int color, Move m) {
     return new Move[0];
   }
 
@@ -63,7 +57,7 @@ class Board {
    * (checked elsewhere)>>no chip may be placed in a occupied square
    * a chip may not have more than 2 connections
    */
-  public boolean isValid(int color) {
+  private boolean isValid(int color) {
     //if in 0-0, 0-7, 7-0, 7-7
     //  return false
     //else if black and in 0-1 to 0-6 or in 7-1 to 7-6
@@ -75,5 +69,15 @@ class Board {
     //else 
     //  return true
     return true;
+  }
+
+  /**
+   * moves c to new location
+   *
+   * remove c from board
+   * remove c from all chips its connected to
+   * add a new chip at location x,y
+   */
+  public void moveChip(int x, int y, Chip c) {
   }
 }

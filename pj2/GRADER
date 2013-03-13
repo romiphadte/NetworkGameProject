@@ -68,12 +68,6 @@ Player
   public boolean forceMove(Move m);
 
   MachinePlayer
-    #ME is the machineplayer
-    public final static int ME = 1;
-    
-    #YOU is the opposing player
-    public final static int YOU = -1;
-  
     protected Board gameboard;
     protected int color;
     protected int searchDepth;
@@ -97,28 +91,53 @@ Move
 #a game state
 Board
   
-  private int[][] gameboard;
+  private Chip[][] gameboard;
 
   #makes a blank board
   public Board();
 
   #used for making new hypothetical boards
-  public Board(Board b, Move m, int player);
+  public Board(Board b, int color, Move m);
 
   #used for changing the board
-  public void makeMove(Move m, int player);
+  public void makeMove(int color, Move m);
 
   #returns a score between (-100) - (100)
   #where 100 is a win for self
-  public int value(int player);
+  public int value(int color);
 
   #win: 1
   #neutral: 0
   #loss: -1
-  private int winner();
+  private int winner(int color);
 
   #gives all possible moves for given player
-  public Move[] validMoves(int player);
+  public Move[] validMoves(int color);
 
   #returns true if Move for given player is valid
-  public boolean isValid(Move m, int player);
+  public boolean isValid(int color, Move m);
+
+  #moves chip to new location
+  #removes c from all its connected to
+  #adds a new chip at location x,y
+  public void moveChip(int x, int y, Chip c);
+
+Chip
+
+  #makes a chip with invalid info
+  public Chip();
+  
+  #makes a chip with location x,y and color
+  public Chip(int X, int Y, int Color);
+
+  #returns x
+  public int getX();
+
+  #returns y
+  public int getY();
+
+  #returns color
+  public int color();
+
+  #removes all pointers to itself
+  public void remove();
