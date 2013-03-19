@@ -40,6 +40,9 @@ class Chip {
      * cleans out own networkedto
      */
     public void remove() {
+        for (int i = 0; i < inSight.length; i++) {
+            noC(inSight[i]);
+        }
         x = -1;
         y = -1;
         color = -1;
@@ -47,21 +50,34 @@ class Chip {
     }
 
     /**
+     * checks if each chip is already in each others list
      * adds c to the chip's inSight 
      * also adds self to c's inSight
      */
     public void addC(Chip c) {
+        int add1 = -1;
+        int add2 = -1;
         boolean added1 = false;
         boolean added2 = false;
         for (int i = 0; i < inSight.length; i++) {
-            if (!added1 && inSight[i] == null) {
-                inSight[i] = c;
+            if (inSight[i] == c) {
                 added1 = true;
             }
-            if (!added2 && c.inSight[i] == null) {
-                c.inSight[i] = this;
+            if (c.inSight[i] == this) {
                 added2 = true;
             }
+            if (inSight[i] == null) {
+                add1 = i;
+            }
+            if (c.inSight[i] == null) {
+                add2 = i;
+            }
+        }
+        if (!added1) {
+            inSight[add1] = c;
+        }
+        if (!added2) {
+            c.inSight[add2] = this;
         }
     }
 
@@ -77,5 +93,6 @@ class Chip {
             if (c.inSight[i] == this) {
                 c.inSight[i] = null;
             }
+        }
     }
 }

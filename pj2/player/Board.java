@@ -28,9 +28,9 @@ class Board {
     * return moveChip
     */
     public boolean makeMove(int color, Move m) {
-        if (m.moveKind == ADD) {
+        if (m.moveKind == Move.ADD) {
             return addChip(color, m);
-        } else if (m.moveKind == STEP) {
+        } else if (m.moveKind == Move.STEP) {
             return moveChip(color, m);
         }
         return false;
@@ -44,7 +44,13 @@ class Board {
     */
     private boolean addChip(int color, Move m) {
         //checks if valid
-        if (isValid(m)) {
+        if (isValid(color, m)) {
+            Chip c = new Chip(m.x1, m.y1, color);
+            gameboard[m.x1][m.y1] = c;
+            Chip[] chips = lineOfSight(c);
+            for (int i = 0; i < chips.length; i++) {
+                c.addC(chips[i]);
+            }
             return true;
         }
         //returns false if not valid
@@ -63,14 +69,14 @@ class Board {
         Chip c = new Chip(m.x2, m.y2, color);
         gameboard[m.x2][m.y2].remove();
         //checks if valid (must check over here so isValid doesn't count in the old chip)
-        if (isValid(m)) {
+        if (isValid(color, m)) {
             //add a new chip at location x,y
             addChip(color, m);
             //return true
             return true;
         }
         //readd the chip if it isn't valid and return false
-        addChip(color, new Move(m.x2, m.y2);
+        addChip(color, new Move(m.x2, m.y2));
         return false;
     }
 
@@ -101,7 +107,7 @@ class Board {
     private boolean isValid(int color, Move m) {
         //if move is QUIT
         //  return false
-        if (m.moveKind == QUIT) {
+        if (m.moveKind == Move.QUIT) {
             return false;
         //if square is occuped
         //  return false
