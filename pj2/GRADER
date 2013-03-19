@@ -62,6 +62,27 @@ sure to modify this file to reflect these changes before you submit your
 project.  Your design of classes and interfaces with be worth about 10% of your
 grade.
 
+#######tis the redo#######
+CLASSES
+	Player
+	MachinePlayer
+	Board
+	Chip
+
+MODULES
+#module name/classes/team member/describe each interface
+AI:
+	public class MachinePlayer
+Min max:
+	public Board(Board b, int color, Move m)
+Scoring:
+
+Find Moves:
+Find Networks:
+Is Valid:
+
+
+#######REDO THIS STUFF FOLLOW THE FORMAT THEY PROVIDED#######
 Player
   public Move chooseMove();
   public boolean opponentMove(Move m);
@@ -123,6 +144,12 @@ Board
   public void moveChip(int x, int y, Chip c);
 
 Chip
+	private int color;
+	private int x;
+	private int y;
+	
+	#all chips that its connected to
+	public Chip[] networkedTo;
 
   #makes a chip with invalid info
   public Chip();
