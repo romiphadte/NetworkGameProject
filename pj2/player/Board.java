@@ -9,6 +9,9 @@ class Board {
   /**
    * makes a blank board
    */
+
+  
+
   public Board() {
     //gameboard = new Chip[8][8];
   }
@@ -44,7 +47,22 @@ class Board {
   /**
    * returns all valid moves for given color and move
    */
-  public Move[] validMoves(int color, Move m) {
+  public Move[] validMoves(int color) {
+
+    Move[] allmoves=;
+
+    for (int i=0; i<gameboard.length; i++)
+    {
+        for (int j=0;i<gameboard.length;j++)
+        {
+            Move trymove=new Move(i,j);
+            if (isValid(color,trymove))
+            {
+                
+            }
+        }
+
+    }
     return new Move[0];
   }
 

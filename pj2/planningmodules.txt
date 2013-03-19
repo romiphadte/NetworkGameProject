@@ -1,0 +1,24 @@
+
+
+machineplayer
+has a board
+
+uses boards to minmax
+
+each board has a scoring function
+
+
+
+
+scoring->in board class. interacts with machineplayer by returning and int and takes a board.
+
+minmax->interacts with scoring by taking in ints and giving boards to find board with largest score
+        uses find moves to make such boards. Gives current board and gets out potential boards.
+
+find moves-> takes in a current board and gives potential boards to minmax
+
+find networks-> interacts with scoring by taking in a board and gives a list of nextworked connections. Scoring then uses these to make a numeric value
+
+
+
+

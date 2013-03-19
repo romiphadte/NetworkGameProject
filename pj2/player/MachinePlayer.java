@@ -12,6 +12,10 @@ public class MachinePlayer extends Player {
   protected int color;
   protected int searchDepth;
 
+  public final static WHITE=1;
+  public final static BLACK=0;
+
+
   // Creates a machine player with the given color.  Color is either 0 (black)
   // or 1 (white).  (White has the first move.)
   public MachinePlayer(int color) {
@@ -46,6 +50,8 @@ public class MachinePlayer extends Player {
   }
 
   private Move bestMove(Board board, int searchDepth) {
+    
+ 
     return new Move();
   }
 
