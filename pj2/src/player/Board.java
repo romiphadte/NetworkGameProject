@@ -2,7 +2,7 @@
 
 package player;
 
-import list.*;
+import 	list.*;
 
 class Board {
 
@@ -137,6 +137,7 @@ class Board {
 	}
 
 	private void removeChip(Chip c) {
+		/*
 		for (int i = 0; i < chips.length; i++) {
 			chips[i].clear();
 			Chip[] tmp = lineOfSight(chips[i]);
@@ -144,6 +145,7 @@ class Board {
 				chips[i].addC(tmp[j]);
 			}
 		}
+		*/
 	}
 
 	/**
