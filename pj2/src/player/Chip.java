@@ -38,15 +38,26 @@ class Chip {
      * makes self invalid
      * deletes itself off everything its networked to
      * cleans out own networkedto
+     * returns a copy of its inSight(that no longer exists)
      */
-    public void remove() {
-        for (int i = 0; i < inSight.length; i++) {
-            noC(inSight[i]);
-        }
+    public Chip[] dissapear() {
         x = -1;
         y = -1;
         color = -1;
-        //Add code that goes through all nodes in networkedTo and deletes this chip from their lists.
+        Chip[] tmp = new Chip[inSight.length];
+        for (int i = 0; i < inSight.length; i++) {
+            tmp[i] = inSight[i];
+            noC(inSight[i]);
+        }
+        inSight = null;
+        return tmp;
+    }
+
+    /**
+     * clears the chip's inSight
+     */
+    public void clear() {
+        inSight = new Chip[8];
     }
 
     /**
