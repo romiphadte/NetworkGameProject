@@ -72,13 +72,7 @@ public class MachinePlayer extends Player {
     // illegal, returns false without modifying the internal state of "this"
     // player.  This method allows your opponents to inform you of their moves.
     public boolean opponentMove(Move m) {
-        int opposingColor;
-        if (color == WHITE) {
-            opposingColor = BLACK;
-        } else {
-            opposingColor = WHITE;
-        }
-        return gameboard.makeMove(opposingColor, m);
+        return gameboard.makeMove(otherPlayer(color), m);
     }
 
     // If the Move m is legal, records the move as a move by "this" player
@@ -95,16 +89,54 @@ public class MachinePlayer extends Player {
         return new Move();
     }
     
-    private int tryMove (Board board, int searchDepth, int color)
+    private Object[] tryMove (Board board, int searchDepth, int color)
     {
-    	DList allmoves=board.validMoves(color);
-    	//this.color-color
-    	for (int i=0; i<allmoves.length(); i++)
+    	if (searchDepth==0)
     	{
+    		return new Object[]{board.value(otherPlayer(color)),new Move(0,0)};
+    	}
+    	DList allMoves=board.validMoves(color);
+    	
+    	DListNode aNode=allMoves.front();
+    	for (int i=0; i<allMoves.length(); i++)
+    	{
+    		Object[] result=tryMove(new Board(board,color,(Move) aNode.item), searchDepth-1, otherPlayer(color));
+    		
     		
     	}
-    	return 0;
+  /*  	
+    	{
+    		public Object[] chooseMove(boolean side) {
+    		Objectp[] myBest = new Object[2]; // My best move Best reply; // OpponentÕs best reply
+    		if (the current Grid is full or has a win) { return a Best with GridÕs score, no move;
+    		}
+    		if (side == COMPUTER) {
+    		      myBest.score = -1;
+    		    } else {
+    		      myBest.score = 1;
+    		    }
+    		for (int i=0; i<allMoves.length(); i++){
+    		perform move m; // Modifies "this" Grid 
+    		Object[] result=tryMove(new Board(board,color,(Move) aNode.item), searchDepth-1, otherPlayer(color));
+    		if (((side == COMPUTER) &&
+    		(reply.score >= myBest.score)) || ((side == HUMAN) &&
+    		(reply.score <= myBest.score))) { myBest.move = m;
+    		myBest.score = reply.score;
+    		}
+    		    return myBest;
+    		  }
     	
+    */	
+    	return new Object[]{aNode.item,0};
+    	
+    }
+    
+    private int otherPlayer(int color){
+    	if (color == WHITE) {
+            return BLACK;
+        } else{
+            return WHITE;
+        }
     }
 
 }

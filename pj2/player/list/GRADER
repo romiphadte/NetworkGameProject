@@ -1,6 +1,0 @@
-Romi Phadte
-cs61b-mi
-
-There will be an issue if you use remove() to remove a node. Then you try to insert before or after the node that you removed.
-
-
