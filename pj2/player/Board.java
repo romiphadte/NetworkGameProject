@@ -11,14 +11,20 @@ class Board {
     * makes a blank board
     */
     public Board() {
-    //gameboard = new Chip[8][8];
+        gameboard = new Chip[8][8];
     }
 
     /**
-    * makes hypothetical variations to a certain Board
+    * makes hypothetical variations of a certain Board
     */
     public Board(Board b, int color, Move m) {
-    //for (int i = 0; i <
+        this();
+        for (int x = 0; x < gameboard.length; x++) {
+            for (int y = 0; y < gameboard[0].length; y++) {
+                gameboard[x][y] = b.gameboard[x][y];
+            }
+        }
+        addChip(color, m);
     }
 
     /**
@@ -48,8 +54,14 @@ class Board {
             Chip c = new Chip(m.x1, m.y1, color);
             gameboard[m.x1][m.y1] = c;
             Chip[] chips = lineOfSight(c);
+            //for each chip in the new chip's line of sight
+            //recaluate the seen chip's sight
             for (int i = 0; i < chips.length; i++) {
-                c.addC(chips[i]);
+                chips[i].clear();
+                Chip[] tmp = lineOfSight(chips[i]);
+                for (int j = 0; j < tmp.length; j++) {
+                    chips[i].addC(tmp[j]);
+                }
             }
             return true;
         }
@@ -67,7 +79,7 @@ class Board {
     private boolean moveChip(int color, Move m) {
         //store and remove old chip from board
         Chip c = new Chip(m.x2, m.y2, color);
-        gameboard[m.x2][m.y2].remove();
+        removeChip(gameboard[m.x2][m.y2]);
         //checks if valid (must check over here so isValid doesn't count in the old chip)
         if (isValid(color, m)) {
             //add a new chip at location x,y
@@ -78,6 +90,21 @@ class Board {
         //readd the chip if it isn't valid and return false
         addChip(color, new Move(m.x2, m.y2));
         return false;
+    }
+
+    /**
+     * takes in a chip
+     * clears c from the board
+     * has all chips in the line of sight of c revaluate their own inSights
+     */
+    private void removeChip(Chip c) {
+        for (int i = 0; i < chips.length; i++) {
+            chips[i].clear();
+            Chip[] tmp = lineOfSight(chips[i]);
+            for (int j = 0; j < tmp.length; j++) {
+                chips[i].addC(tmp[j]);
+            }
+        }
     }
 
     /**
