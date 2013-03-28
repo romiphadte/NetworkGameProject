@@ -2,7 +2,7 @@
 
 package player;
 
-import player.list.*;
+import list.*;
 
 class Board {
 
