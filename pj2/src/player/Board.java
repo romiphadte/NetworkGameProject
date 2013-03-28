@@ -2,12 +2,14 @@
 
 package player;
 
-import 	list.*;
+import list.*;
 
 class Board {
 
 	public static final int WHITE = 1;
 	public static final int BLACK = 0;
+	public static final int LOWESTVAL=-100;
+	public static final int HIGHESTVAL=100;
 	private Chip[][] gameboard;
 	private int numPieces;
 
@@ -138,14 +140,10 @@ class Board {
 
 	private void removeChip(Chip c) {
 		/*
-		for (int i = 0; i < chips.length; i++) {
-			chips[i].clear();
-			Chip[] tmp = lineOfSight(chips[i]);
-			for (int j = 0; j < tmp.length; j++) {
-				chips[i].addC(tmp[j]);
-			}
-		}
-		*/
+		 * for (int i = 0; i < chips.length; i++) { chips[i].clear(); Chip[] tmp
+		 * = lineOfSight(chips[i]); for (int j = 0; j < tmp.length; j++) {
+		 * chips[i].addC(tmp[j]); } }
+		 */
 	}
 
 	/**
@@ -153,6 +151,14 @@ class Board {
 	 */
 	public int value(int color) {
 		return 0;
+	}
+
+	/**
+	 * returns a bool to tell you if match is finished. Needed for min max. Use
+	 * in value code
+	 */
+	public boolean isFinished() {
+		return false;
 	}
 
 	/**
