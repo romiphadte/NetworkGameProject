@@ -7,6 +7,7 @@ class Board {
     private Chip[][] gameboard;
     private int numPieces;
 
+
     /**
     * makes a blank board
     */
@@ -69,6 +70,29 @@ class Board {
         return false;
     }
 
+
+  /**
+   * returns all valid moves for given color and move
+   */
+  public Move[] validMoves(int color) {
+
+    Move[] allmoves=;
+
+    for (int i=0; i<gameboard.length; i++)
+    {
+        for (int j=0;i<gameboard.length;j++)
+        {
+            Move trymove=new Move(i,j);
+            if (isValid(color,trymove))
+            {
+                
+            }
+        }
+
+    }
+    return new Move[0];
+  }
+
     /**
     * store and remove old chip from board
     * checks if valid (must check over here so isValid doesn't count in the old chip)
@@ -92,6 +116,7 @@ class Board {
         return false;
     }
 
+
     /**
      * takes in a chip
      * clears c from the board
@@ -113,13 +138,6 @@ class Board {
     */
     public int value(int color) {
         return 0;
-    }
-
-    /**
-    * returns all valid moves for given color and move
-    */
-    public Move[] validMoves(int color) {
-        return new Move[0];
     }
 
     /**

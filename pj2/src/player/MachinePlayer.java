@@ -1,6 +1,7 @@
 /* MachinePlayer.java */
 
 package player;
+import player.list.*;
 
 /**
 *  An implementation of an automatic Network player.  Keeps track of moves
@@ -33,7 +34,37 @@ public class MachinePlayer extends Player {
     // Returns a new move by "this" player.  Internally records the move (updates
     // the internal game board) as a move by "this" player.
     public Move chooseMove() {
+    	/* 
+    	 * if (gameboard.numPieces()<=1)
+    	 
+    	{
+    		Move m=new Move(0,2);
+    		gameboard.makeMove(color, m);
+    		return m;
+    	}
+    	else if (gameboard.numPieces()<=2)
+    	{
+    		Move m=new Move(0,2);
+    		gameboard.makeMove(color, m);
+    		return new Move(0,2);
+    	}
+    	
         return new Move();
+        */
+    	
+    	DList allMoves=gameboard.validMoves(color);
+    	//this.color-color
+    	DListNode aNode=allMoves.front();
+    	System.out.print("\n\n This is list of all moves the robot thinks is ok. Currently choses first option.\n");
+    	for (int i=0; i<allMoves.length(); i++)
+    	{
+    		System.out.println(aNode.item);
+    		aNode=allMoves.next(aNode);
+    	}
+    	gameboard.makeMove(color, (Move) aNode.item);
+    	return (Move) aNode.item;
+    	
+    	
     } 
 
     // If the Move m is legal, records the move as a move by the opponent
@@ -60,7 +91,20 @@ public class MachinePlayer extends Player {
     }
 
     private Move bestMove(Board board, int searchDepth) {
+    	
         return new Move();
+    }
+    
+    private int tryMove (Board board, int searchDepth, int color)
+    {
+    	DList allmoves=board.validMoves(color);
+    	//this.color-color
+    	for (int i=0; i<allmoves.length(); i++)
+    	{
+    		
+    	}
+    	return 0;
+    	
     }
 
 }
