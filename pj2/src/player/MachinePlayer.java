@@ -54,7 +54,7 @@ public class MachinePlayer extends Player {
 				m = (Move) aNode.item;
 			}
 		} else {
-
+			System.out.print(gameboard.numPieces());
 			if (gameboard.numPieces() <= 1)
 
 			{
@@ -63,7 +63,7 @@ public class MachinePlayer extends Player {
 				} else {
 					m = new Move(0, 2);
 				}
-			} else if (gameboard.numPieces() <= 2) {
+			} else if (gameboard.numPieces() <= 3) {
 
 				if (color == BLACK) {
 					m = new Move(4, 7);

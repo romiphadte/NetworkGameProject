@@ -8,8 +8,8 @@ class Board {
 
 	public static final int WHITE = 1;
 	public static final int BLACK = 0;
-	public static final int LOWESTVAL=-100;
-	public static final int HIGHESTVAL=100;
+	public static final int LOWESTVAL = -100;
+	public static final int HIGHESTVAL = 100;
 	private Chip[][] gameboard;
 	private int numPieces;
 
@@ -70,6 +70,7 @@ class Board {
 					chips[i].addC(tmp[j]);
 				}
 			}
+			numPieces++;
 			return true;
 		}
 		// returns false if not valid
@@ -85,7 +86,7 @@ class Board {
 		for (int i = 0; i < gameboard.length; i++) {
 			for (int j = 0; j < gameboard[0].length; j++) {
 
-				if (numPieces > 20) { // try moving if more than 20 pieces on
+				if (numPieces >= 20) { // try moving if more than 20 pieces on
 										// board
 					if (gameboard[i][j] != null) { // and contains and also
 													// contains piece
@@ -126,9 +127,9 @@ class Board {
 		// checks if valid
 		if (isValid(color, m)) {
 			removeChip(gameboard[m.x2][m.y2]);
-
+			
 			// add a new chip at location x,y
-			addChip(color, m);
+			addChip(color, new Move(m.x1,m.y1));
 			// return true
 			return true;
 
@@ -139,6 +140,8 @@ class Board {
 	}
 
 	private void removeChip(Chip c) {
+		gameboard[c.getX()][c.getY()]=null;
+		numPieces--;
 		/*
 		 * for (int i = 0; i < chips.length; i++) { chips[i].clear(); Chip[] tmp
 		 * = lineOfSight(chips[i]); for (int j = 0; j < tmp.length; j++) {
@@ -172,9 +175,9 @@ class Board {
 	private boolean isValid(int color, Move m) {
 		System.out.print("\nChecking ");
 		if (color == 1)
-			System.out.print("white move:");
+			System.out.print("white moves:");
 		else
-			System.out.print("black move:");
+			System.out.print("black moves:");
 		System.out.print(m);
 		// if move is QUIT
 		// return false
@@ -182,7 +185,16 @@ class Board {
 			return false;
 			// if square is occuped
 			// return false
-		} else if (gameboard[m.x1][m.y1] != null) {
+		}
+		else if(m.moveKind==Move.ADD && numPieces()>=20)
+		{
+			return false;
+		}
+		else if(m.moveKind==Move.STEP && numPieces()<20)
+		{
+			return false;
+		}
+		else if (gameboard[m.x1][m.y1] != null) {
 			return false;
 			// if in 0-0, 0-7, 7-0, 7-7
 			// return false
@@ -190,16 +202,13 @@ class Board {
 			return false;
 			// else if black and in 0-1 to 0-6 or in 7-1 to 7-6
 			// return false
-		} else if (color == BLACK) {
-			if ((m.x1 == 0 || m.x1 == 7) && (m.y1 >= 1 && m.y1 <= 6)) {
-				return false;
-			}
+		} else if (color == BLACK && (m.x1 == 0 || m.x1 == 7)
+				&& (m.y1 >= 1 && m.y1 <= 6)) {
+			return false;
 			// else if white and in 1-0 to 6-0 or in 1-7 to 6-7
 			// return false
-		} else if (color == WHITE) {
-			if ((m.x1 >= 1 && m.x1 <= 6) && (m.y1 == 0 || m.y1 == 7)) {
+		} else if (color == WHITE && (m.x1 >= 1 && m.x1 <= 6) && (m.y1 == 0 || m.y1 == 7)) {
 				return false;
-			}
 			// else if is a cluster(2+ adjacent chips)
 			// return false
 		} else if (isCluster(new Chip(m.x1, m.y1, color), 0)) {
@@ -208,11 +217,11 @@ class Board {
 			// else if moving nonexistant chips return false (uses assumption
 			// that unused vars in
 			// move are initialized to zero
-		} else if (m.x2 != 0 && m.y2 != 0 && gameboard[m.x2][m.y2] == null) {
+		} else if (m.moveKind==Move.STEP && gameboard[m.x2][m.y2] == null) {
 			return false;
 			// else if moving a different color than self
 			// return false
-		} else if (m.x2 != 0 && m.y2 != 0
+		} else if (m.moveKind==Move.STEP
 				&& gameboard[m.x2][m.y2].color() != color) {
 			return false;
 			// else
