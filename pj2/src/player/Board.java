@@ -119,11 +119,9 @@ class Board {
 	 * here so isValid doesn't count in the old chip) returns false if it isn't
 	 * valid and readd the chip add a new chip at location x,y return true
 	 */
-	// ROMI: changed for this method warrented by change to isValid.
 	private boolean moveChip(int color, Move m) {
 		// store and remove old chip from board
 		Chip c = new Chip(m.x2, m.y2, color);
-		// ROMI's change: gameboard[m.x2][m.y2].remove(); was here
 		// checks if valid
 		if (isValid(color, m)) {
 			removeChip(gameboard[m.x2][m.y2]);
@@ -134,8 +132,6 @@ class Board {
 			return true;
 
 		}
-
-		// ROMI's change. adding m.x2,y.x2 chip was here
 		return false;
 	}
 
@@ -183,7 +179,7 @@ class Board {
 		// return false
 		if (m.moveKind == Move.QUIT) {
 			return false;
-			// if square is occuped
+			// if square is occupied
 			// return false
 		} else if (m.moveKind == Move.ADD && numPieces() >= 20) {
 			return false;
@@ -211,9 +207,7 @@ class Board {
 				color), 0)) {
 			return false;
 			// Romi's addition
-			// else if moving nonexistant chips return false (uses assumption
-			// that unused vars in
-			// move are initialized to zero
+			// else if moving nonexistant chips return false
 		} else if (m.moveKind == Move.STEP && gameboard[m.x2][m.y2] == null) {
 			return false;
 			// else if moving a different color than self

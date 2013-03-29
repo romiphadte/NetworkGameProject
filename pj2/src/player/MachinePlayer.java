@@ -88,7 +88,7 @@ public class MachinePlayer extends Player {
 		
 		if(!isvalid)
 		{
-			int pi=1/0;
+			int pi=1/0; //TODO remove this intentionally faulty code.
 		}
 		return isvalid;
 	}
