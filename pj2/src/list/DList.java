@@ -66,6 +66,17 @@ public class DList {
 		return size == 0;
 	}
 	
+	public DList copy(){
+		DList aDList= new DList();
+		DListNode aNode=front();
+		for (int i=0; i<length(); i++)
+		{
+			aDList.insertBack(aNode.item);
+			aNode=this.next(aNode);
+		}
+		return aDList;
+	}
+	
 	public DListNode random(){
 		int nodeNumber=(int) (Math.random()*length()-1);
 		System.out.println(nodeNumber);
