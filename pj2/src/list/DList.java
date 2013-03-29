@@ -1,6 +1,7 @@
 /* DList.java */
 
 package list;
+
 /**
  * A DList is a mutable doubly-linked list ADT. Its implementation is
  * circularly-linked and employs a sentinel (dummy) node at the head of the
@@ -65,26 +66,42 @@ public class DList {
 	public boolean isEmpty() {
 		return size == 0;
 	}
-	
-	public DList copy(){
-		DList aDList= new DList();
-		DListNode aNode=front();
-		for (int i=0; i<length(); i++)
-		{
+
+	public DList copy() {
+		DList aDList = new DList();
+		DListNode aNode = front();
+		for (int i = 0; i < length(); i++) {
 			aDList.insertBack(aNode.item);
-			aNode=this.next(aNode);
+			aNode = this.next(aNode);
 		}
 		return aDList;
 	}
-	
-	public DListNode random(){
-		int nodeNumber=(int) (Math.random()*length()-1);
+
+	public boolean equals(DList list) {
+		if (list.length() != length()) {
+			return false;
+		} else {
+			DListNode aNode=front();
+			DListNode bNode=list.front();
+			for (int i=0; i<list.length(); i++)
+			{
+				if (!aNode.item.equals(bNode.item))
+				{
+					return false;
+				}
+					
+			}
+		}
+		return true;
+	}
+
+	public DListNode random() {
+		int nodeNumber = (int) (Math.random() * length() - 1);
 		System.out.println(nodeNumber);
 		System.out.println(length());
-		DListNode aNode=front();
-		for (int i=0; i<nodeNumber; i++)
-		{
-			aNode=next(aNode);
+		DListNode aNode = front();
+		for (int i = 0; i < nodeNumber; i++) {
+			aNode = next(aNode);
 		}
 		return aNode;
 	}
@@ -167,7 +184,7 @@ public class DList {
 	 * @return the node following "node". Performance: runs in O(1) time.
 	 */
 	public DListNode next(DListNode node) {
-		if (node==null || node.next == head) {
+		if (node == null || node.next == head) {
 			return null;
 		} else {
 			return node.next;
@@ -185,7 +202,7 @@ public class DList {
 	 * @return the node prior to "node". Performance: runs in O(1) time.
 	 */
 	public DListNode prev(DListNode node) {
-		if (node==null || node.prev == head) {
+		if (node == null || node.prev == head) {
 			return null;
 		} else {
 			return node.prev;
@@ -220,7 +237,7 @@ public class DList {
 	 *            time.
 	 */
 	public void insertBefore(Object item, DListNode node) {
-	    node.prev.next = newNode(item, node.prev , node);
+		node.prev.next = newNode(item, node.prev, node);
 		node.prev = node.prev.next;
 		size++;
 	}
@@ -230,11 +247,10 @@ public class DList {
 	 * Performance: runs in O(1) time.
 	 */
 	public void remove(DListNode node) {
-		if (node!=null)
-		{
-		node.prev.next=node.next;
-		node.next.prev=node.prev;
-		size--;
+		if (node != null) {
+			node.prev.next = node.next;
+			node.next.prev = node.prev;
+			size--;
 		}
 	}
 
