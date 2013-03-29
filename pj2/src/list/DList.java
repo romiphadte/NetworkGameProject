@@ -65,6 +65,16 @@ public class DList {
 	public boolean isEmpty() {
 		return size == 0;
 	}
+	
+	public DListNode random(){
+		int nodeNumber=(int) (Math.random()*length()-1);
+		DListNode aNode=head;
+		for (int i=0; i<nodeNumber; i++)
+		{
+			aNode=next(aNode);
+		}
+		return aNode;
+	}
 
 	/**
 	 * length() returns the length of this DList.
