@@ -313,12 +313,20 @@ class Board {
      * cannot pass through chip without changing direction
      */
     public DList findNetworks(int color) {
-        //Dlist of chips that were already checked
+        //Dlist of networks(DLists)
+        DList networks = new DList();
+        Chip chip;
         for (int x = 0; x < gameboard.length; x++) {
             for (int y = 0; y < gameboard[x].length; y++) {
-                //DList net = gameboard[x][y].network();
+                chip = gameboard[x][y];
+                if (chip != null && chip.color() == color) {
+                    DList net = chip.network();
+                    DList validNet = validNetworks(net);
+                    mergeNetworks(networks, net);
+                }
             }
         }
+        return networks;
     }
 
     /**
@@ -326,6 +334,14 @@ class Board {
      * *minus the 6 to end game network rule
      */
     private DList validNetworks(DList list) {
+        return new DList();
+    }
+
+    /**
+     * returns the union 2 DLists of DLists
+     */
+    private DList mergeNetworks(DList list1, DList list2) {
+        return new DList();
     }
 
 	/**

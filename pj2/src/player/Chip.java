@@ -2,6 +2,8 @@
 
 package player;
 
+import list.*;
+
 class Chip {
     private int color;
     private int x;
@@ -108,9 +110,11 @@ class Chip {
     }
 
     /**
-     * return a DList of all networks that this chip is connected to(as a Dlist)
+     * return a DList of all possible networks(legal or illegal)
+     * that this chip is connected to(as a Dlist)
      */
     public DList network() {
+        return new DList();
     }
 
     public boolean equals(Chip chip) {
