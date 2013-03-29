@@ -107,8 +107,8 @@ public class MachinePlayer extends Player {
   /*  	
     	{
     		public Object[] chooseMove(boolean side) {
-    		Objectp[] myBest = new Object[2]; // My best move Best reply; // Opponent’s best reply
-    		if (the current Grid is full or has a win) { return a Best with Grid’s score, no move;
+    		Objectp[] myBest = new Object[2]; // My best move Best reply; // Opponent's best reply
+    		if (the current Grid is full or has a win) { return a Best with Grid's score, no move;
     		}
     		if (side == COMPUTER) {
     		      myBest.score = -1;

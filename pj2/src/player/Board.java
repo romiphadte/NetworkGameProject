@@ -230,11 +230,12 @@ class Board {
 					if (gameboard[x][y] != null
 							&& gameboard[x][y].color() == c.color()) {
 						n++;
-						if (n > 1) {
+						if (n > 2) {
 							return true;
 						}
-						return isCluster(
-								new Chip(x, y, gameboard[x][y].color()), n);
+						if (isCluster(new Chip(x, y, gameboard[x][y].color()), n)) {
+                            return true;
+                        }
 					}
 				}
 			}
@@ -295,11 +296,15 @@ class Board {
 	/**
 	 * tester method to test private methods
 	 */
-	public void tester(Board b) {
-
+	public void tester() {
+        System.out.println("Testing isCluster);
+        System.out.println("Testing search);
+        System.out.println("Testing lineOfSight);
+        System.out.println("Testing isValid);
 	}
 
 	public static void main(String[] args) {
 		Board board = new Board();
-	}
+        board.tester();
+    }
 }
