@@ -127,9 +127,9 @@ class Board {
 		// checks if valid
 		if (isValid(color, m)) {
 			removeChip(gameboard[m.x2][m.y2]);
-			
+
 			// add a new chip at location x,y
-			addChip(color, new Move(m.x1,m.y1));
+			addChip(color, new Move(m.x1, m.y1));
 			// return true
 			return true;
 
@@ -140,7 +140,7 @@ class Board {
 	}
 
 	private void removeChip(Chip c) {
-		gameboard[c.getX()][c.getY()]=null;
+		gameboard[c.getX()][c.getY()] = null;
 		numPieces--;
 		/*
 		 * for (int i = 0; i < chips.length; i++) { chips[i].clear(); Chip[] tmp
@@ -185,16 +185,11 @@ class Board {
 			return false;
 			// if square is occuped
 			// return false
-		}
-		else if(m.moveKind==Move.ADD && numPieces()>=20)
-		{
+		} else if (m.moveKind == Move.ADD && numPieces() >= 20) {
 			return false;
-		}
-		else if(m.moveKind==Move.STEP && numPieces()<20)
-		{
+		} else if (m.moveKind == Move.STEP && numPieces() < 20) {
 			return false;
-		}
-		else if (gameboard[m.x1][m.y1] != null) {
+		} else if (gameboard[m.x1][m.y1] != null) {
 			return false;
 			// if in 0-0, 0-7, 7-0, 7-7
 			// return false
@@ -207,21 +202,23 @@ class Board {
 			return false;
 			// else if white and in 1-0 to 6-0 or in 1-7 to 6-7
 			// return false
-		} else if (color == WHITE && (m.x1 >= 1 && m.x1 <= 6) && (m.y1 == 0 || m.y1 == 7)) {
-				return false;
+		} else if (color == WHITE && (m.x1 >= 1 && m.x1 <= 6)
+				&& (m.y1 == 0 || m.y1 == 7)) {
+			return false;
 			// else if is a cluster(2+ adjacent chips)
 			// return false
-		} else if (isCluster(new Chip(m.x1, m.y1, color), 0)) {
+		} else if (isCluster(new Chip(m.x1, m.y1, color), new Chip(m.x2, m.y2,
+				color), 0)) {
 			return false;
 			// Romi's addition
 			// else if moving nonexistant chips return false (uses assumption
 			// that unused vars in
 			// move are initialized to zero
-		} else if (m.moveKind==Move.STEP && gameboard[m.x2][m.y2] == null) {
+		} else if (m.moveKind == Move.STEP && gameboard[m.x2][m.y2] == null) {
 			return false;
 			// else if moving a different color than self
 			// return false
-		} else if (m.moveKind==Move.STEP
+		} else if (m.moveKind == Move.STEP
 				&& gameboard[m.x2][m.y2].color() != color) {
 			return false;
 			// else
@@ -237,19 +234,24 @@ class Board {
 	 * 1 neighbor check if a neighbor has more than 1 neighbor returns false
 	 * otherwise
 	 */
-	private boolean isCluster(Chip c, int n) {
+	private boolean isCluster(Chip c, Chip o, int n) { // ignores o chip in the
+														// case of a move.
 		for (int x = c.getX() - 1; x <= c.getX() + 1; x++) {
 			for (int y = c.getY() - 1; y <= c.getY() + 1; y++) {
 				if (x >= 0 && x <= 7 && y >= 0 && y <= 7
-						&& !(x == c.getX() && y == c.getY())) {
+						&& !(x == c.getX() && y == c.getY())
+						&& !(x == o.getX() && y == o.getY())) {
 					if (gameboard[x][y] != null
 							&& gameboard[x][y].color() == c.color()) {
 						n++;
 						if (n > 1) {
 							return true;
 						}
-						return isCluster(
-								new Chip(x, y, gameboard[x][y].color()), n);
+
+						if (isCluster(new Chip(x, y, gameboard[x][y].color()),
+								o, n)) {
+							return true;
+						}
 					}
 				}
 			}

@@ -83,7 +83,14 @@ public class MachinePlayer extends Player {
 	// illegal, returns false without modifying the internal state of "this"
 	// player. This method allows your opponents to inform you of their moves.
 	public boolean opponentMove(Move m) {
-		return gameboard.makeMove(otherPlayer(color), m);
+		
+		boolean isvalid= gameboard.makeMove(otherPlayer(color), m);
+		
+		if(!isvalid)
+		{
+			int pi=1/0;
+		}
+		return isvalid;
 	}
 
 	// If the Move m is legal, records the move as a move by "this" player
