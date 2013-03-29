@@ -106,4 +106,14 @@ class Chip {
             }
         }
     }
+
+    /**
+     * return a DList of all networks that this chip is connected to(as a Dlist)
+     */
+    public DList network() {
+    }
+
+    public boolean equals(Chip chip) {
+        return (x == chip.x && y == chip.y && color == chip.color);
+    } 
 }

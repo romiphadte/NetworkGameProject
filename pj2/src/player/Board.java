@@ -310,6 +310,30 @@ class Board {
 		return null;
 	}
 
+    /**
+     * A DList of networks(represented by DLists)
+     * Can only go from similarly colored chips of direct line of sight
+     * Cannot pass through the same chip twice
+     * cannot have more than 1 chip in each goal
+     * *minimum of 6 to form network(checked elsewhere)
+     * cannot pass through chip without changing direction
+     */
+    public DList findNetworks(int color) {
+        //Dlist of chips that were already checked
+        for (int x = 0; x < gameboard.length; x++) {
+            for (int y = 0; y < gameboard[x].length; y++) {
+                //DList net = gameboard[x][y].network();
+            }
+        }
+    }
+
+    /**
+     * returns all valid networks in DList list
+     * *minus the 6 to end game network rule
+     */
+    private DList validNetworks(DList list) {
+    }
+
 	/**
 	 * tester method to test private methods
 	 */
