@@ -11,7 +11,7 @@ import list.*;
 public class MachinePlayer extends Player {
 
 	public static final boolean TESTCODE = true;
-	public static final boolean RANDOMBOT = false;
+	public static final boolean RANDOMBOT = true;
 	public static final int WHITE = 1;
 	public static final int BLACK = 0;
 	public static final int SEARCHDEPTH = 2;

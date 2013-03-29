@@ -68,7 +68,9 @@ public class DList {
 	
 	public DListNode random(){
 		int nodeNumber=(int) (Math.random()*length()-1);
-		DListNode aNode=head;
+		System.out.println(nodeNumber);
+		System.out.println(length());
+		DListNode aNode=front();
 		for (int i=0; i<nodeNumber; i++)
 		{
 			aNode=next(aNode);

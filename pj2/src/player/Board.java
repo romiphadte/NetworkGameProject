@@ -244,7 +244,7 @@ class Board {
 					if (gameboard[x][y] != null
 							&& gameboard[x][y].color() == c.color()) {
 						n++;
-						if (n > 2) {
+						if (n > 1) {
 							return true;
 						}
 
