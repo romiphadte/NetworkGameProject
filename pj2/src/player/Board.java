@@ -312,10 +312,10 @@ class Board {
 	 * tester method to test private methods
 	 */
 	public void tester() {
-        System.out.println("Testing isCluster);
-        System.out.println("Testing search);
-        System.out.println("Testing lineOfSight);
-        System.out.println("Testing isValid);
+        System.out.println("Testing isCluster");
+        System.out.println("Testing search");
+        System.out.println("Testing lineOfSight");
+        System.out.println("Testing isValid");
 	}
 
 	public static void main(String[] args) {
