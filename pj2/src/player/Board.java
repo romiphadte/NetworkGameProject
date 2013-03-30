@@ -39,6 +39,18 @@ class Board {
 		return numPieces;
 	}
 
+	public DList pieces() {
+		DList pieces = new DList();
+		for (int x = 0; x < gameboard.length; x++) {
+			for (int y = 0; y < gameboard[0].length; y++) {
+				if (gameboard[x][y] != null) {
+					pieces.insertBack(gameboard[x][y]);
+				}
+			}
+		}
+		return pieces;
+	}
+
 	/**
 	 * if moveKind is ADD return addChip if moveKind is Step return moveChip
 	 */
@@ -304,58 +316,57 @@ class Board {
 		return null;
 	}
 
-    /**
-     * A DList of networks(represented by DLists)
-     * Can only go from similarly colored chips of direct line of sight
-     * Cannot pass through the same chip twice
-     * cannot have more than 1 chip in each goal
-     * *minimum of 6 to form network(checked elsewhere)
-     * cannot pass through chip without changing direction
-     */
-    public DList findNetworks(int color) {
-        //Dlist of networks(DLists)
-        DList networks = new DList();
-        Chip chip;
-        for (int x = 0; x < gameboard.length; x++) {
-            for (int y = 0; y < gameboard[x].length; y++) {
-                chip = gameboard[x][y];
-                if (chip != null && chip.color() == color) {
-                    DList net = chip.network();
-                    DList validNet = validNetworks(net);
-                    mergeNetworks(networks, net);
-                }
-            }
-        }
-        return networks;
-    }
+	/**
+	 * A DList of networks(represented by DLists) Can only go from similarly
+	 * colored chips of direct line of sight Cannot pass through the same chip
+	 * twice cannot have more than 1 chip in each goal *minimum of 6 to form
+	 * network(checked elsewhere) cannot pass through chip without changing
+	 * direction
+	 */
+	public DList findNetworks(int color) {
+		// Dlist of networks(DLists)
+		DList networks = new DList();
+		Chip chip;
+		for (int x = 0; x < gameboard.length; x++) {
+			for (int y = 0; y < gameboard[x].length; y++) {
+				chip = gameboard[x][y];
+				if (chip != null && chip.color() == color) {
+					DList net = chip.network();
+					DList validNet = validNetworks(net);
+					mergeNetworks(networks, net);
+				}
+			}
+		}
+		return networks;
+	}
 
-    /**
-     * returns all valid networks in DList list
-     * *minus the 6 to end game network rule
-     */
-    private DList validNetworks(DList list) {
-        return new DList();
-    }
+	/**
+	 * returns all valid networks in DList list *minus the 6 to end game network
+	 * rule
+	 */
+	private DList validNetworks(DList list) {
+		return new DList();
+	}
 
-    /**
-     * returns the union 2 DLists of DLists
-     */
-    private DList mergeNetworks(DList list1, DList list2) {
-        return new DList();
-    }
+	/**
+	 * returns the union 2 DLists of DLists
+	 */
+	private DList mergeNetworks(DList list1, DList list2) {
+		return new DList();
+	}
 
 	/**
 	 * tester method to test private methods
 	 */
 	public void tester() {
-        System.out.println("Testing isCluster");
-        System.out.println("Testing search");
-        System.out.println("Testing lineOfSight");
-        System.out.println("Testing isValid");
+		System.out.println("Testing isCluster");
+		System.out.println("Testing search");
+		System.out.println("Testing lineOfSight");
+		System.out.println("Testing isValid");
 	}
 
 	public static void main(String[] args) {
 		Board board = new Board();
-        board.tester();
-    }
+		board.tester();
+	}
 }

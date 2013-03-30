@@ -134,7 +134,7 @@ public class DList {
 	 *            is the item to be inserted. Performance: runs in O(1) time.
 	 */
 	public void insertBack(Object item) {
-		head.prev.next = newNode(item, head, head.next);
+		head.prev.next = newNode(item, head.prev, head);
 		head.prev = head.prev.next;
 		size++;
 	}
