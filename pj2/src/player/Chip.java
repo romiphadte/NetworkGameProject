@@ -195,4 +195,30 @@ class Chip {
     public boolean equals(Chip chip) {
         return (x == chip.x && y == chip.y && color == chip.color);
     } 
+    
+    public String toString() {
+    	String s;
+    	if (color==Board.BLACK)
+    	{
+    		s="-BLACK";
+    	}
+    	else
+    	{
+    		s="-WHITE";
+    	}
+    	
+    	s=s+" at ["+getX()+"]["+getY()+"]-";
+    	
+    	return s;
+	}
+    
+    public String inSightString(){
+    	String s=new String("[");
+    	for (int i=0; i<inSight.length;i++)
+    	{
+    		s=s+" "+inSight[i];
+    	}
+    	return s+" ]";
+    }
+
 }

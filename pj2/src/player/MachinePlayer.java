@@ -74,7 +74,20 @@ public class MachinePlayer extends Player {
 				m = bestMove(gameboard, SEARCHDEPTH, color).move;
 			}
 		}
+		
+		DList pieces=gameboard.pieces();
+		DListNode aNode=pieces.front();
+		System.out.print(pieces+ "\n");
+		for(int i=0; i<pieces.length(); i++)
+		{
+			System.out.println(aNode.item+" sees "+((Chip) aNode.item).inSightString());
+			aNode=pieces.next(aNode);
+		}
+		
 		gameboard.makeMove(color, m);
+		
+		
+		
 		return m;
 	}
 
