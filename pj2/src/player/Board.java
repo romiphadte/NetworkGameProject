@@ -321,8 +321,8 @@ class Board {
                 chip = gameboard[x][y];
                 if (chip != null && chip.color() == color) {
                     DList net = chip.network();
-                    DList validNet = validNetworks(net);
                     mergeNetworks(networks, net);
+                    networks = validNetworks(net, color);
                 }
             }
         }
@@ -333,15 +333,120 @@ class Board {
      * returns all valid networks in DList list
      * *minus the 6 to end game network rule
      */
-    private DList validNetworks(DList list) {
-        return new DList();
+    private DList validNetworks(DList list, int color) {
+        DList valid = new DList();
+        DList network;
+        DListNode curr = list.front();
+        //for each element in list
+        while (curr != null) {
+            network = (DList) curr.item;
+            //cannot have more than 1 chip in each goal
+            //Cannot pass through the same chip twice
+            //cannot pass through chip without changing direction
+            if (checkGoals(network, color)
+                && !repeats(network)
+                && !aligned(network)) {
+                valid.insertBack(network);
+            }
+            curr = list.next(curr);
+        }
+        return valid;
     }
 
     /**
-     * returns the union 2 DLists of DLists
+     * used in validNetworks
      */
-    private DList mergeNetworks(DList list1, DList list2) {
-        return new DList();
+    private boolean checkGoals(DList list, int color) {
+        int goal1 = 0;
+        int goal2 = 0;
+        DListNode curr = list.front();
+        while (curr != null) {
+            if (color == MachinePlayer.WHITE) {
+                if (((Chip) curr.item).getX() == 0) {
+                    goal1++;
+                } else if (((Chip) curr.item).getX() == 7) {
+                    goal2++;
+                }
+            } else {
+                if (((Chip) curr.item).getY() == 0) {
+                    goal1++;
+                } else if (((Chip) curr.item).getY() == 7) {
+                    goal2++;
+                }
+            }
+            curr = list.next(curr);
+        }
+        return goal1 <= 1 && goal2 <= 1;
+    }
+
+    /**
+     * used in validNetworks
+     */
+    private boolean repeats(DList list) {
+        DListNode curr = list.front();
+        DListNode node = list.front();
+        while (curr != null) {
+            while (node != null) {
+                if (curr.item.equals(node.item)) {
+                    return true;
+                }
+                node = list.next(node);
+            }
+            curr = list.next(curr);
+        }
+        return false;
+    }
+
+    /**
+     * used in validNetworks
+     */
+    private boolean aligned(DList list) {
+        DListNode curr = list.front();
+        int x = -1;
+        int y = -1;
+        int linex = 0;
+        int liney = 0;
+        while (curr != null) {
+            if (linex >= 3 || liney >= 3) {
+                return true;
+            }
+            if (x != ((Chip) curr.item).getX()) {
+                x = ((Chip) curr.item).getX();
+                linex = 1;
+            } else {
+                linex++;
+            }
+            if (y != ((Chip) curr.item).getY()) {
+                y = ((Chip) curr.item).getY();
+                liney = 1;
+            } else {
+                liney++;
+            }
+            curr = list.next(curr);
+        }
+        return false;
+    }
+
+    /**
+     * adds all elements of list2 that are not in list1 to list1
+     */
+    private void mergeNetworks(DList list1, DList list2) {
+        DListNode n1 = list1.front();
+        DListNode n2 = list2.front();
+        boolean in = false;
+        while (n2 != null) {
+            while (n1 != null && !in) {
+                if (n1.equals(n2)) {
+                    in = true;
+                }
+                n1 = list1.next(n1);
+            }
+            if (!in) {
+                list1.insertBack(n2);
+                in = false;
+            }
+            n2 = list2.next(n2);
+        }
     }
 
 	/**

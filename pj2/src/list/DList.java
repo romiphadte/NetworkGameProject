@@ -72,12 +72,13 @@ public class DList {
 		DListNode aNode = front();
 		for (int i = 0; i < length(); i++) {
 			aDList.insertBack(aNode.item);
-			aNode = this.next(aNode);
+			aNode = aNode.next;
 		}
 		return aDList;
 	}
 
 	public boolean equals(DList list) {
+        boolean equal = true;
 		if (list.length() != length()) {
 			return false;
 		} else {
@@ -87,12 +88,37 @@ public class DList {
 			{
 				if (!aNode.item.equals(bNode.item))
 				{
-					return false;
+					equal = false;
 				}
 					
+				aNode = aNode.next;
+				bNode = bNode.next;
+			}
+            aNode=front();
+			bNode=list.back();
+			for (int i=0; i<list.length(); i++)
+			{
+				if (!aNode.item.equals(bNode.item))
+				{
+					equal = false;
+				}
+					
+				aNode = aNode.prev;
+				bNode = bNode.next;
 			}
 		}
-		return true;
+		return equal;
+	}
+	
+	public boolean has(Object item) {
+		DListNode curr = head.next;
+		for (int i = 0; i < size; i++) {
+			if (item.equals(curr.item)) {
+				return true;
+			}
+			curr = curr.next;
+		}
+		return false;
 	}
 
 	public DListNode random() {

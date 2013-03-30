@@ -114,7 +114,82 @@ class Chip {
      * that this chip is connected to(as a Dlist)
      */
     public DList network() {
-        return new DList();
+        DList network = new DList();
+        DList list = new DList();
+        list.insertFront(this);
+        DList blacklist = new DList();
+        findTails(network, list, blacklist);
+        build(network);
+        return network;
+    }
+
+    /**
+     * searches and builds DLists using inSight
+     * blacklist are the previous chips, so search doesn't go looking back
+     */
+    private void findTails(DList network, DList list, DList blacklist) {
+        //if there is nothing in inSight that isn't in the blacklist then return;
+        boolean nothing = true;
+        //for every non-null value in inSight except for what in the blacklist
+        for (int i = 0; i < inSight.length; i++) {
+            if (inSight[i] != null && !blacklist.has(inSight[i])) {
+                nothing = false;
+                //add self to blacklist
+                blacklist.insertBack(this);
+                //add that to the back of list
+                list.insertBack(inSight[i]);
+                //make a copy of this and add it to the network
+                network.insertBack(list.copy());
+                //call findTails on chip from inSight
+                inSight[i].findTails(network, list, blacklist);
+            }
+        }
+        if (nothing) {
+            return;
+        }
+    }
+
+    /**
+     * knowing that all tails start with this chip,
+     * piece them all together in every combination
+     */
+    private void build(DList network) {
+        int length = network.length();
+        DListNode n1 = network.front();
+        DListNode n2 = n1;
+        for (int i = 0; i < length; i++) {
+            //resetting n2
+            n2 = network.front();
+            //moving n2 to the right node
+            for (int k = 0; k <= i; k++) {
+                n2 = network.next(n2);
+            }
+            if (i == length - 1) {
+                //remove this node
+                network.remove(n2);
+                return;
+            }
+            DListNode save = n2;
+            //link-mutate copies and add to the end
+            for (int j = i + 1; j < length; j++) {
+                DList copy = ((DList) n1.item).copy();
+                link(copy, (DList) n2.item);
+                network.insertBack(copy);
+                n2 = network.next(n2);
+            }
+            //link-mutate the original
+            link((DList) n1.item, (DList) save.item);
+            n1 = network.next(n1);
+        }
+    }
+
+    private void link(DList list1, DList list2) {
+        DListNode curr = list2.front();
+        list1.remove(list1.front());
+        while (curr != null) {
+            list1.insertFront(curr.item);
+            curr = list2.next(curr);
+        }
     }
 
     public boolean equals(Chip chip) {
