@@ -151,4 +151,32 @@ public class MachinePlayer extends Player {
 		}
 	}
 
+    public static void main(String[] args) {
+        System.out.println("\nTesting ###CLASS### DList");
+        System.out.println("Testing .copy");
+        System.out.println("Testing .equals");
+        System.out.println("\nTesting ###CLASS### Chip");
+        System.out.println("Testing addC");
+        System.out.println("Testing noC");
+        System.out.println("Testing equals");
+        System.out.println("Testing findTails");
+        System.out.println("Testing link");
+        System.out.println("Testing build");
+        System.out.println("Testing network");
+        System.out.println("\nTesting ###CLASS### Board");
+        System.out.println("Testing search");
+        System.out.println("Testing lineOfSight");
+        System.out.println("Testing isValid");
+        System.out.println("Testing addChip");
+        System.out.println("Testing removeChip");
+        System.out.println("Testing moveChip");
+        System.out.println("Testing checkGoals");
+        System.out.println("Testing repeats");
+        System.out.println("Testing aligned");
+        System.out.println("Testing validNetworks");
+        System.out.println("Testing mergeNetworks");
+        System.out.println("Testing findNetworks");
+        System.out.println("\nTesting ###CLASS### MachinePlayer");
+        System.out.println("Testing chooseMove");
+    }
 }
