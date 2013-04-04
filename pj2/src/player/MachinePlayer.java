@@ -153,27 +153,18 @@ public class MachinePlayer extends Player {
 
     public static void main(String[] args) {
         System.out.println("\nTesting ###CLASS### DList");
-        System.out.println("Testing .copy");
-        System.out.println("Testing .equals");
         System.out.println("\nTesting ###CLASS### Chip");
         Chip chip = new Chip();
         chip.tester();
-        System.out.println("Testing addC");
-        System.out.println("Testing noC");
         System.out.println("Testing equals");
         Chip chip1 = new Chip(1, 2, 1);
         Chip chip2 = new Chip(1, 2, 1);
         Chip chip3 = new Chip();
         assert chip1.equals(chip2) : "chip1.equals(chip2) failed";
         assert !chip1.equals(chip3) : "!chip1.equals(chip3) failed";
-        System.out.println("Testing findTails");
-        System.out.println("Testing link");
-        System.out.println("Testing build");
-        System.out.println("Testing network");
         System.out.println("\nTesting ###CLASS### Board");
         Board board = new Board();
-        board.tester();
+        //board.tester();
         System.out.println("\nTesting ###CLASS### MachinePlayer");
-        System.out.println("Testing chooseMove");
     }
 }

@@ -129,24 +129,21 @@ class Chip {
      * blacklist are the previous chips, so search doesn't go looking back
      */
     private void findTails(DList network, DList list, DList blacklist) {
-        //if there is nothing in inSight that isn't in the blacklist then return;
-        boolean nothing = true;
         //for every non-null value in inSight except for what in the blacklist
         for (int i = 0; i < inSight.length; i++) {
-            if (inSight[i] != null && !blacklist.has(inSight[i])) {
-                nothing = false;
+            //resetting blacklist for next iteration
+            DList blist = blacklist.copy();
+            DList tmplist = list.copy();
+            if (inSight[i] != null && !blist.has(inSight[i])) {
                 //add self to blacklist
-                blacklist.insertBack(this);
+                blist.insertBack(this);
                 //add that to the back of list
-                list.insertBack(inSight[i]);
+                tmplist.insertBack(inSight[i]);
                 //make a copy of this and add it to the network
-                network.insertBack(list.copy());
+                network.insertBack(tmplist.copy());
                 //call findTails on chip from inSight
-                inSight[i].findTails(network, list, blacklist);
+                inSight[i].findTails(network, tmplist, blist);
             }
-        }
-        if (nothing) {
-            return;
         }
     }
 
@@ -223,10 +220,16 @@ class Chip {
     }
 
     public void tester() {
+        Board board = new Board();
+        Move m1 = new Move(1, 1);
+        Move m2 = new Move(3, 1);
+        Move m3 = new Move(3, 3);
+        Move m4 = new Move(1, 3);
+        Move m5 = new Move(3, 5);
         Chip chip = new Chip();
         Chip c1 = new Chip();
         Chip c2 = new Chip();
-        System.out.println("adding c1");
+/*        System.out.println("adding c1");
         chip.addC(c1);
         //printinSight(chip);
         visualChip(chip);
@@ -250,6 +253,25 @@ class Chip {
         chip.noC(c2);
         //printinSight(chip);
         visualChip(chip);
+*/
+        board.makeMove(Board.WHITE, m1);
+        board.makeMove(Board.WHITE, m2);
+        board.makeMove(Board.WHITE, m3);
+        board.makeMove(Board.WHITE, m4);
+        board.makeMove(Board.WHITE, m5);
+        board.printboard(board);
+
+        c1 = board.testChip(m1.x1, m1.y1);
+        //ripped out of network()
+        DList network = new DList();
+        DList list = new DList();
+        list.insertFront(c1);
+        DList blacklist = new DList();
+        c1.findTails(network, list, blacklist);
+        System.out.println(network);
+        //System.out.println();
+        //c1.build(network);
+        //System.out.println(network);
     }
 
     public void printinSight(Chip chip) {

@@ -82,6 +82,7 @@ class Board {
 					chips[i].addC(tmp[j]);
 				}
 			}
+            c.visualChip(c); //printing this chip
 			numPieces++;
 			return true;
 		}
@@ -189,7 +190,7 @@ class Board {
 			System.out.print("white moves:");
 		else
 			System.out.print("black moves:");
-		System.out.print(m);
+		System.out.println(m);
 		// if move is QUIT
 		// return false
 		if (m.moveKind == Move.QUIT) {
@@ -499,6 +500,10 @@ class Board {
 		}
 	}
 
+    public Chip testChip(int x, int y) {
+        return gameboard[x][y];
+    }
+
 	/**
 	 * /** tester method to test private methods
 	 */
@@ -529,11 +534,12 @@ class Board {
         System.out.println("printing c2");
         c2.visualChip(c2);
 	}
+
     public void printboard(Board board) {
         System.out.println(" 01234567");
-		for (int x = 0; x < board.gameboard.length; x++) {
-            System.out.print(x);
-			for (int y = 0; y < board.gameboard[0].length; y++) {
+		for (int y = 0; y < board.gameboard.length; y++) {
+            System.out.print(y);
+			for (int x = 0; x < board.gameboard[0].length; x++) {
 				if (board.gameboard[x][y] == null) {
                     System.out.print("_");
                 } else if (board.gameboard[x][y].color() == WHITE) {
