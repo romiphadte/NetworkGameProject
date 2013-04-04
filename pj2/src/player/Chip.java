@@ -15,6 +15,7 @@ class Chip {
         x = -1;
         y = -1;
         color = -1;
+        inSight = new Chip[8];
     }
     
     public Chip(int X, int Y, int Color) {
@@ -221,4 +222,33 @@ class Chip {
     	return s+" ]";
     }
 
+    public void tester() {
+        Chip chip = new Chip();
+        Chip c1 = new Chip();
+        Chip c2 = new Chip();
+        System.out.println("adding c1");
+        chip.addC(c1);
+        printinSight(chip);
+        System.out.println("adding c1 again");
+        chip.addC(c1);
+        printinSight(chip);
+        System.out.println("adding c2");
+        chip.addC(c2);
+        printinSight(chip);
+        System.out.println("removing c1");
+        chip.noC(c1);
+        printinSight(chip);
+        System.out.println("removing c1 again");
+        chip.noC(c1);
+        printinSight(chip);
+        System.out.println("removing c2");
+        chip.noC(c2);
+        printinSight(chip);
+    }
+
+    public void printinSight(Chip chip) {
+        for (int i = 0; i < chip.inSight.length; i++) {
+            System.out.println(chip.inSight[i]);
+        }
+    }
 }

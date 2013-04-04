@@ -502,14 +502,36 @@ class Board {
 	 * /** tester method to test private methods
 	 */
 	public void tester() {
-		System.out.println("Testing isCluster");
-		System.out.println("Testing search");
-		System.out.println("Testing lineOfSight");
-		System.out.println("Testing isValid");
-	}
+        Board board = new Board();
+        Move m1 = new Move(1, 1);
+        Move m2 = new Move(1, 3);
+        printboard(board);
+        System.out.println("adding m1");
+        board.addChip(WHITE, m1);
+        printboard(board);
+        System.out.println("adding m2");
+        board.addChip(WHITE, m2);
+        printboard(board);
 
-	public static void main(String[] args) {
-		Board board = new Board();
-		board.tester();
+        Chip c1 = board.gameboard[1][1];
+        Chip c2 = board.gameboard[1][3];
+        System.out.println("printing c1");
+        c1.printinSight(c1);
+        System.out.println("printing c2");
+        c2.printinSight(c2);
 	}
+    public void printboard(Board board) {
+		for (int x = 0; x < board.gameboard.length; x++) {
+			for (int y = 0; y < board.gameboard[0].length; y++) {
+				if (board.gameboard[x][y] == null) {
+                    System.out.print("_");
+                } else if (board.gameboard[x][y].color() == WHITE) {
+                    System.out.print(WHITE);
+                } else {
+                    System.out.print(BLACK);
+                }
+			}
+            System.out.println();
+        }
+    }
 }
