@@ -277,7 +277,7 @@ class Board {
 		// searches in 8 directions
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
-				if (i != 0 && j != 0) {
+				if (!(i == 0 && j == 0)) {
 					Chip tmp = search(i, j, c);
 					if (tmp != null) {
 						// adds the first chip to an array
@@ -304,10 +304,8 @@ class Board {
 		int x = c.getX() + dx;
 		int y = c.getY() + dy;
 		while (x >= 0 && x < gameboard.length && y >= 0
-				&& y < gameboard[0].length && gameboard[x][y] == null) {
-			if (gameboard[x][y] != null) { // ROMI: i think that this will never
-											// be reached because of the while
-											// statement.
+				&& y < gameboard[0].length) {
+			if (gameboard[x][y] != null) {
 				return gameboard[x][y];
 			}
 			x += dx;
