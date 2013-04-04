@@ -148,13 +148,16 @@ class Board {
 	}
 
 	private void removeChip(Chip c) {
+        Chip[] chips = lineOfSight(c);
 		gameboard[c.getX()][c.getY()] = null;
 		numPieces--;
-		/*
-		 * for (int i = 0; i < chips.length; i++) { chips[i].clear(); Chip[] tmp
-		 * = lineOfSight(chips[i]); for (int j = 0; j < tmp.length; j++) {
-		 * chips[i].addC(tmp[j]); } }
-		 */
+        for (int i = 0; i < chips.length; i++) {
+            chips[i].clear();
+            Chip[] tmp = lineOfSight(chips[i]);
+            for (int j = 0; j < tmp.length; j++) {
+                chips[i].addC(tmp[j]);
+            }
+        }
 	}
 
 	/**
@@ -515,6 +518,14 @@ class Board {
         Chip c2 = board.gameboard[1][3];
         System.out.println("printing c1");
         c1.visualChip(c1);
+        System.out.println("printing c2");
+        c2.visualChip(c2);
+
+        System.out.println("removing c1");
+        board.removeChip(c1);
+        printboard(board);
+
+        c2 = board.gameboard[1][3];
         System.out.println("printing c2");
         c2.visualChip(c2);
 	}
