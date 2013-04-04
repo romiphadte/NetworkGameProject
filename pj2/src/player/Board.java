@@ -516,9 +516,9 @@ class Board {
         Chip c1 = board.gameboard[1][1];
         Chip c2 = board.gameboard[1][3];
         System.out.println("printing c1");
-        c1.printinSight(c1);
+        c1.visualChip(c1);
         System.out.println("printing c2");
-        c2.printinSight(c2);
+        c2.visualChip(c2);
 	}
     public void printboard(Board board) {
 		for (int x = 0; x < board.gameboard.length; x++) {
