@@ -230,7 +230,7 @@ class Board {
 			// else
 			// return true
 		}
-		System.out.print("is valid");
+		System.out.println("is valid");
 		return true;
 	}
 
@@ -521,7 +521,9 @@ class Board {
         c2.visualChip(c2);
 	}
     public void printboard(Board board) {
+        System.out.println(" 01234567");
 		for (int x = 0; x < board.gameboard.length; x++) {
+            System.out.print(x);
 			for (int y = 0; y < board.gameboard[0].length; y++) {
 				if (board.gameboard[x][y] == null) {
                     System.out.print("_");
