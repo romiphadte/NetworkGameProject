@@ -339,7 +339,16 @@ class Board {
 				}
 			}
 		}
-		return networks;
+        //cut out all repetitions
+        DList clean = new DList();
+        DListNode node = networks.front();
+        for (int i = 0; i < networks.length(); i++) {
+            if (!clean.has(node.item)) {
+                clean.insertFront(node.item);
+            }
+            node = networks.next(node);
+        }
+		return clean;
 	}
 
 	/**
@@ -356,8 +365,7 @@ class Board {
 			// cannot have more than 1 chip in each goal
 			// Cannot pass through the same chip twice
 			// cannot pass through chip without changing direction
-			if (checkGoals(network, color) && !repeats(network)
-					&& !aligned(network)) {
+			if (checkGoals(network, color) && !aligned(network)) {
 				valid.insertBack(network);
 			}
 			curr = list.next(curr);
@@ -394,11 +402,14 @@ class Board {
 	/**
 	 * used in validNetworks
 	 */
-	private boolean repeats(DList list) {
+	/*private boolean repeats(DList list) {
+        System.out.println("list: " + list);
 		DListNode curr = list.front();
 		DListNode node = list.front();
 		while (curr != null) {
+            node = list.front();
 			while (node != null) {
+                System.out.println("curr: " + curr.item + " node: " + node.item);
 				if (curr.item.equals(node.item)) {
 					return true;
 				}
@@ -408,6 +419,7 @@ class Board {
 		}
 		return false;
 	}
+    */
 
 	/**
 	 * used in validNetworks
@@ -439,32 +451,32 @@ class Board {
 		return false;
         */
 
-        //this way account for DIAGONALS as well
+        //this way accounts for DIAGONALS as well
         DListNode curr = list.front();
 		int x = -1;
 		int y = -1;
 		int diffx = -1;
 		int diffy = -1;
-        int vercount = 1;
-        int horcount = 1;
-        int diacount = 1;
+        int vercount = 0;
+        int horcount = 0;
+        int diacount = 0;
 		while (curr != null) {
             int tx = ((Chip) curr.item).getX();
             int ty = ((Chip) curr.item).getY();
 			if (tx - x == diffx && ty - y == diffy) {
                 diacount++;
 			} else {
-                diacount = 1;
+                diacount = 0;
 			}
 			if (tx - x == diffx) {
                 vercount++;
 			} else {
-                vercount = 1;
+                vercount = 0;
 			}
             if (ty - y == diffy) {
                 horcount++;
             } else {
-                horcount = 1;
+                horcount = 0;
             }
 			if (vercount >= 2 || horcount >= 2 || diacount >= 2) {
 				return true;
@@ -509,13 +521,16 @@ class Board {
 	 */
 	public void tester() {
         Board board = new Board();
-        Move m1 = new Move(1, 1);
-        Move m2 = new Move(1, 3);
-        Move m3 = new Move(3, 3);
-        Move m4 = new Move(3, 1);
-        Move m5 = new Move(3, 5);
-        Move m6 = new Move(0, 1); //white left goal
-        Move m7 = new Move(0, 3); //white left goal
+        Move m11 = new Move(1, 1);
+        Move m13 = new Move(1, 3);
+        Move m33 = new Move(3, 3);
+        Move m31 = new Move(3, 1);
+        Move m35 = new Move(3, 5);
+        Move m01 = new Move(0, 1); //white left goal
+        Move m03 = new Move(0, 3); //white left goal
+        Move m55 = new Move(5, 5);
+        Move m15 = new Move(1, 5);
+        Move m51 = new Move(5, 1);
 /*        printboard(board);
         System.out.println("adding m1");
         board.addChip(WHITE, m1);
@@ -539,15 +554,36 @@ class Board {
         System.out.println("printing c2");
         c2.visualChip(c2);
 */
-        Chip c1 = gameboard[m1.x1][m1.y1];
-        board.makeMove(Board.WHITE, m1);
-        board.makeMove(Board.WHITE, m2);
-        //board.makeMove(Board.WHITE, m3);
-        board.makeMove(Board.WHITE, m4);
-        //board.makeMove(Board.WHITE, m5);
-        board.makeMove(Board.WHITE, m6);
-        board.makeMove(Board.WHITE, m7);
+/*        board.makeMove(Board.WHITE, m11);
+        //board.makeMove(Board.WHITE, m13);
+        //board.makeMove(Board.WHITE, m33);
+        //board.makeMove(Board.WHITE, m31);
+        //board.makeMove(Board.WHITE, m35);
+        //board.makeMove(Board.WHITE, m01);
+        //board.makeMove(Board.WHITE, m03);
+        //board.makeMove(Board.WHITE, m55);
+        //board.makeMove(Board.WHITE, m15);
+        //board.makeMove(Board.WHITE, m51);
+        Chip c1 = board.gameboard[m11.x1][m11.y1];
         board.printboard(board);
+
+        DList list = c1.network();
+        System.out.println(list + "\n");
+
+        //ripped from validNetworks
+        DList valid = new DList();
+        DList network;
+        DListNode curr = list.front();
+        while (curr != null) {
+            network = (DList) curr.item;
+            if (checkGoals(network, WHITE) && !aligned(network)) {
+                valid.insertBack(network);
+            }
+            curr = list.next(curr);
+        }
+        System.out.println(valid);
+*/
+
 	}
 
     public void printboard(Board board) {

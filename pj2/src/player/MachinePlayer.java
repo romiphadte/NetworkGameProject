@@ -153,6 +153,22 @@ public class MachinePlayer extends Player {
 
     public static void main(String[] args) {
         System.out.println("\nTesting ###CLASS### DList");
+        System.out.println("Testing equals");
+        DList list1 = new DList();
+        DList list2 = new DList();
+        list1.insertFront("one");
+        list1.insertFront("two");
+        list2.insertFront("one");
+        list2.insertFront("two");
+        assert list1.equals(list2) : "list1.equals(list2) failed";
+        list2.insertFront("three");
+        assert !list1.equals(list2) : "!list1.equals(list2) failed";
+        list2.remove(list2.front());
+        list2.remove(list2.front());
+        list2.insertBack("two");
+        assert list1.equals(list2) : "list1.equals(list2) failed";
+        list2.insertBack("three");
+        assert !list1.equals(list2) : "!list1.equals(list2) failed";
         System.out.println("\nTesting ###CLASS### Chip");
         Chip chip = new Chip();
         //chip.tester();
