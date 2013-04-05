@@ -27,7 +27,9 @@ class Board {
 	 */
 	public Board(Board b, int color, Move m) { // TODO is color useful?
 		this();
+
 		System.out.println("I AM FAKE");
+
 		for (int x = 0; x < gameboard.length; x++) {
 			for (int y = 0; y < gameboard[0].length; y++) {
 				if (b.gameboard[x][y] != null) {
@@ -422,6 +424,7 @@ class Board {
 			// Cannot pass through the same chip twice
 			// cannot pass through chip without changing direction
 			if (checkGoals(network, color) && !aligned(network)) {
+                //System.out.println("this network is ok! " + network);
 				valid.insertBack(network);
 			}
 			curr = list.next(curr);
@@ -495,33 +498,40 @@ class Board {
 		 */
 
 		// this way accounts for DIAGONALS as well
+        if (list.length() < 3) {
+            return false;
+        }
 		DListNode curr = list.front();
 		int x = -1;
 		int y = -1;
-		int diffx = -1;
-		int diffy = -1;
+		int diffx = 8;
+		int diffy = 8;
 		int vercount = 0;
 		int horcount = 0;
 		int diacount = 0;
 		while (curr != null) {
 			int tx = ((Chip) curr.item).getX();
 			int ty = ((Chip) curr.item).getY();
-			if (tx - x == diffx && ty - y == diffy) {
+            if (diffx != 8  && diffy != 8
+                && ((tx - x) == (ty - y) || (tx - x) == -(ty - y))
+                && ((tx - x) > 0) == (diffx > 0)
+                && ((ty - y) > 0) == (diffy > 0)) {
 				diacount++;
 			} else {
 				diacount = 0;
 			}
-			if (tx - x == diffx) {
+			if (tx == x) {
 				vercount++;
 			} else {
 				vercount = 0;
 			}
-			if (ty - y == diffy) {
+			if (ty == y) {
 				horcount++;
 			} else {
 				horcount = 0;
 			}
 			if (vercount >= 2 || horcount >= 2 || diacount >= 2) {
+                //System.out.println("list is aligned! removing: " + list);
 				return true;
 			}
 			diffx = tx - x;
@@ -605,7 +615,7 @@ class Board {
 		 * !aligned(network)) { valid.insertBack(network); } curr =
 		 * list.next(curr); } System.out.println(valid);
 		 */
-		DList list1 = new DList();
+/*		DList list1 = new DList();
 		DList list2 = new DList();
 		System.out.println("list1: " + list1);
 		System.out.println("list2: " + list2);
@@ -630,6 +640,7 @@ class Board {
 		System.out.println("list2: " + list2);
 		mergeNetworks(list1, list2);
 		System.out.println("merged list1: " + list1);
+        */
 	}
 
 	public void printboard(Board board) {

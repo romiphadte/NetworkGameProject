@@ -15,7 +15,7 @@ class Chip {
         x = -1;
         y = -1;
         color = -1;
-        inSight = new Chip[8];
+        inSight = new Chip[9];
     }
     
     public Chip(int X, int Y, int Color) {
@@ -23,7 +23,7 @@ class Chip {
         y = Y;
         color = Color;
         //cannot have more than 8 chips in line of sight
-        inSight = new Chip[8];
+        inSight = new Chip[9];
     }
     
     public Chip copy()
@@ -69,7 +69,7 @@ class Chip {
      * clears the chip's inSight
      */
     public void clear() {
-        inSight = new Chip[8];
+        inSight = new Chip[9];
     }
 
     /**
