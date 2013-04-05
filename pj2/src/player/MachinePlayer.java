@@ -38,6 +38,7 @@ public class MachinePlayer extends Player {
 	// the internal game board) as a move by "this" player.
 	public Move chooseMove() {
 		Move m;
+		Best b=new Best(9999999);
 		if (TESTCODE) {
 			DList allMoves = gameboard.validMoves(color);
 			// this.color-color
@@ -70,8 +71,8 @@ public class MachinePlayer extends Player {
 					m = new Move(7, 4);
 				}
 			} else {
-				m = bestMove(gameboard, searchDepth, Board.LOWESTVAL,
-						Board.HIGHESTVAL, color).move;
+				b=bestMove(gameboard, searchDepth, Board.LOWESTVAL, Board.HIGHESTVAL, color);
+				m =b.move;
 			}
 		}
 
@@ -84,7 +85,7 @@ public class MachinePlayer extends Player {
 		// aNode.item).inSightString());
 		// aNode=pieces.next(aNode);
 		// }
-		//System.out.print("Going to make move:" + m);
+		System.out.print("Going to make move:" + m + "with value of" + b.score);
 
 		gameboard.makeMove(color, m);
 
@@ -114,7 +115,7 @@ public class MachinePlayer extends Player {
 		return gameboard.makeMove(color, m);
 	}
 
-	private Best bestMove(Board board, int searchDepth, int alpha, int beta,
+	private Best bestMove(Board board, int searchDepth, double alpha, double beta,
 			int color) {
 		Best myBest = new Best(0); // My best move
 		Best reply; // Opponent's best reply

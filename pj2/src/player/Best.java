@@ -2,7 +2,7 @@ package player;
 
 public class Best{
 
-	public int score=0;
+	public double score=0;
 	public Move move=null;
 	
 	public Best(int xx1, int yy1, int xx2, int yy2, int score) {
@@ -10,17 +10,17 @@ public class Best{
 		this.score=score;
 	}
 
-	public Best(int x, int y,int score) {
+	public Best(int x, int y,double score) {
 		move=new Move(x, y);
 		this.score=score;
 	}
 
-	public Best(Move move, int score){
+	public Best(Move move, double score){
 		this.move=move;
 		this.score=score;
 	}
 	
-	public Best(int score) {
+	public Best(double score) {
 		this.score=score;
 	}
 

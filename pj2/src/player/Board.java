@@ -182,7 +182,7 @@ class Board {
 	/**
 	 * returns a score from -100 to 100 100 is a win for self
 	 */
-	public int value(int color) {
+	public double value(int color) {
 		if (isFinished(color)) {
 			System.out.print("hola");
 			return 100;
@@ -192,7 +192,7 @@ class Board {
 		}
 		DList allNetworks = this.validNetworks(this.findNetworks(color), color);
 		DListNode aNode = allNetworks.front();
-		int total = 0;
+		double total = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
 			/*
 			 * if (((Chip) ((DList) aNode.item).front().item).color()==color) {
@@ -225,7 +225,7 @@ class Board {
 			aNode = allNetworks.next(aNode);
 		}
 
-		total = (int) Math.sqrt(total);
+		total = Math.sqrt(total);
 
 		System.out.println(total);
 
