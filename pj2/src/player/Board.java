@@ -27,7 +27,7 @@ class Board {
 	 */
 	public Board(Board b, int color, Move m) { // TODO is color useful?
 		this();
-        System.out.println("I AM FAKE");
+        //System.out.println("I AM FAKE");
 		for (int x = 0; x < gameboard.length; x++) {
 			for (int y = 0; y < gameboard[0].length; y++) {
 				if (b.gameboard[x][y] != null) {
@@ -426,7 +426,7 @@ class Board {
 			// Cannot pass through the same chip twice
 			// cannot pass through chip without changing direction
 			if (checkGoals(network, color) && !aligned(network)) {
-                System.out.println("this network is ok! " + network);
+                //System.out.println("this network is ok! " + network);
 				valid.insertBack(network);
 			}
 			curr = list.next(curr);
