@@ -58,16 +58,9 @@ public class MachinePlayer extends Player {
 
 			{
 				if (color == BLACK) {
-					m = new Move(2, 0);
+					m = new Move(3, 0);
 				} else {
-					m = new Move(0, 2);
-				}
-			} else if (gameboard.numPieces() <= 3) {
-
-				if (color == BLACK) {
-					m = new Move(4, 7);
-				} else {
-					m = new Move(7, 4);
+					m = new Move(0, 3);
 				}
 			} else {
 				m = bestMove(gameboard, searchDepth, Board.LOWESTVAL,
