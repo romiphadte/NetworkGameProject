@@ -154,29 +154,23 @@ class Chip {
     private void build(DList network) {
         int length = network.length();
         DListNode n1 = network.front();
-        DListNode n2 = n1;
+        DListNode n2;
         for (int i = 0; i < length; i++) {
             //resetting n2
             n2 = network.front();
-            //moving n2 to the right node
+            //moving n2 to the correct node
             for (int k = 0; k <= i; k++) {
                 n2 = network.next(n2);
             }
-            if (i == length - 1) {
-                //remove this node
-                network.remove(n2);
-                return;
-            }
-            DListNode save = n2;
             //link-mutate copies and add to the end
             for (int j = i + 1; j < length; j++) {
                 DList copy = ((DList) n1.item).copy();
-                link(copy, (DList) n2.item);
-                network.insertBack(copy);
+                if (!copy.similar((DList) n2.item)) {
+                    link(copy, (DList) n2.item);
+                    network.insertBack(copy);
+                }
                 n2 = network.next(n2);
             }
-            //link-mutate the original
-            link((DList) n1.item, (DList) save.item);
             n1 = network.next(n1);
         }
     }
@@ -256,9 +250,9 @@ class Chip {
 */
         board.makeMove(Board.WHITE, m1);
         board.makeMove(Board.WHITE, m2);
-        board.makeMove(Board.WHITE, m3);
+        //board.makeMove(Board.WHITE, m3);
         board.makeMove(Board.WHITE, m4);
-        board.makeMove(Board.WHITE, m5);
+        //board.makeMove(Board.WHITE, m5);
         board.printboard(board);
 
         c1 = board.testChip(m1.x1, m1.y1);
@@ -269,9 +263,9 @@ class Chip {
         DList blacklist = new DList();
         c1.findTails(network, list, blacklist);
         System.out.println(network);
-        //System.out.println();
-        //c1.build(network);
-        //System.out.println(network);
+        System.out.println();
+        c1.build(network);
+        System.out.println(network);
     }
 
     public void printinSight(Chip chip) {

@@ -77,6 +77,25 @@ public class DList {
 		return aDList;
 	}
 
+    /**
+     * returns true if they have even 1 equal element
+     */
+    public boolean similar(DList list) {
+        DListNode aNode=front();
+        DListNode bNode=list.front();
+        for (int i=0; i<list.length(); i++) {
+            aNode = front();
+            for (int j = 0; j < list.length(); j++) {
+                if (!aNode.item.equals(bNode.item)) {
+                    return true;
+                }
+                aNode = aNode.next;
+            }
+            bNode = bNode.next;
+        }
+        return false;
+    }
+
 	public boolean equals(DList list) {
         boolean equal = true;
 		if (list.length() != length()) {
