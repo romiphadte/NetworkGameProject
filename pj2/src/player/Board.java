@@ -12,6 +12,7 @@ class Board {
 	public static final int HIGHESTVAL = 100;
 	private Chip[][] gameboard;
 	private int numPieces;
+	private DList networks;
 
 	/**
 	 * makes a blank board
@@ -165,11 +166,15 @@ class Board {
 	 * returns a score from -100 to 100 100 is a win for self
 	 */
 	public int value(int color) {
-		if (isFinished())
+		if (isFinished(color))
 		{
 			return 100;
 		}
-		else return 0;
+		else if (isFinished(MachinePlayer.otherPlayer(color)))
+		{
+			return -100;
+		}
+		return 0;
 			
 	}
 
@@ -177,7 +182,30 @@ class Board {
 	 * returns a bool to tell you if match is finished. Needed for min max. Use
 	 * in value code
 	 */
-	public boolean isFinished() {
+	public boolean isFinished(int color) {
+		networks=validNetworks(findNetworks(color),color);
+		DListNode aNode=networks.front();
+		for (int i=0; i<networks.length();i++)
+		{
+			DList aList=(DList) aNode.item;
+			if(aList.length()>=6 && inEndGoal((Chip) aList.front().item,color)==1)
+			{
+				if(inEndGoal((Chip) aList.back().item,color)==2)
+				{
+					return true;
+				}
+			}
+			if(aList.length()>=6 && inEndGoal((Chip) aList.front().item,color)==2)
+			{
+				if(inEndGoal((Chip) aList.back().item,color)==1)
+				{
+					return true;
+				}
+			}
+
+				aNode=networks.next(aNode);
+		}
+		
 		return false;
 	}
 
@@ -386,22 +414,39 @@ class Board {
 		int goal2 = 0;
 		DListNode curr = list.front();
 		while (curr != null) {
-			if (color == MachinePlayer.WHITE) {
-				if (((Chip) curr.item).getX() == 0) {
-					goal1++;
-				} else if (((Chip) curr.item).getX() == 7) {
-					goal2++;
-				}
-			} else {
-				if (((Chip) curr.item).getY() == 0) {
-					goal1++;
-				} else if (((Chip) curr.item).getY() == 7) {
-					goal2++;
-				}
+			if(inEndGoal((Chip) curr.item,color)==1)
+			{
+				goal1++;
 			}
+			else if(inEndGoal((Chip) curr.item,color)==2)
+			{
+				goal2++;
+					}
 			curr = list.next(curr);
 		}
 		return goal1 <= 1 && goal2 <= 1;
+	}
+	
+	//returns 1 if in end goal 1, 2 if in 2, and zero if in none.
+	private int inEndGoal(Chip curr, int color){
+		if (color == MachinePlayer.WHITE) {
+			if ((curr).getX() == 0) {
+				return 1;
+				//goal1++;
+			} else if ((curr).getX() == 7) {
+				return 2;
+				//goal2++;
+			}
+		} else {
+			if ((curr).getY() == 0) {
+				return 1;
+				//goal1++;
+			} else if ((curr).getY() == 7) {
+				return 2;
+				//goal2++;
+			}
+		}
+		return 0;
 	}
 
 	/**

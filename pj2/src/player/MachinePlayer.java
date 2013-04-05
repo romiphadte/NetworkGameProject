@@ -10,8 +10,8 @@ import list.*;
  */
 public class MachinePlayer extends Player {
 
-	public static final boolean TESTCODE = true;
-	public static final boolean RANDOMBOT = true;
+	public static final boolean TESTCODE = false;
+	public static final boolean RANDOMBOT = false;
 	public static final int WHITE = 1;
 	public static final int BLACK = 0;
 	public static final int SEARCHDEPTH = 2;
@@ -118,7 +118,7 @@ public class MachinePlayer extends Player {
 	private Best bestMove(Board board, int searchDepth, int color) {
 		Best myBest;
 
-		if (searchDepth == 0 || board.isFinished()) {
+		if (searchDepth == 0 || board.isFinished(color)) {
 			return new Best(board.value(this.color));
 		}
 
@@ -143,7 +143,7 @@ public class MachinePlayer extends Player {
 		return myBest;
 	}
 
-	private int otherPlayer(int color) {
+	public static int otherPlayer(int color) {
 		if (color == WHITE) {
 			return BLACK;
 		} else {
