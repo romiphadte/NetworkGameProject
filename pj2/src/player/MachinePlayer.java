@@ -119,8 +119,9 @@ public class MachinePlayer extends Player {
 
 		Best myBest = new Best(0); // My best move
 		Best reply; // Opponent's best reply
-		if (searchDepth == 0||board.isFinished(color)) {
-			System.out.print("\nFINISHED"+ searchDepth+" "+board.isFinished(color)+"\n");
+		if (searchDepth == 0 || board.isFinished(color)) {
+			System.out.print("\nFINISHED" + searchDepth + " "
+					+ board.isFinished(color) + "\n");
 			return new Best(board.value(this.color));
 		}
 
@@ -133,8 +134,10 @@ public class MachinePlayer extends Player {
 		DList allMoves = board.validMoves(color);
 		DListNode aNode = allMoves.front();
 		for (int i = 0; i < allMoves.length(); i++) {
-			reply = bestMove(new Board(board, color, (Move) aNode.item),
-					searchDepth - 1, alpha, beta, otherPlayer(color));
+			board.makeMove(color, (Move) aNode.item);
+			reply = bestMove(board, searchDepth - 1, alpha, beta,
+					otherPlayer(color));
+			board.undo((Move) aNode.item);
 			if ((color == this.color) && (reply.score >= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
@@ -213,26 +216,25 @@ public class MachinePlayer extends Player {
 		list1.insertFront(3);
 		list2 = list1.copy();
 		assert list1.equals(list2) : "list1.equals(list2) failed";
-        /*assert list1.similar(list2) : "list1.similar(list2) failed";
-        list2 = new DList();
-        list2.insertFront(1);
-        assert !list1.similar(list2) : "!list1.similar(list2) failed";
-        list2.insertFront(2);
-        assert list1.similar(list2) : "list1.similar(list2) failed";
-        */
-        list1 = new DList();
-        assert !list1.hasRepeats() : "!list1.hasRepeats() failed";
-        list1.insertFront(1);
-        list1.insertFront(1);
-        assert list1.hasRepeats() : "list1.hasRepeats() failed";
-        list1.remove(list1.front());
-        assert !list1.hasRepeats() : "!list1.hasRepeats() failed";
-        list1.insertBack(2);
-        list1.insertBack(3);
-        list1.insertBack(2);
-        assert list1.hasRepeats() : "list1.hasRepeats() failed";
-        list1.remove(list1.back());
-        assert !list1.hasRepeats() : "!list1.hasRepeats() failed";
+		/*
+		 * assert list1.similar(list2) : "list1.similar(list2) failed"; list2 =
+		 * new DList(); list2.insertFront(1); assert !list1.similar(list2) :
+		 * "!list1.similar(list2) failed"; list2.insertFront(2); assert
+		 * list1.similar(list2) : "list1.similar(list2) failed";
+		 */
+		list1 = new DList();
+		assert !list1.hasRepeats() : "!list1.hasRepeats() failed";
+		list1.insertFront(1);
+		list1.insertFront(1);
+		assert list1.hasRepeats() : "list1.hasRepeats() failed";
+		list1.remove(list1.front());
+		assert !list1.hasRepeats() : "!list1.hasRepeats() failed";
+		list1.insertBack(2);
+		list1.insertBack(3);
+		list1.insertBack(2);
+		assert list1.hasRepeats() : "list1.hasRepeats() failed";
+		list1.remove(list1.back());
+		assert !list1.hasRepeats() : "!list1.hasRepeats() failed";
 		System.out.println("\nTesting ###CLASS### Chip");
 		Chip chip = new Chip();
 		// chip.tester();

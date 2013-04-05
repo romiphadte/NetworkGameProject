@@ -167,6 +167,17 @@ class Board {
 			}
 		}
 	}
+	
+	public void undo(Move m){
+		if(m.moveKind==Move.ADD)
+		{
+			removeChip(gameboard[m.x1][m.y1]);
+		}
+		else if (m.moveKind==Move.STEP)
+		{
+			makeMove(gameboard[m.x1][m.y1].color(),new Move(m.x2,m.y2,m.x1,m.y1));
+		}
+	}
 
 	/**
 	 * returns a score from -100 to 100 100 is a win for self
