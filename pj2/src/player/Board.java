@@ -27,6 +27,7 @@ class Board {
 	 */
 	public Board(Board b, int color, Move m) { // TODO is color useful?
 		this();
+        System.out.println("I AM FAKE");
 		for (int x = 0; x < gameboard.length; x++) {
 			for (int y = 0; y < gameboard[0].length; y++) {
 				if (b.gameboard[x][y] != null) {
@@ -59,6 +60,9 @@ class Board {
 	 */
 
 	public boolean makeMove(int color, Move m) {
+        System.out.println("BEFORE MOVE");
+        System.out.println("numpieces: " + numPieces());
+        printboard(this);
 		if (m.moveKind == Move.ADD) {
 			return addChip(color, m);
 		} else if (m.moveKind == Move.STEP) {

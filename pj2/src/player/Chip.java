@@ -100,6 +100,9 @@ class Chip {
             inSight[add1] = c;
         }
         if (!added2) {
+            System.out.println("c does not have you added!!");
+            System.out.print("c ");
+            c.visualChip(c);
             c.inSight[add2] = this;
         }
     }
@@ -174,8 +177,15 @@ class Chip {
             //link-mutate copies and add to the end
             for (int j = i + 1; j < length; j++) {
                 DList copy = ((DList) n1.item).copy();
+                /*//System.out.println("ARE WE THERE YET");
                 if (!copy.similar((DList) n2.item)) {
+                    System.out.println("NOTSIMILAR" + copy + ", " + (DList) n2.item);
                     link(copy, (DList) n2.item);
+                    network.insertBack(copy);
+                }
+                */
+                link(copy, (DList) n2.item);
+                if (!copy.hasRepeats()) {
                     network.insertBack(copy);
                 }
                 n2 = network.next(n2);

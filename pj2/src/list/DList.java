@@ -96,6 +96,28 @@ public class DList {
         return false;
     }
 
+    public boolean hasRepeats() {
+        DListNode aNode=front();
+        DListNode bNode;
+        /*if (length() == 0) {
+            return false;
+        }*/
+        for (int i=0; i<length(); i++) {
+            bNode = front();
+            for (int k = 0; k <= i; k++) {
+                bNode = bNode.next;
+            }
+            for (int j = i + 1; j < length(); j++) {
+                if (bNode.item.equals(aNode.item)) {
+                    return true;
+                }
+                bNode = bNode.next;
+            }
+            aNode = aNode.next;
+        }
+        return false;
+    }
+
 	public boolean equals(DList list) {
         boolean forwardEqual = true;
         boolean backwardEqual = true;
