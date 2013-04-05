@@ -84,7 +84,7 @@ public class MachinePlayer extends Player {
 		// aNode.item).inSightString());
 		// aNode=pieces.next(aNode);
 		// }
-		System.out.print("Going to make move:" + m);
+		//System.out.print("Going to make move:" + m);
 
 		gameboard.makeMove(color, m);
 
@@ -116,12 +116,11 @@ public class MachinePlayer extends Player {
 
 	private Best bestMove(Board board, int searchDepth, int alpha, int beta,
 			int color) {
-
 		Best myBest = new Best(0); // My best move
 		Best reply; // Opponent's best reply
 		if (searchDepth == 0 || board.isFinished(color)) {
-			System.out.print("\nFINISHED" + searchDepth + " "
-					+ board.isFinished(color) + "\n");
+			//System.out.print("\nFINISHED" + searchDepth + " "
+			//		+ board.isFinished(color) + "\n");
 			return new Best(board.value(this.color));
 		}
 
