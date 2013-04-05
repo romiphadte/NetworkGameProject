@@ -80,7 +80,7 @@ public class DList {
     /**
      * returns true if they have even 1 equal element
      */
-    public boolean similar(DList list) {
+    /*public boolean similar(DList list) {
         DListNode aNode=front();
         DListNode bNode=list.front();
         for (int i=0; i<list.length(); i++) {
@@ -94,7 +94,7 @@ public class DList {
             bNode = bNode.next;
         }
         return false;
-    }
+    }*/
 
     public boolean hasRepeats() {
         DListNode aNode=front();
