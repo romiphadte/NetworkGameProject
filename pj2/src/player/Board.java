@@ -165,7 +165,12 @@ class Board {
 	 * returns a score from -100 to 100 100 is a win for self
 	 */
 	public int value(int color) {
-		return 0;
+		if (isFinished())
+		{
+			return 100;
+		}
+		else return 0;
+			
 	}
 
 	/**
