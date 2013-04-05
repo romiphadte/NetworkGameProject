@@ -100,6 +100,9 @@ class Chip {
             inSight[add1] = c;
         }
         if (!added2) {
+            System.out.println("c does not have you added!!");
+            System.out.print("c ");
+            c.visualChip(c);
             c.inSight[add2] = this;
         }
     }
