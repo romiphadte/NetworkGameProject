@@ -27,7 +27,7 @@ class Board {
 	 */
 	public Board(Board b, int color, Move m) { // TODO is color useful?
 		this();
-        System.out.println("I AM FAKE");
+		System.out.println("I AM FAKE");
 		for (int x = 0; x < gameboard.length; x++) {
 			for (int y = 0; y < gameboard[0].length; y++) {
 				if (b.gameboard[x][y] != null) {
@@ -60,9 +60,9 @@ class Board {
 	 */
 
 	public boolean makeMove(int color, Move m) {
-        System.out.println("BEFORE MOVE");
-        System.out.println("numpieces: " + numPieces());
-        printboard(this);
+		System.out.println("BEFORE MOVE");
+		System.out.println("numpieces: " + numPieces());
+		printboard(this);
 		if (m.moveKind == Move.ADD) {
 			return addChip(color, m);
 		} else if (m.moveKind == Move.STEP) {
@@ -167,15 +167,13 @@ class Board {
 			}
 		}
 	}
-	
-	public void undo(Move m){
-		if(m.moveKind==Move.ADD)
-		{
+
+	public void undo(Move m) {
+		if (m.moveKind == Move.ADD) {
 			removeChip(gameboard[m.x1][m.y1]);
-		}
-		else if (m.moveKind==Move.STEP)
-		{
-			makeMove(gameboard[m.x1][m.y1].color(),new Move(m.x2,m.y2,m.x1,m.y1));
+		} else if (m.moveKind == Move.STEP) {
+			makeMove(gameboard[m.x1][m.y1].color(), new Move(m.x2, m.y2, m.x1,
+					m.y1));
 		}
 	}
 
@@ -188,12 +186,10 @@ class Board {
 		} else if (isFinished(MachinePlayer.otherPlayer(color))) {
 			return -100;
 		}
-		//this.validNetworks(this.findNetworks(color), color);
-		
-		//for(int i=0; i<
-	
-		
-		
+		// this.validNetworks(this.findNetworks(color), color);
+
+		// for(int i=0; i<
+
 		return 0;
 
 	}
