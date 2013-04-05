@@ -278,9 +278,9 @@ class Chip {
         System.out.print("x: " + x + " y: " + y + " color: " + color + " [");
         for (int i = 0; i < chip.inSight.length; i++) {
             if (chip.inSight[i] == null) {
-                System.out.print("_");
-            } else {
                 System.out.print("X");
+            } else {
+                System.out.print("C");
             }
         }
         System.out.println("]");

@@ -155,7 +155,7 @@ public class MachinePlayer extends Player {
         System.out.println("\nTesting ###CLASS### DList");
         System.out.println("\nTesting ###CLASS### Chip");
         Chip chip = new Chip();
-        chip.tester();
+        //chip.tester();
         System.out.println("Testing equals");
         Chip chip1 = new Chip(1, 2, 1);
         Chip chip2 = new Chip(1, 2, 1);
@@ -164,7 +164,7 @@ public class MachinePlayer extends Player {
         assert !chip1.equals(chip3) : "!chip1.equals(chip3) failed";
         System.out.println("\nTesting ###CLASS### Board");
         Board board = new Board();
-        //board.tester();
+        board.tester();
         System.out.println("\nTesting ###CLASS### MachinePlayer");
     }
 }

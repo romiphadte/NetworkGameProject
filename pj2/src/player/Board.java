@@ -511,7 +511,12 @@ class Board {
         Board board = new Board();
         Move m1 = new Move(1, 1);
         Move m2 = new Move(1, 3);
-        printboard(board);
+        Move m3 = new Move(3, 3);
+        Move m4 = new Move(3, 1);
+        Move m5 = new Move(3, 5);
+        Move m6 = new Move(0, 1); //white left goal
+        Move m7 = new Move(0, 3); //white left goal
+/*        printboard(board);
         System.out.println("adding m1");
         board.addChip(WHITE, m1);
         printboard(board);
@@ -533,15 +538,25 @@ class Board {
         c2 = board.gameboard[1][3];
         System.out.println("printing c2");
         c2.visualChip(c2);
+*/
+        Chip c1 = gameboard[m1.x1][m1.y1];
+        board.makeMove(Board.WHITE, m1);
+        board.makeMove(Board.WHITE, m2);
+        //board.makeMove(Board.WHITE, m3);
+        board.makeMove(Board.WHITE, m4);
+        //board.makeMove(Board.WHITE, m5);
+        board.makeMove(Board.WHITE, m6);
+        board.makeMove(Board.WHITE, m7);
+        board.printboard(board);
 	}
 
     public void printboard(Board board) {
-        System.out.println(" 01234567");
+        System.out.println("  01234567");
 		for (int y = 0; y < board.gameboard.length; y++) {
-            System.out.print(y);
+            System.out.print(y + " ");
 			for (int x = 0; x < board.gameboard[0].length; x++) {
 				if (board.gameboard[x][y] == null) {
-                    System.out.print("_");
+                    System.out.print("X");
                 } else if (board.gameboard[x][y].color() == WHITE) {
                     System.out.print(WHITE);
                 } else {
