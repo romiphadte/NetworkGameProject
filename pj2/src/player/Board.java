@@ -173,6 +173,12 @@ class Board {
 		} else if (isFinished(MachinePlayer.otherPlayer(color))) {
 			return -100;
 		}
+		//this.validNetworks(this.findNetworks(color), color);
+		
+		//for(int i=0; i<
+	
+		
+		
 		return 0;
 
 	}
