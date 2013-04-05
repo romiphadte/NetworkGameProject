@@ -26,13 +26,13 @@ class Chip {
         inSight = new Chip[9];
     }
     
-    public Chip copy()
+    /*public Chip copy()
     {
     	Chip aChip=new Chip(x,y,color);
     	aChip.inSight=this.inSight.clone();
     	
     	return aChip;
-    }
+    }*/
     
     public int getX() {
         return x;
@@ -52,7 +52,7 @@ class Chip {
      * cleans out own networkedto
      * returns a copy of its inSight(that no longer exists)
      */
-    public Chip[] dissapear() {
+    /*public Chip[] dissapear() {
         x = -1;
         y = -1;
         color = -1;
@@ -63,7 +63,7 @@ class Chip {
         }
         inSight = null;
         return tmp;
-    }
+    }*/
 
     /**
      * clears the chip's inSight

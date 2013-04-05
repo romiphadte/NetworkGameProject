@@ -25,7 +25,7 @@ class Board {
 	/**
 	 * makes hypothetical variations to a certain Board
 	 */
-	public Board(Board b, int color, Move m) { // TODO is color useful?
+	/*public Board(Board b, int color, Move m) { // TODO is color useful?
 		this();
 
 		System.out.println("I AM FAKE");
@@ -39,7 +39,7 @@ class Board {
 		}
 		makeMove(color, m);
 
-	}
+	}*/
 
 	public int numPieces() {
 		return numPieces;
