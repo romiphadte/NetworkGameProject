@@ -169,6 +169,13 @@ public class MachinePlayer extends Player {
         assert list1.equals(list2) : "list1.equals(list2) failed";
         list2.insertBack("three");
         assert !list1.equals(list2) : "!list1.equals(list2) failed";
+        list1 = new DList();
+        list1.insertFront(1);
+        list1.insertFront(2);
+        list1.insertFront(3);
+        list2 = list1.copy();
+        assert list1.equals(list2) : "list1.equals(list2) failed";
+        System.out.println(list1 + ", " + list2);
         System.out.println("\nTesting ###CLASS### Chip");
         Chip chip = new Chip();
         //chip.tester();
@@ -180,7 +187,7 @@ public class MachinePlayer extends Player {
         assert !chip1.equals(chip3) : "!chip1.equals(chip3) failed";
         System.out.println("\nTesting ###CLASS### Board");
         Board board = new Board();
-        board.tester();
+        //board.tester();
         System.out.println("\nTesting ###CLASS### MachinePlayer");
     }
 }
