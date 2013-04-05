@@ -494,7 +494,7 @@ class Board {
 	 * adds all elements of list2 that are not in list1 to list1
 	 */
 	private void mergeNetworks(DList list1, DList list2) {
-		DListNode n1 = list1.front();
+		/*DListNode n1 = list1.front();
 		DListNode n2 = list2.front();
 		boolean in = false;
 		while (n2 != null) {
@@ -505,11 +505,19 @@ class Board {
 				n1 = list1.next(n1);
 			}
 			if (!in) {
-				list1.insertBack(n2);
+				list1.insertBack(n2.item);
 				in = false;
 			}
 			n2 = list2.next(n2);
 		}
+        */
+        DListNode n2 = list2.front();
+        while (n2 != null) {
+            if (!list1.has(n2.item)) {
+                list1.insertBack(n2.item);
+            }
+            n2 = list2.next(n2);
+        }
 	}
 
     public Chip testChip(int x, int y) {
@@ -583,6 +591,31 @@ class Board {
         }
         System.out.println(valid);
 */
+        DList list1 = new DList();
+        DList list2 = new DList();
+        System.out.println("list1: " + list1);
+        System.out.println("list2: " + list2);
+        mergeNetworks(list1, list2);
+        System.out.println("merged list1: " + list1);
+        list1.insertBack("A");
+        list1.insertBack("B");
+        list1.insertBack("C");
+        list2.insertBack("A");
+        list2.insertBack("C");
+        System.out.println("list1: " + list1);
+        System.out.println("list2: " + list2);
+        mergeNetworks(list1, list2);
+        System.out.println("merged list1: " + list1);
+        list2.insertBack("D");
+        System.out.println("list1: " + list1);
+        System.out.println("list2: " + list2);
+        mergeNetworks(list1, list2);
+        System.out.println("merged list1: " + list1);
+        list2.insertFront("E");
+        System.out.println("list1: " + list1);
+        System.out.println("list2: " + list2);
+        mergeNetworks(list1, list2);
+        System.out.println("merged list1: " + list1);
 
 	}
 
