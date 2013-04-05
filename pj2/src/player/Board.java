@@ -29,7 +29,9 @@ class Board {
 		this();
 		for (int x = 0; x < gameboard.length; x++) {
 			for (int y = 0; y < gameboard[0].length; y++) {
-				gameboard[x][y] = b.gameboard[x][y];
+				if (b.gameboard[x][y] != null) {
+					gameboard[x][y] = b.gameboard[x][y].copy();
+				}
 			}
 		}
 		makeMove(color, m);
@@ -83,7 +85,7 @@ class Board {
 					chips[i].addC(tmp[j]);
 				}
 			}
-            c.visualChip(c); //printing this chip
+			c.visualChip(c); // printing this chip
 			numPieces++;
 			return true;
 		}
@@ -150,32 +152,29 @@ class Board {
 	}
 
 	private void removeChip(Chip c) {
-        Chip[] chips = lineOfSight(c);
+		Chip[] chips = lineOfSight(c);
 		gameboard[c.getX()][c.getY()] = null;
 		numPieces--;
-        for (int i = 0; i < chips.length; i++) {
-            chips[i].clear();
-            Chip[] tmp = lineOfSight(chips[i]);
-            for (int j = 0; j < tmp.length; j++) {
-                chips[i].addC(tmp[j]);
-            }
-        }
+		for (int i = 0; i < chips.length; i++) {
+			chips[i].clear();
+			Chip[] tmp = lineOfSight(chips[i]);
+			for (int j = 0; j < tmp.length; j++) {
+				chips[i].addC(tmp[j]);
+			}
+		}
 	}
 
 	/**
 	 * returns a score from -100 to 100 100 is a win for self
 	 */
 	public int value(int color) {
-		if (isFinished(color))
-		{
+		if (isFinished(color)) {
 			return 100;
-		}
-		else if (isFinished(MachinePlayer.otherPlayer(color)))
-		{
+		} else if (isFinished(MachinePlayer.otherPlayer(color))) {
 			return -100;
 		}
 		return 0;
-			
+
 	}
 
 	/**
@@ -183,29 +182,36 @@ class Board {
 	 * in value code
 	 */
 	public boolean isFinished(int color) {
-		networks=validNetworks(findNetworks(color),color);
-		DListNode aNode=networks.front();
-		for (int i=0; i<networks.length();i++)
-		{
-			DList aList=(DList) aNode.item;
-			if(aList.length()>=6 && inEndGoal((Chip) aList.front().item,color)==1)
-			{
-				if(inEndGoal((Chip) aList.back().item,color)==2)
-				{
+		networks = validNetworks(findNetworks(color), color);
+		DListNode aNode = networks.front();
+		for (int i = 0; i < networks.length(); i++) {
+			DList aList = (DList) aNode.item;
+			if (aList.length() >= 6
+					&& inEndGoal((Chip) aList.front().item, color) == 1) {
+				if (inEndGoal((Chip) aList.back().item, color) == 2) {
+					DListNode aListNode = aList.front();
+					for (int ii = 0; ii < aList.length(); ii++) {
+						System.out.print(aListNode.item);
+						aListNode = aList.next(aListNode);
+					}
 					return true;
 				}
 			}
-			if(aList.length()>=6 && inEndGoal((Chip) aList.front().item,color)==2)
-			{
-				if(inEndGoal((Chip) aList.back().item,color)==1)
-				{
+			if (aList.length() >= 6
+					&& inEndGoal((Chip) aList.front().item, color) == 2) {
+				if (inEndGoal((Chip) aList.back().item, color) == 1) {
+					DListNode aListNode = aList.front();
+					for (int ii = 0; ii < aList.length(); ii++) {
+						System.out.print(aListNode.item);
+						aListNode = aList.next(aListNode);
+					}
 					return true;
 				}
 			}
 
-				aNode=networks.next(aNode);
+			aNode = networks.next(aNode);
 		}
-		
+
 		return false;
 	}
 
@@ -218,12 +224,12 @@ class Board {
 	 * adjacent chips)
 	 */
 	private boolean isValid(int color, Move m) {
-		System.out.print("\nChecking ");
-		if (color == 1)
-			System.out.print("white moves:");
-		else
-			System.out.print("black moves:");
-		System.out.println(m);
+		// System.out.print("\nChecking ");
+		// if (color == 1)
+		// System.out.print("white moves:");
+		// else
+		// System.out.print("black moves:");
+		// System.out.println(m);
 		// if move is QUIT
 		// return false
 		if (m.moveKind == Move.QUIT) {
@@ -267,7 +273,7 @@ class Board {
 			// else
 			// return true
 		}
-		System.out.println("is valid");
+		// System.out.println("is valid");
 		return true;
 	}
 
@@ -367,20 +373,20 @@ class Board {
 				chip = gameboard[x][y];
 				if (chip != null && chip.color() == color) {
 					DList net = chip.network();
-					DList validNet = validNetworks(net,color);
+					DList validNet = validNetworks(net, color);
 					mergeNetworks(networks, net);
 				}
 			}
 		}
-        //cut out all repetitions
-        DList clean = new DList();
-        DListNode node = networks.front();
-        for (int i = 0; i < networks.length(); i++) {
-            if (!clean.has(node.item)) {
-                clean.insertFront(node.item);
-            }
-            node = networks.next(node);
-        }
+		// cut out all repetitions
+		DList clean = new DList();
+		DListNode node = networks.front();
+		for (int i = 0; i < networks.length(); i++) {
+			if (!clean.has(node.item)) {
+				clean.insertFront(node.item);
+			}
+			node = networks.next(node);
+		}
 		return clean;
 	}
 
@@ -414,36 +420,33 @@ class Board {
 		int goal2 = 0;
 		DListNode curr = list.front();
 		while (curr != null) {
-			if(inEndGoal((Chip) curr.item,color)==1)
-			{
+			if (inEndGoal((Chip) curr.item, color) == 1) {
 				goal1++;
-			}
-			else if(inEndGoal((Chip) curr.item,color)==2)
-			{
+			} else if (inEndGoal((Chip) curr.item, color) == 2) {
 				goal2++;
-					}
+			}
 			curr = list.next(curr);
 		}
 		return goal1 <= 1 && goal2 <= 1;
 	}
-	
-	//returns 1 if in end goal 1, 2 if in 2, and zero if in none.
-	private int inEndGoal(Chip curr, int color){
+
+	// returns 1 if in end goal 1, 2 if in 2, and zero if in none.
+	private int inEndGoal(Chip curr, int color) {
 		if (color == MachinePlayer.WHITE) {
 			if ((curr).getX() == 0) {
 				return 1;
-				//goal1++;
+				// goal1++;
 			} else if ((curr).getX() == 7) {
 				return 2;
-				//goal2++;
+				// goal2++;
 			}
 		} else {
 			if ((curr).getY() == 0) {
 				return 1;
-				//goal1++;
+				// goal1++;
 			} else if ((curr).getY() == 7) {
 				return 2;
-				//goal2++;
+				// goal2++;
 			}
 		}
 		return 0;
@@ -452,89 +455,62 @@ class Board {
 	/**
 	 * used in validNetworks
 	 */
-	/*private boolean repeats(DList list) {
-        System.out.println("list: " + list);
-		DListNode curr = list.front();
-		DListNode node = list.front();
-		while (curr != null) {
-            node = list.front();
-			while (node != null) {
-                System.out.println("curr: " + curr.item + " node: " + node.item);
-				if (curr.item.equals(node.item)) {
-					return true;
-				}
-				node = list.next(node);
-			}
-			curr = list.next(curr);
-		}
-		return false;
-	}
-    */
+	/*
+	 * private boolean repeats(DList list) { System.out.println("list: " +
+	 * list); DListNode curr = list.front(); DListNode node = list.front();
+	 * while (curr != null) { node = list.front(); while (node != null) {
+	 * System.out.println("curr: " + curr.item + " node: " + node.item); if
+	 * (curr.item.equals(node.item)) { return true; } node = list.next(node); }
+	 * curr = list.next(curr); } return false; }
+	 */
 
 	/**
 	 * used in validNetworks
 	 */
 	private boolean aligned(DList list) {
-		/*DListNode curr = list.front();
-		int x = -1;
-		int y = -1;
-		int linex = 0;
-		int liney = 0;
-		while (curr != null) {
-			if (linex >= 3 || liney >= 3) {
-				return true;
-			}
-			if (x != ((Chip) curr.item).getX()) {
-				x = ((Chip) curr.item).getX();
-				linex = 1;
-			} else {
-				linex++;
-			}
-			if (y != ((Chip) curr.item).getY()) {
-				y = ((Chip) curr.item).getY();
-				liney = 1;
-			} else {
-				liney++;
-			}
-			curr = list.next(curr);
-		}
-		return false;
-        */
+		/*
+		 * DListNode curr = list.front(); int x = -1; int y = -1; int linex = 0;
+		 * int liney = 0; while (curr != null) { if (linex >= 3 || liney >= 3) {
+		 * return true; } if (x != ((Chip) curr.item).getX()) { x = ((Chip)
+		 * curr.item).getX(); linex = 1; } else { linex++; } if (y != ((Chip)
+		 * curr.item).getY()) { y = ((Chip) curr.item).getY(); liney = 1; } else
+		 * { liney++; } curr = list.next(curr); } return false;
+		 */
 
-        //this way accounts for DIAGONALS as well
-        DListNode curr = list.front();
+		// this way accounts for DIAGONALS as well
+		DListNode curr = list.front();
 		int x = -1;
 		int y = -1;
 		int diffx = -1;
 		int diffy = -1;
-        int vercount = 0;
-        int horcount = 0;
-        int diacount = 0;
+		int vercount = 0;
+		int horcount = 0;
+		int diacount = 0;
 		while (curr != null) {
-            int tx = ((Chip) curr.item).getX();
-            int ty = ((Chip) curr.item).getY();
+			int tx = ((Chip) curr.item).getX();
+			int ty = ((Chip) curr.item).getY();
 			if (tx - x == diffx && ty - y == diffy) {
-                diacount++;
+				diacount++;
 			} else {
-                diacount = 0;
+				diacount = 0;
 			}
 			if (tx - x == diffx) {
-                vercount++;
+				vercount++;
 			} else {
-                vercount = 0;
+				vercount = 0;
 			}
-            if (ty - y == diffy) {
-                horcount++;
-            } else {
-                horcount = 0;
-            }
+			if (ty - y == diffy) {
+				horcount++;
+			} else {
+				horcount = 0;
+			}
 			if (vercount >= 2 || horcount >= 2 || diacount >= 2) {
 				return true;
 			}
-            diffx = tx - x;
-            diffy = ty - y;
-            x = tx;
-            y = ty;
+			diffx = tx - x;
+			diffy = ty - y;
+			x = tx;
+			y = ty;
 			curr = list.next(curr);
 		}
 		return false;
@@ -544,144 +520,115 @@ class Board {
 	 * adds all elements of list2 that are not in list1 to list1
 	 */
 	private void mergeNetworks(DList list1, DList list2) {
-		/*DListNode n1 = list1.front();
+		/*
+		 * DListNode n1 = list1.front(); DListNode n2 = list2.front(); boolean
+		 * in = false; while (n2 != null) { while (n1 != null && !in) { if
+		 * (n1.equals(n2)) { in = true; } n1 = list1.next(n1); } if (!in) {
+		 * list1.insertBack(n2.item); in = false; } n2 = list2.next(n2); }
+		 */
 		DListNode n2 = list2.front();
-		boolean in = false;
 		while (n2 != null) {
-			while (n1 != null && !in) {
-				if (n1.equals(n2)) {
-					in = true;
-				}
-				n1 = list1.next(n1);
-			}
-			if (!in) {
+			if (!list1.has(n2.item)) {
 				list1.insertBack(n2.item);
-				in = false;
 			}
 			n2 = list2.next(n2);
 		}
-        */
-        DListNode n2 = list2.front();
-        while (n2 != null) {
-            if (!list1.has(n2.item)) {
-                list1.insertBack(n2.item);
-            }
-            n2 = list2.next(n2);
-        }
 	}
 
-    public Chip testChip(int x, int y) {
-        return gameboard[x][y];
-    }
+	public Chip testChip(int x, int y) {
+		return gameboard[x][y];
+	}
 
 	/**
 	 * /** tester method to test private methods
 	 */
 	public void tester() {
-        Board board = new Board();
-        Move m11 = new Move(1, 1);
-        Move m13 = new Move(1, 3);
-        Move m33 = new Move(3, 3);
-        Move m31 = new Move(3, 1);
-        Move m35 = new Move(3, 5);
-        Move m01 = new Move(0, 1); //white left goal
-        Move m03 = new Move(0, 3); //white left goal
-        Move m55 = new Move(5, 5);
-        Move m15 = new Move(1, 5);
-        Move m51 = new Move(5, 1);
-/*        printboard(board);
-        System.out.println("adding m1");
-        board.addChip(WHITE, m1);
-        printboard(board);
-        System.out.println("adding m2");
-        board.addChip(WHITE, m2);
-        printboard(board);
-
-        Chip c1 = board.gameboard[1][1];
-        Chip c2 = board.gameboard[1][3];
-        System.out.println("printing c1");
-        c1.visualChip(c1);
-        System.out.println("printing c2");
-        c2.visualChip(c2);
-
-        System.out.println("removing c1");
-        board.removeChip(c1);
-        printboard(board);
-
-        c2 = board.gameboard[1][3];
-        System.out.println("printing c2");
-        c2.visualChip(c2);
-*/
-/*        board.makeMove(Board.WHITE, m11);
-        //board.makeMove(Board.WHITE, m13);
-        //board.makeMove(Board.WHITE, m33);
-        //board.makeMove(Board.WHITE, m31);
-        //board.makeMove(Board.WHITE, m35);
-        //board.makeMove(Board.WHITE, m01);
-        //board.makeMove(Board.WHITE, m03);
-        //board.makeMove(Board.WHITE, m55);
-        //board.makeMove(Board.WHITE, m15);
-        //board.makeMove(Board.WHITE, m51);
-        Chip c1 = board.gameboard[m11.x1][m11.y1];
-        board.printboard(board);
-
-        DList list = c1.network();
-        System.out.println(list + "\n");
-
-        //ripped from validNetworks
-        DList valid = new DList();
-        DList network;
-        DListNode curr = list.front();
-        while (curr != null) {
-            network = (DList) curr.item;
-            if (checkGoals(network, WHITE) && !aligned(network)) {
-                valid.insertBack(network);
-            }
-            curr = list.next(curr);
-        }
-        System.out.println(valid);
-*/
-        DList list1 = new DList();
-        DList list2 = new DList();
-        System.out.println("list1: " + list1);
-        System.out.println("list2: " + list2);
-        mergeNetworks(list1, list2);
-        System.out.println("merged list1: " + list1);
-        list1.insertBack("A");
-        list1.insertBack("B");
-        list1.insertBack("C");
-        list2.insertBack("A");
-        list2.insertBack("C");
-        System.out.println("list1: " + list1);
-        System.out.println("list2: " + list2);
-        mergeNetworks(list1, list2);
-        System.out.println("merged list1: " + list1);
-        list2.insertBack("D");
-        System.out.println("list1: " + list1);
-        System.out.println("list2: " + list2);
-        mergeNetworks(list1, list2);
-        System.out.println("merged list1: " + list1);
-        list2.insertFront("E");
-        System.out.println("list1: " + list1);
-        System.out.println("list2: " + list2);
-        mergeNetworks(list1, list2);
-        System.out.println("merged list1: " + list1);
+		Board board = new Board();
+		Move m11 = new Move(1, 1);
+		Move m13 = new Move(1, 3);
+		Move m33 = new Move(3, 3);
+		Move m31 = new Move(3, 1);
+		Move m35 = new Move(3, 5);
+		Move m01 = new Move(0, 1); // white left goal
+		Move m03 = new Move(0, 3); // white left goal
+		Move m55 = new Move(5, 5);
+		Move m15 = new Move(1, 5);
+		Move m51 = new Move(5, 1);
+		/*
+		 * printboard(board); System.out.println("adding m1");
+		 * board.addChip(WHITE, m1); printboard(board);
+		 * System.out.println("adding m2"); board.addChip(WHITE, m2);
+		 * printboard(board);
+		 * 
+		 * Chip c1 = board.gameboard[1][1]; Chip c2 = board.gameboard[1][3];
+		 * System.out.println("printing c1"); c1.visualChip(c1);
+		 * System.out.println("printing c2"); c2.visualChip(c2);
+		 * 
+		 * System.out.println("removing c1"); board.removeChip(c1);
+		 * printboard(board);
+		 * 
+		 * c2 = board.gameboard[1][3]; System.out.println("printing c2");
+		 * c2.visualChip(c2);
+		 */
+		/*
+		 * board.makeMove(Board.WHITE, m11); //board.makeMove(Board.WHITE, m13);
+		 * //board.makeMove(Board.WHITE, m33); //board.makeMove(Board.WHITE,
+		 * m31); //board.makeMove(Board.WHITE, m35);
+		 * //board.makeMove(Board.WHITE, m01); //board.makeMove(Board.WHITE,
+		 * m03); //board.makeMove(Board.WHITE, m55);
+		 * //board.makeMove(Board.WHITE, m15); //board.makeMove(Board.WHITE,
+		 * m51); Chip c1 = board.gameboard[m11.x1][m11.y1];
+		 * board.printboard(board);
+		 * 
+		 * DList list = c1.network(); System.out.println(list + "\n");
+		 * 
+		 * //ripped from validNetworks DList valid = new DList(); DList network;
+		 * DListNode curr = list.front(); while (curr != null) { network =
+		 * (DList) curr.item; if (checkGoals(network, WHITE) &&
+		 * !aligned(network)) { valid.insertBack(network); } curr =
+		 * list.next(curr); } System.out.println(valid);
+		 */
+		DList list1 = new DList();
+		DList list2 = new DList();
+		System.out.println("list1: " + list1);
+		System.out.println("list2: " + list2);
+		mergeNetworks(list1, list2);
+		System.out.println("merged list1: " + list1);
+		list1.insertBack("A");
+		list1.insertBack("B");
+		list1.insertBack("C");
+		list2.insertBack("A");
+		list2.insertBack("C");
+		System.out.println("list1: " + list1);
+		System.out.println("list2: " + list2);
+		mergeNetworks(list1, list2);
+		System.out.println("merged list1: " + list1);
+		list2.insertBack("D");
+		System.out.println("list1: " + list1);
+		System.out.println("list2: " + list2);
+		mergeNetworks(list1, list2);
+		System.out.println("merged list1: " + list1);
+		list2.insertFront("E");
+		System.out.println("list1: " + list1);
+		System.out.println("list2: " + list2);
+		mergeNetworks(list1, list2);
+		System.out.println("merged list1: " + list1);
 	}
 
-    public void printboard(Board board) {
-        System.out.println("  01234567");
+	public void printboard(Board board) {
+		System.out.println("  01234567");
 		for (int y = 0; y < board.gameboard.length; y++) {
-            System.out.print(y + " ");
+			System.out.print(y + " ");
 			for (int x = 0; x < board.gameboard[0].length; x++) {
 				if (board.gameboard[x][y] == null) {
-                    System.out.print("X");
-                } else if (board.gameboard[x][y].color() == WHITE) {
-                    System.out.print(WHITE);
-                } else {
-                    System.out.print(BLACK);
-                }
+					System.out.print("X");
+				} else if (board.gameboard[x][y].color() == WHITE) {
+					System.out.print(WHITE);
+				} else {
+					System.out.print(BLACK);
+				}
 			}
-            System.out.println();
-        }
-    }
+			System.out.println();
+		}
+	}
 }

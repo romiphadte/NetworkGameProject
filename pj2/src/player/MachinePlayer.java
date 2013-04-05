@@ -24,7 +24,7 @@ public class MachinePlayer extends Player {
 	public MachinePlayer(int color) {
 		this.color = color;
 		gameboard = new Board();
-
+		this.searchDepth = SEARCHDEPTH;
 	}
 
 	// Creates a machine player with the given color and search depth. Color is
@@ -42,19 +42,18 @@ public class MachinePlayer extends Player {
 			DList allMoves = gameboard.validMoves(color);
 			// this.color-color
 			DListNode aNode = allMoves.front();
-			System.out
-					.print("\n\n This is list of all moves the robot thinks is ok. Currently choses first option.\n");
-			for (int i = 0; i < allMoves.length(); i++) {
-				System.out.println(aNode.item);
-				aNode = allMoves.next(aNode);
-			}
+			/*
+			 * System.out.print(
+			 * "\n\n This is list of all moves the robot thinks is ok. Currently choses first option.\n"
+			 * ); for (int i = 0; i < allMoves.length(); i++) {
+			 * System.out.println(aNode.item); aNode = allMoves.next(aNode); }
+			 */
 			if (RANDOMBOT) {
 				m = (Move) allMoves.random().item;
 			} else {
 				m = (Move) aNode.item;
 			}
 		} else {
-			System.out.print(gameboard.numPieces());
 			if (gameboard.numPieces() <= 1)
 
 			{
@@ -71,23 +70,24 @@ public class MachinePlayer extends Player {
 					m = new Move(7, 4);
 				}
 			} else {
-				m = bestMove(gameboard, SEARCHDEPTH, color).move;
+				m = bestMove(gameboard, searchDepth, Board.LOWESTVAL,
+						Board.HIGHESTVAL, color).move;
 			}
 		}
-		
-		DList pieces=gameboard.pieces();
-		DListNode aNode=pieces.front();
-		System.out.print(pieces+ "\n");
-		for(int i=0; i<pieces.length(); i++)
-		{
-			System.out.println(aNode.item+" sees "+((Chip) aNode.item).inSightString());
-			aNode=pieces.next(aNode);
-		}
-		
+
+		DList pieces = gameboard.pieces();
+		DListNode aNode = pieces.front();
+		// System.out.print(pieces+ "\n");
+		// for(int i=0; i<pieces.length(); i++)
+		// {
+		// System.out.println(aNode.item+" sees "+((Chip)
+		// aNode.item).inSightString());
+		// aNode=pieces.next(aNode);
+		// }
+		System.out.print("Going to make move:" + m);
+
 		gameboard.makeMove(color, m);
-		
-		
-		
+
 		return m;
 	}
 
@@ -96,12 +96,11 @@ public class MachinePlayer extends Player {
 	// illegal, returns false without modifying the internal state of "this"
 	// player. This method allows your opponents to inform you of their moves.
 	public boolean opponentMove(Move m) {
-		
-		boolean isvalid= gameboard.makeMove(otherPlayer(color), m);
-		
-		if(!isvalid)
-		{
-			int pi=1/0; //TODO remove this intentionally faulty code.
+
+		boolean isvalid = gameboard.makeMove(otherPlayer(color), m);
+
+		if (!isvalid) {
+			int pi = 1 / 0; // TODO remove this intentionally faulty code.
 		}
 		return isvalid;
 	}
@@ -115,32 +114,71 @@ public class MachinePlayer extends Player {
 		return gameboard.makeMove(color, m);
 	}
 
-	private Best bestMove(Board board, int searchDepth, int color) {
-		Best myBest;
+	private Best bestMove(Board board, int searchDepth, int alpha, int beta,
+			int color) {
 
-		if (searchDepth == 0 || board.isFinished(color)) {
+		Best myBest = new Best(0); // My best move
+		Best reply; // OpponentÕs best reply
+		if (searchDepth == 0||board.isFinished(color)) {
+			System.out.print("\nFINISHED"+ searchDepth+" "+board.isFinished(color)+"\n");
 			return new Best(board.value(this.color));
 		}
 
 		if (color == this.color) {
-			myBest = new Best(Board.LOWESTVAL);
+			myBest.score = alpha;
 		} else {
-			myBest = new Best(Board.HIGHESTVAL);
+			myBest.score = beta;
 		}
 
 		DList allMoves = board.validMoves(color);
 		DListNode aNode = allMoves.front();
-
 		for (int i = 0; i < allMoves.length(); i++) {
-			Best reply = bestMove(new Board(board, color, (Move) aNode.item),
-					searchDepth - 1, otherPlayer(color));
-			if (((color == this.color) && (reply.score >= myBest.score))
-					|| ((color != this.color) && (reply.score <= myBest.score))) {
+			reply = bestMove(new Board(board, color, (Move) aNode.item),
+					searchDepth - 1, alpha, beta, otherPlayer(color));
+			if ((color == this.color) && (reply.score >= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
+				alpha = reply.score;
+			} else if ((color == otherPlayer(color))
+					&& (reply.score <= myBest.score)) {
+				myBest.move = (Move) aNode.item;
+				myBest.score = reply.score;
+				beta = reply.score;
 			}
+			if (alpha >= beta) {
+				return myBest;
+			}
+
+			aNode = allMoves.next(aNode);
 		}
 		return myBest;
+
+		/*
+		 * Best myBest;
+		 * 
+		 * if (searchDepth == 0) //|| board.isFinished(color) return new
+		 * Best(board.value(this.color)); }
+		 * 
+		 * if (color == this.color) { myBest = new Best(Board.LOWESTVAL); } else
+		 * { myBest = new Best(Board.HIGHESTVAL); }
+		 * 
+		 * DList allMoves = board.validMoves(color);
+		 * 
+		 * System.out.print("\n "+color+" thinks these are valid\n"); DListNode
+		 * bNode = allMoves.front(); for (int i = 0; i < allMoves.length(); i++)
+		 * { System.out.println(bNode.item); bNode = allMoves.next(bNode); }
+		 * 
+		 * 
+		 * DListNode aNode = allMoves.front();
+		 * 
+		 * for (int i = 0; i < allMoves.length(); i++) { Best reply =
+		 * bestMove(new Board(board, color, (Move) aNode.item), searchDepth - 1,
+		 * otherPlayer(color)); System.out.print("out one level"); if (((color
+		 * == this.color) && (reply.score >= myBest.score)) || ((color !=
+		 * this.color) && (reply.score <= myBest.score))) { myBest.move = (Move)
+		 * aNode.item; myBest.score = reply.score; aNode=allMoves.next(aNode); }
+		 * } return myBest;
+		 */
 	}
 
 	public static int otherPlayer(int color) {
@@ -151,43 +189,43 @@ public class MachinePlayer extends Player {
 		}
 	}
 
-    public static void main(String[] args) {
-        System.out.println("\nTesting ###CLASS### DList");
-        System.out.println("Testing equals");
-        DList list1 = new DList();
-        DList list2 = new DList();
-        list1.insertFront("one");
-        list1.insertFront("two");
-        list2.insertFront("one");
-        list2.insertFront("two");
-        assert list1.equals(list2) : "list1.equals(list2) failed";
-        list2.insertFront("three");
-        assert !list1.equals(list2) : "!list1.equals(list2) failed";
-        list2.remove(list2.front());
-        list2.remove(list2.front());
-        list2.insertBack("two");
-        assert list1.equals(list2) : "list1.equals(list2) failed";
-        list2.insertBack("three");
-        assert !list1.equals(list2) : "!list1.equals(list2) failed";
-        list1 = new DList();
-        list1.insertFront(1);
-        list1.insertFront(2);
-        list1.insertFront(3);
-        list2 = list1.copy();
-        assert list1.equals(list2) : "list1.equals(list2) failed";
-        System.out.println(list1 + ", " + list2);
-        System.out.println("\nTesting ###CLASS### Chip");
-        Chip chip = new Chip();
-        //chip.tester();
-        System.out.println("Testing equals");
-        Chip chip1 = new Chip(1, 2, 1);
-        Chip chip2 = new Chip(1, 2, 1);
-        Chip chip3 = new Chip();
-        assert chip1.equals(chip2) : "chip1.equals(chip2) failed";
-        assert !chip1.equals(chip3) : "!chip1.equals(chip3) failed";
-        System.out.println("\nTesting ###CLASS### Board");
-        Board board = new Board();
-        //board.tester();
-        System.out.println("\nTesting ###CLASS### MachinePlayer");
-    }
+	public static void main(String[] args) {
+		System.out.println("\nTesting ###CLASS### DList");
+		System.out.println("Testing equals");
+		DList list1 = new DList();
+		DList list2 = new DList();
+		list1.insertFront("one");
+		list1.insertFront("two");
+		list2.insertFront("one");
+		list2.insertFront("two");
+		assert list1.equals(list2) : "list1.equals(list2) failed";
+		list2.insertFront("three");
+		assert !list1.equals(list2) : "!list1.equals(list2) failed";
+		list2.remove(list2.front());
+		list2.remove(list2.front());
+		list2.insertBack("two");
+		assert list1.equals(list2) : "list1.equals(list2) failed";
+		list2.insertBack("three");
+		assert !list1.equals(list2) : "!list1.equals(list2) failed";
+		list1 = new DList();
+		list1.insertFront(1);
+		list1.insertFront(2);
+		list1.insertFront(3);
+		list2 = list1.copy();
+		assert list1.equals(list2) : "list1.equals(list2) failed";
+		System.out.println(list1 + ", " + list2);
+		System.out.println("\nTesting ###CLASS### Chip");
+		Chip chip = new Chip();
+		// chip.tester();
+		System.out.println("Testing equals");
+		Chip chip1 = new Chip(1, 2, 1);
+		Chip chip2 = new Chip(1, 2, 1);
+		Chip chip3 = new Chip();
+		assert chip1.equals(chip2) : "chip1.equals(chip2) failed";
+		assert !chip1.equals(chip3) : "!chip1.equals(chip3) failed";
+		System.out.println("\nTesting ###CLASS### Board");
+		Board board = new Board();
+		// board.tester();
+		System.out.println("\nTesting ###CLASS### MachinePlayer");
+	}
 }

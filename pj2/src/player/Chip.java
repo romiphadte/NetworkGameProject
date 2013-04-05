@@ -25,6 +25,15 @@ class Chip {
         //cannot have more than 8 chips in line of sight
         inSight = new Chip[8];
     }
+    
+    public Chip copy()
+    {
+    	Chip aChip=new Chip(x,y,color);
+    	aChip.inSight=this.inSight.clone();
+    	
+    	return aChip;
+    }
+    
     public int getX() {
         return x;
     }
