@@ -123,12 +123,12 @@ class Chip {
      * return a DList of all possible networks(legal or illegal)
      * that this chip is connected to(as a Dlist)
      */
-    public DList network() {
+    public DList network(int color) {
         DList network = new DList();
         DList list = new DList();
         list.insertFront(this);
         DList blacklist = new DList();
-        findTails(network, list, blacklist);
+        findTails(color, network, list, blacklist);
         build(network);
         return network;
     }
@@ -137,13 +137,13 @@ class Chip {
      * searches and builds DLists using inSight
      * blacklist are the previous chips, so search doesn't go looking back
      */
-    private void findTails(DList network, DList list, DList blacklist) {
+    private void findTails(int color, DList network, DList list, DList blacklist) {
         //for every non-null value in inSight except for what in the blacklist
         for (int i = 0; i < inSight.length; i++) {
             //resetting blacklist for next iteration
             DList blist = blacklist.copy();
             DList tmplist = list.copy();
-            if (inSight[i] != null && !blist.has(inSight[i])) {
+            if (inSight[i] != null && inSight[i].color() == color && !blist.has(inSight[i])) {
                 //add self to blacklist
                 blist.insertBack(this);
                 //add that to the back of list
@@ -151,7 +151,7 @@ class Chip {
                 //make a copy of this and add it to the network
                 network.insertBack(tmplist.copy());
                 //call findTails on chip from inSight
-                inSight[i].findTails(network, tmplist, blist);
+                inSight[i].findTails(color, network, tmplist, blist);
             }
         }
     }
@@ -270,7 +270,7 @@ class Chip {
         DList list = new DList();
         list.insertFront(c1);
         DList blacklist = new DList();
-        c1.findTails(network, list, blacklist);
+        c1.findTails(c1.color(), network, list, blacklist);
         System.out.println(network);
         System.out.println();
         c1.build(network);

@@ -118,7 +118,7 @@ public class MachinePlayer extends Player {
 			int color) {
 
 		Best myBest = new Best(0); // My best move
-		Best reply; // Opponent’s best reply
+		Best reply; // Opponent's best reply
 		if (searchDepth == 0||board.isFinished(color)) {
 			System.out.print("\nFINISHED"+ searchDepth+" "+board.isFinished(color)+"\n");
 			return new Best(board.value(this.color));

@@ -372,7 +372,7 @@ class Board {
 			for (int y = 0; y < gameboard[x].length; y++) {
 				chip = gameboard[x][y];
 				if (chip != null && chip.color() == color) {
-					DList net = chip.network();
+					DList net = chip.network(color);
 					DList validNet = validNetworks(net, color);
 					mergeNetworks(networks, net);
 				}
