@@ -97,7 +97,8 @@ public class DList {
     }
 
 	public boolean equals(DList list) {
-        boolean equal = true;
+        boolean forwardEqual = true;
+        boolean backwardEqual = true;
 		if (list.length() != length()) {
 			return false;
 		} else {
@@ -107,26 +108,30 @@ public class DList {
 			{
 				if (!aNode.item.equals(bNode.item))
 				{
-					equal = false;
+					forwardEqual = false;
 				}
 					
 				aNode = aNode.next;
 				bNode = bNode.next;
 			}
-            aNode=front();
-			bNode=list.back();
-			for (int i=0; i<list.length(); i++)
-			{
-				if (!aNode.item.equals(bNode.item))
-				{
-					equal = false;
-				}
+			if (forwardEqual){ //If equals in the forward direction, return true
+				return true;
+				} else {
+					aNode=front();
+					bNode=list.back();
+					for (int i=0; i<list.length(); i++)
+					{
+						if (!(aNode.item.equals(bNode.item)))
+						{
+							backwardEqual = false;
+						}
 					
-				aNode = aNode.prev;
-				bNode = bNode.next;
-			}
+						aNode = aNode.next;
+						bNode = bNode.prev;
+					}
+				}
 		}
-		return equal;
+		return backwardEqual; //Since only here if not equals in the forward direction, return whether or not equals in the backwards direction
 	}
 	
 	public boolean has(Object item) {

@@ -621,7 +621,6 @@ class Board {
         System.out.println("list2: " + list2);
         mergeNetworks(list1, list2);
         System.out.println("merged list1: " + list1);
-
 	}
 
     public void printboard(Board board) {
