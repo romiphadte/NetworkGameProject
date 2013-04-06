@@ -196,6 +196,7 @@ class Board {
 		DListNode aNode = allNetworks.front();
 		double total = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
+			System.out.println(total);
 			/*
 			 * if (((Chip) ((DList) aNode.item).front().item).color()==color) {
 			 * total+=((DList) aNode.item).length();
@@ -237,7 +238,7 @@ class Board {
 		}
 
 		if (total < 0) {
-			total = -1 * Math.sqrt(total);
+			total = -1 * Math.sqrt(Math.abs(total));
 		} else {
 			total = Math.sqrt(total);
 		}
@@ -245,11 +246,13 @@ class Board {
 		//System.out.println(total+"\n");
 
 		if (total >= 100) {
+			System.out.println("A");
 			return 99;
-		} else if (total <= 100) {
+		} else if (total <= -100) {
+			System.out.println("B");
 			return -99;
 		}
-		System.out.println(total);
+		System.out.println("\nVALUE IS"+total+"\n");
 		return total;
 
 	}
