@@ -14,7 +14,7 @@ public class MachinePlayer extends Player {
 	public static final boolean RANDOMBOT = false;
 	public static final int WHITE = 1;
 	public static final int BLACK = 0;
-	public static final int SEARCHDEPTH = 2;
+	public static final int SEARCHDEPTH = 3;
 	protected Board gameboard;
 	protected int color;
 	protected int searchDepth;
@@ -184,9 +184,9 @@ public class MachinePlayer extends Player {
 		}
 
 		if (color == this.color) {
-			myBest.score = alpha;
+			myBest.score = -99999999;
 		} else {
-			myBest.score = beta;
+			myBest.score = 99999999;
 		}
 
 		DList allMoves = board.validMoves(color);
@@ -200,13 +200,13 @@ public class MachinePlayer extends Player {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
 				//System.out.println("best score "+myBest.score);
-				alpha = reply.score;
+				alpha = Math.max(reply.score, alpha);
 			} else if ((color == otherPlayer(this.color))
 					&& (reply.score <= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
 				//System.out.println("best score "+myBest.score);
-				beta = reply.score;
+				beta = Math.min(reply.score, beta);
 			}
 			if (alpha >= beta) {
 			//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
