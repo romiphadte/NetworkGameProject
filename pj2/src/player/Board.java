@@ -246,7 +246,6 @@ class Board {
 					total -= ((DList) aNode.item).length();
 					//	System.out.println(-1*((DList) aNode.item).length());
 				}
-                total += ((DList) aNode.item).length();
 			}
 			if (inEndGoal((Chip) aList.front().item, color) == 2
 					|| inEndGoal((Chip) aList.back().item, color) == 1) {
@@ -259,8 +258,6 @@ class Board {
 					total -= ((DList) aNode.item).length();
 					//	System.out.println(-1*((DList) aNode.item).length());
 				}
-                
-                total += ((DList) aNode.item).length();
 			}
 			aNode = allNetworks.next(aNode);
 		}
