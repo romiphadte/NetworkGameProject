@@ -194,16 +194,14 @@ class Board {
 	 */
 	public double value(DList allNetworks, int color) {
 		if (isFinished(allNetworks, color)) {
-			System.out.print("hola");
 			return 100;
 		} else if (isFinished(allNetworks, MachinePlayer.otherPlayer(color))) {
-			System.out.print("avoid");
 			return -100;
 		}
 		DListNode aNode = allNetworks.front();
 		double total = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
-			System.out.println(total);
+		//	System.out.println(total);
 			/*
 			 * if (((Chip) ((DList) aNode.item).front().item).color()==color) {
 			 * total+=((DList) aNode.item).length();
@@ -258,7 +256,7 @@ class Board {
 			System.out.println("B");
 			return -99;
 		}
-		System.out.println("\nVALUE IS" + total + "\n");
+		//System.out.println("\nVALUE IS" + total + "\n");
 		return total;
 
 	}
@@ -283,9 +281,9 @@ class Board {
 					&& inEndGoal((Chip) aList.front().item, color) == 1) {
 				if (inEndGoal((Chip) aList.back().item, color) == 2) {
 					DListNode aListNode = aList.front();
-					System.out.print("\n\n");
+					//System.out.print("\n\n");
 					for (int ii = 0; ii < aList.length(); ii++) {
-						System.out.print(aListNode.item);
+					//	System.out.print(aListNode.item);
 						aListNode = aList.next(aListNode);
 					}
 					return true;
@@ -295,9 +293,9 @@ class Board {
 					&& inEndGoal((Chip) aList.front().item, color) == 2) {
 				if (inEndGoal((Chip) aList.back().item, color) == 1) {
 					DListNode aListNode = aList.front();
-					System.out.print("\n\n");
+					//System.out.print("\n\n");
 					for (int ii = 0; ii < aList.length(); ii++) {
-						System.out.print(aListNode.item);
+					//	System.out.print(aListNode.item);
 						aListNode = aList.next(aListNode);
 					}
 					return true;
@@ -554,7 +552,7 @@ class Board {
      * curr - the chip being inspected
      * color - the color determines the valid goals
      */
-/*	private int inEndGoal(Chip curr, int color) {
+	private int inEndGoal(Chip curr, int color) {
 		if (color == MachinePlayer.WHITE) {
 			if ((curr).getX() == 0) {
 				return 1;
@@ -574,7 +572,6 @@ class Board {
 		}
 		return 0;
 	}
-*/
 
 	/**
 	 * returns true if there are any 3 chips aligned in a row within the network
