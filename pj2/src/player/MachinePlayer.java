@@ -114,7 +114,7 @@ public class MachinePlayer extends Player {
 	/*
 	 * recursively calls itself for the min max algorithm. Uses alpha beta pruning.
 	 */
-	private Best bestMove(Board board, int searchDepth, double alpha,
+/*	private Best bestMove(Board board, int searchDepth, double alpha,
 			double beta, int color) {
 		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
 		Best myBest = new Best(0); // My best move
@@ -163,6 +163,63 @@ public class MachinePlayer extends Player {
 		return myBest;
 
 	}
+*/
+    private Best bestMove(Board board, int searchDepth, double alpha,
+			double beta, int color) {
+		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
+		Best myBest = new Best(0); // My best move
+		Best reply; // Opponent's best reply
+		DList allNetworks=board.findNetworks(color);
+		DList opnetworks=board.findNetworks(otherPlayer(color));
+        DListNode curr = opnetworks.front();
+        for (int i = 0; i < opnetworks.length(); i++) {
+            allNetworks.insertBack(curr.item);
+            curr = opnetworks.next(curr);
+        }
+		if (searchDepth == 0 || board.isFinished(allNetworks,color) || board.isFinished(allNetworks,otherPlayer(color))) {
+			//System.out.print("\nFINISHED" + searchDepth + " "
+			//		+ board.isFinished(color) + "\n");
+		//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
+			return new Best(board.value(allNetworks,this.color));
+		}
+
+		if (color == this.color) {
+			myBest.score = alpha;
+		} else {
+			myBest.score = beta;
+		}
+
+		DList allMoves = board.validMoves(color);
+		DListNode aNode = allMoves.front();
+		for (int i = 0; i < allMoves.length(); i++) {
+			board.makeMove(color, (Move) aNode.item);
+			reply = bestMove(board, searchDepth - 1, alpha, beta,
+					otherPlayer(color));
+			board.undo((Move) aNode.item);
+			if ((color == this.color) && (reply.score >= myBest.score)) {
+				myBest.move = (Move) aNode.item;
+				myBest.score = reply.score;
+				//System.out.println("best score "+myBest.score);
+				alpha = reply.score;
+			} else if ((color == otherPlayer(this.color))
+					&& (reply.score <= myBest.score)) {
+				myBest.move = (Move) aNode.item;
+				myBest.score = reply.score;
+				//System.out.println("best score "+myBest.score);
+				beta = reply.score;
+			}
+			if (alpha >= beta) {
+			//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
+				return myBest;
+			}
+
+			aNode = allMoves.next(aNode);
+		}
+		//System.out.println("Leaving"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
+		return myBest;
+
+	}
+
 
 	/*
 	 * returns black if given white and white if given black.

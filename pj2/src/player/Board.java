@@ -219,9 +219,9 @@ class Board {
 	double value(DList allNetworks, int color) {
 		if (isFinished(allNetworks, color)) {
 			return 100;
-		} else if (isFinished(allNetworks, MachinePlayer.otherPlayer(color))) {
+		/*} else if (isFinished(allNetworks, MachinePlayer.otherPlayer(color))) {
 			return -100;
-		}
+		}*/
 		DListNode aNode = allNetworks.front();
 		double total = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
@@ -237,7 +237,7 @@ class Board {
 			DList aList = (DList) aNode.item;
 			if (inEndGoal((Chip) aList.front().item, color) == 1
 					|| inEndGoal((Chip) aList.back().item, color) == 2) {
-				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
+				/*if (((Chip) ((DList) aNode.item).front().item).color() == color) {
 					total += ((DList) aNode.item).length();
 					//	System.out.println(((DList) aNode.item).length());
 
@@ -245,12 +245,12 @@ class Board {
 						.otherPlayer(color)) {
 					total -= ((DList) aNode.item).length();
 					//	System.out.println(-1*((DList) aNode.item).length());
-				}
-
+				}*/
+                total += ((DList) aNode.item).length();
 			}
 			if (inEndGoal((Chip) aList.front().item, color) == 2
 					|| inEndGoal((Chip) aList.back().item, color) == 1) {
-				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
+				/*if (((Chip) ((DList) aNode.item).front().item).color() == color) {
 					total += ((DList) aNode.item).length();
 					//	System.out.println(((DList) aNode.item).length());
 
@@ -258,28 +258,30 @@ class Board {
 						.otherPlayer(color)) {
 					total -= ((DList) aNode.item).length();
 					//	System.out.println(-1*((DList) aNode.item).length());
-
 				}
+                */
+                total += ((DList) aNode.item).length();
 			}
-
 			aNode = allNetworks.next(aNode);
 		}
 
-		if (total < 0) {
+		/*if (total < 0) {
 			total = -1 * Math.sqrt(Math.abs(total));
 		} else {
 			total = Math.sqrt(total);
-		}
+		}*/
+        total = Math.sqrt(total);
 
 		//System.out.println(total+"\n");
 
-		if (total >= 100) {
+		/*if (total >= 100) {
 			System.out.println("A");
 			return 99;
 		} else if (total <= -100) {
 			System.out.println("B");
 			return -99;
-		}
+		}*/
+
 		//System.out.println("\nVALUE IS" + total + "\n");
 		return total;
 
