@@ -545,7 +545,7 @@ class Board {
             }
             curr = list.next(curr);
         }
-        return ((goal1 <= 1) || (goal2 <= 1));
+        return !((goal1 > 1) || (goal2 > 1));
     }
 
     /** returns 1 if in end goal 1, 2 if in 2, and zero if in none.
@@ -553,7 +553,7 @@ class Board {
      * curr - the chip being inspected
      * color - the color determines the valid goals
      */
-	private int inEndGoal(Chip curr, int color) {
+/*	private int inEndGoal(Chip curr, int color) {
 		if (color == MachinePlayer.WHITE) {
 			if ((curr).getX() == 0) {
 				return 1;
@@ -573,6 +573,7 @@ class Board {
 		}
 		return 0;
 	}
+*/
 
 	/**
 	 * returns true if there are any 3 chips aligned in a row within the network
