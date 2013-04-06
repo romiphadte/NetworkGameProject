@@ -273,7 +273,8 @@ class Chip {
         //board.makeMove(Board.WHITE, m5);
         board.printboard(board);
 
-        c1 = board.testChip(m1.x1, m1.y1);
+        c1 = new Chip();
+        //c1 = board.testChip(m1.x1, m1.y1);
         //ripped out of network()
         DList network = new DList();
         DList list = new DList();
