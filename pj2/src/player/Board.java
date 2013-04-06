@@ -25,21 +25,18 @@ class Board {
 	/**
 	 * makes hypothetical variations to a certain Board
 	 */
-	/*public Board(Board b, int color, Move m) { // TODO is color useful?
-		this();
-
-		System.out.println("I AM FAKE");
-
-		for (int x = 0; x < gameboard.length; x++) {
-			for (int y = 0; y < gameboard[0].length; y++) {
-				if (b.gameboard[x][y] != null) {
-					gameboard[x][y] = b.gameboard[x][y].copy();
-				}
-			}
-		}
-		makeMove(color, m);
-
-	}*/
+	/*
+	 * public Board(Board b, int color, Move m) { // TODO is color useful?
+	 * this();
+	 * 
+	 * System.out.println("I AM FAKE");
+	 * 
+	 * for (int x = 0; x < gameboard.length; x++) { for (int y = 0; y <
+	 * gameboard[0].length; y++) { if (b.gameboard[x][y] != null) {
+	 * gameboard[x][y] = b.gameboard[x][y].copy(); } } } makeMove(color, m);
+	 * 
+	 * }
+	 */
 
 	public int numPieces() {
 		return numPieces;
@@ -203,31 +200,44 @@ class Board {
 			 * .otherPlayer(color)) { total-=((DList) aNode.item).length(); }
 			 */
 			DList aList = (DList) aNode.item;
-			if (inEndGoal((Chip) aList.front().item, color) == 1 ||inEndGoal((Chip) aList.back().item, color) == 2) {
-				  if (((Chip) ((DList) aNode.item).front().item).color()==color) {
-					  total+=((DList) aNode.item).length();
-			
-					  } else if (((Chip) ((DList)
-					  aNode.item).front().item).color()==MachinePlayer
-					  .otherPlayer(color)) { total-=((DList) aNode.item).length(); }
+			if (inEndGoal((Chip) aList.front().item, color) == 1
+					|| inEndGoal((Chip) aList.back().item, color) == 2) {
+				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
+					total += ((DList) aNode.item).length();
+				//	System.out.println(((DList) aNode.item).length());
 
+				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
+						.otherPlayer(color)) {
+					total -= ((DList) aNode.item).length();
+				//	System.out.println(-1*((DList) aNode.item).length());
 				}
-			if (inEndGoal((Chip) aList.front().item, color) == 2|| inEndGoal((Chip) aList.back().item, color) == 1) {
-				  if (((Chip) ((DList) aNode.item).front().item).color()==color) {
-					  total+=((DList) aNode.item).length();
-			
-					  } else if (((Chip) ((DList)
-					  aNode.item).front().item).color()==MachinePlayer
-					  .otherPlayer(color)) { total-=((DList) aNode.item).length(); 
+
+			}
+			if (inEndGoal((Chip) aList.front().item, color) == 2
+					|| inEndGoal((Chip) aList.back().item, color) == 1) {
+				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
+					total += ((DList) aNode.item).length();
+				//	System.out.println(((DList) aNode.item).length());
+
+					
+				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
+						.otherPlayer(color)) {
+					total -= ((DList) aNode.item).length();
+				//	System.out.println(-1*((DList) aNode.item).length());
+
 				}
 			}
 
 			aNode = allNetworks.next(aNode);
 		}
 
-		total = Math.sqrt(total);
+		if (total < 0) {
+			total = -1 * Math.sqrt(total);
+		} else {
+			total = Math.sqrt(total);
+		}
 
-		System.out.println(total);
+		//System.out.println(total+"\n");
 
 		if (total >= 100) {
 			return 99;

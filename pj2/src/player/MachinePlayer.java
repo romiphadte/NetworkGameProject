@@ -38,7 +38,7 @@ public class MachinePlayer extends Player {
 	// the internal game board) as a move by "this" player.
 	public Move chooseMove() {
 		Move m;
-		Best b=new Best(9999999);
+		Best b = new Best(9999999);
 		if (TESTCODE) {
 			DList allMoves = gameboard.validMoves(color);
 			// this.color-color
@@ -63,9 +63,17 @@ public class MachinePlayer extends Player {
 				} else {
 					m = new Move(0, 3);
 				}
+			} else if (gameboard.numPieces() <= 3) {
+				if (color == BLACK) {
+					m = new Move(4, 7);
+				} else {
+					m = new Move(7, 4);
+				}
 			} else {
-				b=bestMove(gameboard, searchDepth, Board.LOWESTVAL, Board.HIGHESTVAL, color);
-				m =b.move;
+
+				b = bestMove(gameboard, searchDepth, Board.LOWESTVAL,
+						Board.HIGHESTVAL, color);
+				m = b.move;
 			}
 		}
 
@@ -78,7 +86,8 @@ public class MachinePlayer extends Player {
 		// aNode.item).inSightString());
 		// aNode=pieces.next(aNode);
 		// }
-		System.out.print("Going to make move:" + m + "with value of" + b.score);
+
+		//System.out.print("Going to make move:" + m + "with value of" + b.score);
 
 		gameboard.makeMove(color, m);
 
@@ -90,13 +99,7 @@ public class MachinePlayer extends Player {
 	// illegal, returns false without modifying the internal state of "this"
 	// player. This method allows your opponents to inform you of their moves.
 	public boolean opponentMove(Move m) {
-
-		boolean isvalid = gameboard.makeMove(otherPlayer(color), m);
-
-		if (!isvalid) {
-			int pi = 1 / 0; // TODO remove this intentionally faulty code.
-		}
-		return isvalid;
+		return gameboard.makeMove(otherPlayer(color), m);
 	}
 
 	// If the Move m is legal, records the move as a move by "this" player
@@ -108,13 +111,15 @@ public class MachinePlayer extends Player {
 		return gameboard.makeMove(color, m);
 	}
 
-	private Best bestMove(Board board, int searchDepth, double alpha, double beta,
-			int color) {
+	private Best bestMove(Board board, int searchDepth, double alpha,
+			double beta, int color) {
+		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
 		Best myBest = new Best(0); // My best move
 		Best reply; // Opponent's best reply
-		if (searchDepth == 0 || board.isFinished(color)) {
+		if (searchDepth == 0 || board.isFinished(color) || board.isFinished(otherPlayer(color))) {
 			//System.out.print("\nFINISHED" + searchDepth + " "
 			//		+ board.isFinished(color) + "\n");
+		//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
 			return new Best(board.value(this.color));
 		}
 
@@ -134,19 +139,23 @@ public class MachinePlayer extends Player {
 			if ((color == this.color) && (reply.score >= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
+				//System.out.println("best score "+myBest.score);
 				alpha = reply.score;
-			} else if ((color == otherPlayer(color))
+			} else if ((color == otherPlayer(this.color))
 					&& (reply.score <= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
+				//System.out.println("best score "+myBest.score);
 				beta = reply.score;
 			}
 			if (alpha >= beta) {
+			//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
 				return myBest;
 			}
 
 			aNode = allMoves.next(aNode);
 		}
+		//System.out.println("Leaving"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
 		return myBest;
 
 		/*
