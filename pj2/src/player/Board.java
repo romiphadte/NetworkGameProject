@@ -218,8 +218,10 @@ class Board {
 	 */
 	double value(DList allNetworks, int color) {
 		if (isFinished(allNetworks, color)) {
+			System.out.print("WIN");
 			return 100;
 		} else if (isFinished(allNetworks, MachinePlayer.otherPlayer(color))) {
+			System.out.print("LOSS");
 			return -100;
 		}
 		DListNode aNode = allNetworks.front();
