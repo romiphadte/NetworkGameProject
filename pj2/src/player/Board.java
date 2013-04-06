@@ -224,6 +224,8 @@ class Board {
 		}
 		DListNode aNode = allNetworks.front();
 		double total = 0;
+        double connection1 = 0;
+        double connection2 = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
 		//	System.out.println(total);
 			/*
@@ -260,6 +262,13 @@ class Board {
 				}
 			}
 */
+            if (((Chip)(((DList) aNode.item).front().item)).color() == color) {
+                connection1 += ((DList) aNode.item).length();
+            } else {
+                connection2 += ((DList) aNode.item).length();
+            }
+
+
             if (inEndGoal((Chip) aList.front().item, color) == 1) {
                 total += ((DList) aNode.item).length();
             }
@@ -267,14 +276,15 @@ class Board {
                 total += ((DList) aNode.item).length();
 			}
 			if (inEndGoal((Chip) aList.front().item, MachinePlayer.otherPlayer(color)) == 2) {
-                total -= (1.2)((DList) aNode.item).length();
+                total -= (1.2) * ((DList) aNode.item).length();
             }
             if (inEndGoal((Chip) aList.back().item, MachinePlayer.otherPlayer(color)) == 1) {
-                total -= (1.2)((DList) aNode.item).length();
+                total -= (1.2) * ((DList) aNode.item).length();
 			}
 			aNode = allNetworks.next(aNode);
 		}
 
+        total += ((connection1 / allNetworks.length()) - (connection2 / allNetworks.length()));
 		if (total < 0) {
 			total = -1 * Math.sqrt(Math.abs(total));
 		} else {
