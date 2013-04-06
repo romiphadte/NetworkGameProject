@@ -1,13 +1,13 @@
                                      GRADER
 
-Name of student running submit:
-Login of student running submit:
+Name of student running submit: Romi Phadte
+Login of student running submit: cs61b-mi
 
-Second team member's name:
-Second team member's login:
+Second team member's name: Nicholas Sun
+Second team member's login: cs61b-mg
 
-Third team member's name (if any):
-Third team member's login:
+Third team member's name (if any): Alec Spencer
+Third team member's login: cs61b-hj
 
 IMPORTANT:  Once you've submitted Project 2 once, the same team member should
 submit always.  If a different teammate must submit, inform cs61b@cory.eecs of
@@ -19,22 +19,24 @@ code together, you may not change partners without the permission of the
 instructor.
 ===============================================================================
 Does your program compile without errors?
-
+Yes
 
 Have you tested your program on the machines in the Soda CS 61B lab?
-
+Yes
 
 Did you successfully implement game tree search?  Did you successfully
 implement alpha-beta pruning?  Are there any limitations on it?  What is the
 default number of search levels set by the one-parameter MachinePlayer
 constructor?
-
+Yes, with alpha-beta pruning. The default number of search levels is 3.
 
 Describe your board evaluation function in some detail.
-
+If the board is complete, it gives a score of +100 or -100, depending on if a win or loss occurs, respectively.
+For unfinished boards, a score is given with the same range that is determined by counting the number of networks 
+that contain an endzone and how long those networks are.
 
 Does your MachinePlayer use any special method of choosing the first few moves?
-
+The MachinePlayer's first two moves are to place a chip at the center of each endzone.
 
 Is there anything else the graders should know to help them read your project?
 
@@ -62,109 +64,36 @@ sure to modify this file to reflect these changes before you submit your
 project.  Your design of classes and interfaces with be worth about 10% of your
 grade.
 
-#######tis the redo#######
-CLASSES
-	Player
-	MachinePlayer
-	Board
-	Chip
+================================================================================
 
-MODULES
-#module name/classes/team member/describe each interface
-AI:
-	public class MachinePlayer
-Min max:
-	public Board(Board b, int color, Move m)
-Scoring:
-
-Find Moves:
-Find Networks:
-Is Valid:
-
-
-#######REDO THIS STUFF FOLLOW THE FORMAT THEY PROVIDED#######
-Player
-  public Move chooseMove();
-  public boolean opponentMove(Move m);
-  public boolean forceMove(Move m);
-
-  MachinePlayer
-    protected Board gameboard;
-    protected int color;
-    protected int searchDepth;
-
-    #makes a new MachinePlayer with variable search depth
-    public MachinePlayer(int color);
-    public MachinePlayer(int color, int searchDepth);
-    public Move chooseMove();
-    public boolean opponentMove(Move m);
-    public boolean forceMove(Move m);
-    
-    #recursive function that gives the best move
-    #given a limited search depth and a board
-    private Move bestMove(Board board, int searchDepth);
-
-
-
-Move
-#may extend
-
-#a game state
-Board
-  
-  private Chip[][] gameboard;
-
-  #makes a blank board
-  public Board();
-
-  #used for making new hypothetical boards
-  public Board(Board b, int color, Move m);
-
-  #used for changing the board
-  public void makeMove(int color, Move m);
-
-  #returns a score between (-100) - (100)
-  #where 100 is a win for self
-  public int value(int color);
-
-  #win: 1
-  #neutral: 0
-  #loss: -1
-  private int winner(int color);
-
-  #gives all possible moves for given player
-  public Move[] validMoves(int color);
-
-  #returns true if Move for given player is valid
-  public boolean isValid(int color, Move m);
-
-  #moves chip to new location
-  #removes c from all its connected to
-  #adds a new chip at location x,y
-  public void moveChip(int x, int y, Chip c);
-
-Chip
-	private int color;
-	private int x;
-	private int y;
+CLASSES:
+	list/DList.java
+	list/DListNode.java
+	player/Best.java
+	player/Board.java
+	player/Chip.java
+	player/IllegalMoveException.java
+	player/MachinePlayer.java
+	player/Move.java
+	player/Player.java
 	
-	#all chips that its connected to
-	public Chip[] networkedTo;
+MODULES:
+	I. AI - Contained in MachinePlayer, implemented by Romi Phadte.
+		public Move chooseMove() {
+		
+	II. Min-max - Contained in Board, implemented by Romi Phadte.
+		private Best bestMove(Board board, int searchDepth, int alpha, int beta, int color) {
+		
+	III. Evaluation - Contained in Board, implemented by Romi Phadte.
+		public int value(int color) {
+		
+	IV. Find Moves - Contained in Board, Move, implemented by Romi Phadte.
+		public DList validMoves(int color) {
+		
+	V. Find Networks - Contained in Board, implemented by Nicholas Sun.
+		public DList findNetworks(int color) {
+		public boolean isFinished(int color) {
+		
+	VI. Is Valid - Contained in Board, implemented by Nicholas Sun.
+		private boolean isValid(int color, Move m) {
 
-  #makes a chip with invalid info
-  public Chip();
-  
-  #makes a chip with location x,y and color
-  public Chip(int X, int Y, int Color);
-
-  #returns x
-  public int getX();
-
-  #returns y
-  public int getY();
-
-  #returns color
-  public int color();
-
-  #removes all pointers to itself
-  public void remove();
