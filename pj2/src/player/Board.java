@@ -227,41 +227,7 @@ class Board {
         double connection1 = 0;
         double connection2 = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
-		//	System.out.println(total);
-			/*
-			 * if (((Chip) ((DList) aNode.item).front().item).color()==color) {
-			 * total+=((DList) aNode.item).length();
-			 * 
-			 * } else if (((Chip) ((DList)
-			 * aNode.item).front().item).color()==MachinePlayer
-			 * .otherPlayer(color)) { total-=((DList) aNode.item).length(); }
-			 */
-			DList aList = (DList) aNode.item;
-/*			if (inEndGoal((Chip) aList.front().item, color) == 1
-					|| inEndGoal((Chip) aList.back().item, color) == 2) {
-				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
-					total += ((DList) aNode.item).length();
-					//	System.out.println(((DList) aNode.item).length());
-
-				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
-						.otherPlayer(color)) {
-					total -= ((DList) aNode.item).length();
-					//	System.out.println(-1*((DList) aNode.item).length());
-				}
-			}
-			if (inEndGoal((Chip) aList.front().item, color) == 2
-					|| inEndGoal((Chip) aList.back().item, color) == 1) {
-				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
-					total += ((DList) aNode.item).length();
-					//	System.out.println(((DList) aNode.item).length());
-
-				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
-						.otherPlayer(color)) {
-					total -= ((DList) aNode.item).length();
-					//	System.out.println(-1*((DList) aNode.item).length());
-				}
-			}
-*/
+            DList aList = (DList) aNode.item;
             if (((Chip)(((DList) aNode.item).front().item)).color() == color) {
                 connection1 += ((DList) aNode.item).length();
             } else {
@@ -292,17 +258,12 @@ class Board {
 		}
         total = Math.sqrt(total);
 
-		//System.out.println(total+"\n");
-
 		if (total >= 100) {
-			System.out.println("A");
 			return 99.99;
 		} else if (total <= -100) {
-			System.out.println("B");
 			return -99.99;
 		}
 
-		//System.out.println("\nVALUE IS" + total + "\n");
 		return total;
 
 	}
