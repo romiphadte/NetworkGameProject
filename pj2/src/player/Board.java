@@ -18,21 +18,21 @@ class Board {
 	 * makes a blank board
 	 */
 	public Board() {
-		gameboard = new Chip[8][8]; 
+		gameboard = new Chip[8][8];
 
 	}
 
-    /**
-     * returns the number of pieces on the board
-     */
+	/**
+	 * returns the number of pieces on the board
+	 */
 
 	public int numPieces() {
 		return numPieces;
 	}
 
-    /**
-     * returns a DList of all pieces on the board
-     */
+	/**
+	 * returns a DList of all pieces on the board
+	 */
 	public DList pieces() {
 		DList pieces = new DList();
 		for (int x = 0; x < gameboard.length; x++) {
@@ -47,12 +47,11 @@ class Board {
 
 	/**
 	 * if moveKind is ADD return addChip if moveKind is Step return moveChip
-     * returns true if the move was successfully carried out
-     * returns false otherwise
-     *
-     * color - passes the color associated with the move being passed in
-     * based on turn
-     * m - a Move that determines which kind of move is to be used
+	 * returns true if the move was successfully carried out returns false
+	 * otherwise
+	 * 
+	 * color - passes the color associated with the move being passed in based
+	 * on turn m - a Move that determines which kind of move is to be used
 	 */
 	public boolean makeMove(int color, Move m) {
 		//System.out.println("BEFORE MOVE");
@@ -67,12 +66,11 @@ class Board {
 	}
 
 	/**
-	 * checks if the move is valid
-     * returns false if it isn't
-     * otherwise adds chip to board and returns true
-     * for each chip in the new chip's line of sight recalculate the seen chip's sight
-     *
-     * color, m - are whats needed to create a Chip
+	 * checks if the move is valid returns false if it isn't otherwise adds chip
+	 * to board and returns true for each chip in the new chip's line of sight
+	 * recalculate the seen chip's sight
+	 * 
+	 * color, m - are whats needed to create a Chip
 	 */
 	private boolean addChip(int color, Move m) {
 		// checks if valid
@@ -134,11 +132,9 @@ class Board {
 	}
 
 	/**
-	 * store and remove old chip from board
-     * checks if valid (must check over here so isValid doesn't count in the old chip)
-     * returns false if it isn't valid and readd the chip
-     * add a new chip at location x,y
-     * return true
+	 * store and remove old chip from board checks if valid (must check over
+	 * here so isValid doesn't count in the old chip) returns false if it isn't
+	 * valid and readd the chip add a new chip at location x,y return true
 	 */
 	private boolean moveChip(int color, Move m) {
 		// store and remove old chip from board
@@ -153,12 +149,12 @@ class Board {
 		return false;
 	}
 
-    /**
-     * deletes itself off the gameboard and then for each chip in sight, rebuild their
-     * inSight without the existence of chip c
-     *
-     * c - the chip that is to be removed
-     */
+	/**
+	 * deletes itself off the gameboard and then for each chip in sight, rebuild
+	 * their inSight without the existence of chip c
+	 * 
+	 * c - the chip that is to be removed
+	 */
 	private void removeChip(Chip c) {
 		Chip[] chips = lineOfSight(c);
 		gameboard[c.getX()][c.getY()] = null;
@@ -172,6 +168,10 @@ class Board {
 		}
 	}
 
+	/*
+	 * does the necessary steps to undo anygiven move. This is used in the
+	 * minmax algorithm after leaving a searchDepth
+	 */
 	public void undo(Move m) {
 		if (m.moveKind == Move.ADD) {
 			removeChip(gameboard[m.x1][m.y1]);
@@ -185,14 +185,23 @@ class Board {
 	 * returns a score from -100 to 100 100 is a win for self
 	 */
 	public double value(int color) {
-		if (isFinished(color)) {
+		DList allNetworks = this.findNetworks(color);
+		return value(allNetworks, color);
+	}
+	
+	/*
+	 * 
+	 *  
+	 *  
+	 */
+	public double value(DList allNetworks, int color) {
+		if (isFinished(allNetworks, color)) {
 			System.out.print("hola");
 			return 100;
-		} else if (isFinished(MachinePlayer.otherPlayer(color))) {
+		} else if (isFinished(allNetworks, MachinePlayer.otherPlayer(color))) {
 			System.out.print("avoid");
 			return -100;
 		}
-		DList allNetworks = this.findNetworks(color);
 		DListNode aNode = allNetworks.front();
 		double total = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
@@ -210,12 +219,12 @@ class Board {
 					|| inEndGoal((Chip) aList.back().item, color) == 2) {
 				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
 					total += ((DList) aNode.item).length();
-				//	System.out.println(((DList) aNode.item).length());
+					//	System.out.println(((DList) aNode.item).length());
 
 				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
 						.otherPlayer(color)) {
 					total -= ((DList) aNode.item).length();
-				//	System.out.println(-1*((DList) aNode.item).length());
+					//	System.out.println(-1*((DList) aNode.item).length());
 				}
 
 			}
@@ -223,13 +232,12 @@ class Board {
 					|| inEndGoal((Chip) aList.back().item, color) == 1) {
 				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
 					total += ((DList) aNode.item).length();
-				//	System.out.println(((DList) aNode.item).length());
+					//	System.out.println(((DList) aNode.item).length());
 
-					
 				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
 						.otherPlayer(color)) {
 					total -= ((DList) aNode.item).length();
-				//	System.out.println(-1*((DList) aNode.item).length());
+					//	System.out.println(-1*((DList) aNode.item).length());
 
 				}
 			}
@@ -252,7 +260,7 @@ class Board {
 			System.out.println("B");
 			return -99;
 		}
-		System.out.println("\nVALUE IS"+total+"\n");
+		System.out.println("\nVALUE IS" + total + "\n");
 		return total;
 
 	}
@@ -263,6 +271,10 @@ class Board {
 	 */
 	public boolean isFinished(int color) {
 		networks = findNetworks(color);
+		return isFinished(networks, color);
+	}
+
+	public boolean isFinished(DList networks, int color) {
 		DListNode aNode = networks.front();
 		for (int i = 0; i < networks.length(); i++) {
 			DList aList = (DList) aNode.item;
@@ -270,8 +282,9 @@ class Board {
 					&& inEndGoal((Chip) aList.front().item, color) == 1) {
 				if (inEndGoal((Chip) aList.back().item, color) == 2) {
 					DListNode aListNode = aList.front();
+					System.out.print("\n\n");
 					for (int ii = 0; ii < aList.length(); ii++) {
-						//System.out.print(aListNode.item);
+						System.out.print(aListNode.item);
 						aListNode = aList.next(aListNode);
 					}
 					return true;
@@ -281,7 +294,9 @@ class Board {
 					&& inEndGoal((Chip) aList.front().item, color) == 2) {
 				if (inEndGoal((Chip) aList.back().item, color) == 1) {
 					DListNode aListNode = aList.front();
+					System.out.print("\n\n");
 					for (int ii = 0; ii < aList.length(); ii++) {
+						System.out.print(aListNode.item);
 						aListNode = aList.next(aListNode);
 					}
 					return true;
@@ -297,16 +312,16 @@ class Board {
 	/**
 	 * returns true if Move for given color is valid
 	 * 
-	 * chip not in four corners
-     * black pieces are not in 0-1 to 0-6 or 7-1 to 7-6 (inclusive)
-     * white pieces are not in 1-0 to 6-0 or 1-7 to 6-7 (inclusive)
-	 * no chip may be placed in a occupied square a chip may not be a cluster(2+ adjacent chips)
+	 * chip not in four corners black pieces are not in 0-1 to 0-6 or 7-1 to 7-6
+	 * (inclusive) white pieces are not in 1-0 to 6-0 or 1-7 to 6-7 (inclusive)
+	 * no chip may be placed in a occupied square a chip may not be a cluster(2+
+	 * adjacent chips)
 	 */
 	private boolean isValid(int color, Move m) {
 		if (m.moveKind == Move.QUIT) {
 			return false;
-        // if square is occupied
-        // return false
+			// if square is occupied
+			// return false
 		} else if (m.moveKind == Move.ADD && numPieces() >= 20) {
 			return false;
 		} else if (m.moveKind == Move.STEP && numPieces() < 20) {
@@ -347,15 +362,13 @@ class Board {
 	}
 
 	/**
-	 * checks all neighboring spaces on the gameboard around chip c
-     * do not count the space to be occupied by chip c
-     * returns true if the chip has more than 1 neighbor
-     * check if a neighbor has more than 1 neighbor
-     * returns false otherwise
-     *
-     * c - where you start checking from
-     * o - ignores o in the case of a move
-     * n - the recursive depth
+	 * checks all neighboring spaces on the gameboard around chip c do not count
+	 * the space to be occupied by chip c returns true if the chip has more than
+	 * 1 neighbor check if a neighbor has more than 1 neighbor returns false
+	 * otherwise
+	 * 
+	 * c - where you start checking from o - ignores o in the case of a move n -
+	 * the recursive depth
 	 */
 	private boolean isCluster(Chip c, Chip o, int n) { // ignores o chip in the
 														// case of a move.
@@ -432,11 +445,10 @@ class Board {
 	}
 
 	/**
-	 * A DList of networks(represented by DLists)
-     * Can only go from similarly colored chips of direct line of sight
-     * Cannot pass through the same chip twice
-     * cannot have more than 1 chip in each goal
-	 * cannot pass through chip without changing direction
+	 * A DList of networks(represented by DLists) Can only go from similarly
+	 * colored chips of direct line of sight Cannot pass through the same chip
+	 * twice cannot have more than 1 chip in each goal cannot pass through chip
+	 * without changing direction
 	 */
 	public DList findNetworks(int color) {
 		// Dlist of networks(DLists)
@@ -465,13 +477,12 @@ class Board {
 	}
 
 	/**
-	 * returns all valid networks in DList list
-     * cannot have more than 1 chip in each goal
-     * Cannot pass through the same chip twice
-     * cannot pass through chip without changing direction
-     *
-     * list - the DList of networks that contains valid/invalid networks
-     * color - the "color" of the network
+	 * returns all valid networks in DList list cannot have more than 1 chip in
+	 * each goal Cannot pass through the same chip twice cannot pass through
+	 * chip without changing direction
+	 * 
+	 * list - the DList of networks that contains valid/invalid networks color -
+	 * the "color" of the network
 	 */
 	private DList validNetworks(DList list, int color) {
 		DList valid = new DList();
@@ -492,8 +503,8 @@ class Board {
 	}
 
 	/**
-     * Check if there are a valid number of chips in the goals
-     * returns true if there is no more than 2
+	 * Check if there are a valid number of chips in the goals returns true if
+	 * there is no more than 2
 	 */
 	private boolean checkGoals(DList list, int color) {
 		int goal1 = 0;
@@ -511,11 +522,11 @@ class Board {
 	}
 
 	/**
-     * returns 1 if in end goal 1, 2 if in 2, and zero if in none.
-     *
-     * curr - the chip being inspected
-     * color - the color determines the valid goals
-     */
+	 * returns 1 if in end goal 1, 2 if in 2, and zero if in none.
+	 * 
+	 * curr - the chip being inspected color - the color determines the valid
+	 * goals
+	 */
 	private int inEndGoal(Chip curr, int color) {
 		if (color == MachinePlayer.WHITE) {
 			if ((curr).getX() == 0) {
@@ -538,10 +549,11 @@ class Board {
 	}
 
 	/**
-     * returns true if there are any 3 chips aligned in a row within the network "list"
+	 * returns true if there are any 3 chips aligned in a row within the network
+	 * "list"
 	 */
 	private boolean aligned(DList list) {
-        //a shortcut, since you cant have 3 in a row unless there are 3 chips
+		//a shortcut, since you cant have 3 in a row unless there are 3 chips
 		if (list.length() < 3) {
 			return false;
 		}
@@ -599,11 +611,14 @@ class Board {
 		}
 	}
 
-/* ##########EVERYTHING BELOW THIS POINT IS FOR TESTING PURPOSES ONLY########## */
+	/*
+	 * ##########EVERYTHING BELOW THIS POINT IS FOR TESTING PURPOSES
+	 * ONLY##########
+	 */
 
-	/*public Chip testChip(int x, int y) {
-		return gameboard[x][y];
-	}*/
+	/*
+	 * public Chip testChip(int x, int y) { return gameboard[x][y]; }
+	 */
 
 	/**
 	 * /** tester method to test private methods

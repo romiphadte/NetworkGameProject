@@ -110,17 +110,21 @@ public class MachinePlayer extends Player {
 	public boolean forceMove(Move m) {
 		return gameboard.makeMove(color, m);
 	}
-
+	
+	/*
+	 * recursively calls itself for the min max algorithm
+	 */
 	private Best bestMove(Board board, int searchDepth, double alpha,
 			double beta, int color) {
 		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
 		Best myBest = new Best(0); // My best move
 		Best reply; // Opponent's best reply
-		if (searchDepth == 0 || board.isFinished(color) || board.isFinished(otherPlayer(color))) {
+		DList allNetworks=board.findNetworks(color);
+		if (searchDepth == 0 || board.isFinished(allNetworks,color) || board.isFinished(allNetworks,otherPlayer(color))) {
 			//System.out.print("\nFINISHED" + searchDepth + " "
 			//		+ board.isFinished(color) + "\n");
 		//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
-			return new Best(board.value(this.color));
+			return new Best(board.value(allNetworks,this.color));
 		}
 
 		if (color == this.color) {
