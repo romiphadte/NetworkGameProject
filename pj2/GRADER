@@ -33,7 +33,8 @@ Yes, with alpha-beta pruning. The default number of search levels is 3.
 Describe your board evaluation function in some detail.
 If the board is complete, it gives a score of +100 or -100, depending on if a win or loss occurs, respectively.
 For unfinished boards, a score is given with the same range that is determined by counting the number of networks 
-that contain an endzone and how long those networks are.
+that contain an endzone and how long those networks are, and reduces the score based on how well the opposing side is doing,
+as determined by the same criteria for the opponent.
 
 Does your MachinePlayer use any special method of choosing the first few moves?
 The MachinePlayer's first two moves are to place a chip at the center of each endzone.
