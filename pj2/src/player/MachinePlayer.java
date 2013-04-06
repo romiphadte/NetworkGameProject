@@ -19,23 +19,37 @@ public class MachinePlayer extends Player {
 	protected int color;
 	protected int searchDepth;
 
-	// Creates a machine player with the given color. Color is either 0 (black)
-	// or 1 (white). (White has the first move.)
+	/**
+     * Creates a machine player with the given color. Color is either 0 (black)
+     * or 1 (white). (White has the first move.)
+     * 
+     * @param color
+     * this machine's personal color
+     */
 	public MachinePlayer(int color) {
 		this.color = color;
 		gameboard = new Board();
 		this.searchDepth = SEARCHDEPTH;
 	}
 
-	// Creates a machine player with the given color and search depth. Color is
-	// either 0 (black) or 1 (white). (White has the first move.)
+	/**
+     * Creates a machine player with the given color and search depth. Color is
+     * either 0 (black) or 1 (white). (White has the first move.)
+     *
+     * @param color
+     * this machine's personal color
+     * @param searchDepth
+     * how many recursive level down to go
+     */
 	public MachinePlayer(int color, int searchDepth) {
 		this(color);
 		this.searchDepth = searchDepth;
 	}
 
-	// Returns a new move by "this" player. Internally records the move (updates
-	// the internal game board) as a move by "this" player.
+	/**
+     * Returns a new move by "this" player. Internally records the move (updates
+     * the internal game board) as a move by "this" player.
+     */
 	public Move chooseMove() {
 		Move m;
 		Best b = new Best(9999999);
@@ -94,76 +108,48 @@ public class MachinePlayer extends Player {
 		return m;
 	}
 
-	// If the Move m is legal, records the move as a move by the opponent
-	// (updates the internal game board) and returns true. If the move is
-	// illegal, returns false without modifying the internal state of "this"
-	// player. This method allows your opponents to inform you of their moves.
+	/**
+     * If the Move m is legal, records the move as a move by the opponent
+     * (updates the internal game board) and returns true. If the move is
+     * illegal, returns false without modifying the internal state of "this"
+     * player. This method allows your opponents to inform you of their moves.
+     *
+     * @param m
+     * the move that the opponent will make
+     */
 	public boolean opponentMove(Move m) {
 		return gameboard.makeMove(otherPlayer(color), m);
 	}
 
-	// If the Move m is legal, records the move as a move by "this" player
-	// (updates the internal game board) and returns true. If the move is
-	// illegal, returns false without modifying the internal state of "this"
-	// player. This method is used to help set up "Network problems" for your
-	// player to solve.
+	/**
+     * If the Move m is legal, records the move as a move by "this" player
+     * (updates the internal game board) and returns true. If the move is
+     * illegal, returns false without modifying the internal state of "this"
+     * player. This method is used to help set up "Network problems" for your
+     * player to solve.
+     *
+     * @param m
+     * the move that "this" player will make
+     */
 	public boolean forceMove(Move m) {
 		return gameboard.makeMove(color, m);
 	}
 	
-	/*
-	 * recursively calls itself for the min max algorithm. Uses alpha beta pruning.
+	/**
+	 * recursively calls itself for the min max algorithm.
+     * Chooses the best move using alpha beta pruning.
+     *
+     * @param board
+     * the board the game is running on
+     * @param searchDepth
+     * the deepest recursion level to go down to
+     * @param alpha
+     * the greatest value
+     * @param beta
+     * the least value
+     * @param color
+     * the color of "this" player
 	 */
-/*	private Best bestMove(Board board, int searchDepth, double alpha,
-			double beta, int color) {
-		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
-		Best myBest = new Best(0); // My best move
-		Best reply; // Opponent's best reply
-		DList allNetworks=board.findNetworks(color);
-		if (searchDepth == 0 || board.isFinished(allNetworks,color) || board.isFinished(allNetworks,otherPlayer(color))) {
-			//System.out.print("\nFINISHED" + searchDepth + " "
-			//		+ board.isFinished(color) + "\n");
-		//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
-			return new Best(board.value(allNetworks,this.color));
-		}
-
-		if (color == this.color) {
-			myBest.score = alpha;
-		} else {
-			myBest.score = beta;
-		}
-
-		DList allMoves = board.validMoves(color);
-		DListNode aNode = allMoves.front();
-		for (int i = 0; i < allMoves.length(); i++) {
-			board.makeMove(color, (Move) aNode.item);
-			reply = bestMove(board, searchDepth - 1, alpha, beta,
-					otherPlayer(color));
-			board.undo((Move) aNode.item);
-			if ((color == this.color) && (reply.score >= myBest.score)) {
-				myBest.move = (Move) aNode.item;
-				myBest.score = reply.score;
-				//System.out.println("best score "+myBest.score);
-				alpha = reply.score;
-			} else if ((color == otherPlayer(this.color))
-					&& (reply.score <= myBest.score)) {
-				myBest.move = (Move) aNode.item;
-				myBest.score = reply.score;
-				//System.out.println("best score "+myBest.score);
-				beta = reply.score;
-			}
-			if (alpha >= beta) {
-			//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
-				return myBest;
-			}
-
-			aNode = allMoves.next(aNode);
-		}
-		//System.out.println("Leaving"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
-		return myBest;
-
-	}
-*/
     private Best bestMove(Board board, int searchDepth, double alpha,
 			double beta, int color) {
 		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
@@ -221,8 +207,11 @@ public class MachinePlayer extends Player {
 	}
 
 
-	/*
+	/**
 	 * returns black if given white and white if given black.
+     *
+     * @param color
+     * the color of the player, that need to be switched
 	 */
 	public static int otherPlayer(int color) {
 		if (color == WHITE) {
