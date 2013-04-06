@@ -80,7 +80,8 @@ CLASSES:
 	
 MODULES:
 	I. AI - Contained in MachinePlayer, implemented by Romi Phadte.
-		/*
+		/*Returns a new move by "this" player. Internally records the move (updates
+         *the internal game board) as a move by "this" player.
          *this uses the Min max algorithm and some early game hardcoded moves
          *as a final complete strategy to win the game.
          *@param void
@@ -92,19 +93,19 @@ MODULES:
 	II. Min-max - Contained in MachinePlayer, implemented by Romi Phadte.
         /*
         *bestmove calls itself recursively and uses all other modules to
-        *determine the move that maximizes the value of the current game state
-        *@param board 
-            the current game state
-         @param searchDepth
-            number of recusive calls deep needed
-         @alpha
-            the alpha value for alpha-beta pruning
-         @beta
-            the beta value for alpha-beta pruning
-         @color
-            the color of the player who is doing moves in the bestmove function.
-        */
-		private Best bestMove(Board board, int searchDepth, int alpha, int beta, int color) {
+        * determine the move that maximizes the value of the current game state
+	    * in the min max algorithm. It also chooses the best move using alpha beta pruning. d
+        * @param board
+        * the board the game is running on
+        * @param searchDepth
+        * the deepest recursion level to go down to
+        * @param alpha
+        * the greatest value
+        * @param beta
+        * the least value
+        * @param color
+        * the color of "this" player
+	    */		private Best bestMove(Board board, int searchDepth, int alpha, int beta, int color) {
 		
 	III. Evaluation - Contained in Board, implemented by Romi Phadte.
 		/**

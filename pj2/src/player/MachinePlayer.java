@@ -48,7 +48,9 @@ public class MachinePlayer extends Player {
 
 	/**
      * Returns a new move by "this" player. Internally records the move (updates
-     * the internal game board) as a move by "this" player.
+     * the internal game board) as a move by "this" player. this uses the Min max 
+     * algorithm and some early game hardcoded moves as a final complete strategy 
+     * to win the game.
      */
 	public Move chooseMove() {
 		Move m;
@@ -136,9 +138,9 @@ public class MachinePlayer extends Player {
 	}
 	
 	/**
-	 * recursively calls itself for the min max algorithm.
-     * Chooses the best move using alpha beta pruning.
-     *
+	 *bestmove calls itself recursively and uses all other modules to
+     * determine the move that maximizes the value of the current game state
+	 * in the min max algorithm. It also chooses the best move using alpha beta pruning. d
      * @param board
      * the board the game is running on
      * @param searchDepth
