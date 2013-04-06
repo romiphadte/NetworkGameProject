@@ -82,19 +82,58 @@ MODULES:
 	I. AI - Contained in MachinePlayer, implemented by Romi Phadte.
 		public Move chooseMove() {
 		
-	II. Min-max - Contained in Board, implemented by Romi Phadte.
+	II. Min-max - Contained in MachinePlayer, implemented by Romi Phadte.
 		private Best bestMove(Board board, int searchDepth, int alpha, int beta, int color) {
 		
 	III. Evaluation - Contained in Board, implemented by Romi Phadte.
-		public int value(int color) {
+		/**
+		* value() calls the two parameter value() and returns a score from -100 to 100 for the board. 100 is a win for "color".
+		*
+		*@param color
+	 	*		The side who board values are being calculated for.
+	 	*@return a score from -100 to 100.
+	 	*/
+		double value(int color) {
 		
 	IV. Find Moves - Contained in Board, Move, implemented by Romi Phadte.
-		public DList validMoves(int color) {
+		/**
+	 	* validMoves() returns all moves available to a given color
+	 	* 
+	 	* @param color
+	 	* 		The side whose valid moves are being calculated
+	 	* @return a DList of all valid moves available to a color
+	 	*/
+		DList validMoves(int color) {
 		
 	V. Find Networks - Contained in Board, implemented by Nicholas Sun.
-		public DList findNetworks(int color) {
-		public boolean isFinished(int color) {
+		/**
+	 	* findNetworks() returns a DList of networks on the board for side "color", as determined by the game rules.
+	 	* 
+	 	* @param color
+	 	* 		The side for which networks are being looked for
+	 	* @return a DList of all networks (Not necessarily winning networks or 6 piece long networks).
+	 	*/
+		DList findNetworks(int color) {
+		
+		
+		/**
+	 	* isFinished() determines whether or not "color" has made a finished network
+	 	* 
+	 	* @param color
+	 	* 		The side who is being checked for a successful network
+	 	* @return true if a winning network has been made for "color", false otherwise
+	 	*/
+		boolean isFinished(int color) {
 		
 	VI. Is Valid - Contained in Board, implemented by Nicholas Sun.
+		/**
+	 	* isValid() returns true if move "m" for the given side "color" is valid.
+	 	* 
+	 	* @param color
+	 	* 		The side for which a move is being made.
+	 	* @param m
+	 	* 		The move being considered
+	 	* @return true if the move is valid for the given side, false otherwise.
+	 	*/
 		private boolean isValid(int color, Move m) {
 
