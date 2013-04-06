@@ -495,23 +495,48 @@ class Board {
      * Check if there are a valid number of chips in the goals
      * returns true if there is no more than 2
 	 */
-	private boolean checkGoals(DList list, int color) {
+/*	private boolean checkGoals(DList list, int color) {
 		int goal1 = 0;
 		int goal2 = 0;
 		DListNode curr = list.front();
 		while (curr != null) {
 			if (inEndGoal((Chip) curr.item, color) == 1) {
 				goal1++;
-			} else if (inEndGoal((Chip) curr.item, color) == 2) {
+            }
+			if (inEndGoal((Chip) curr.item, color) == 2) {
 				goal2++;
 			}
 			curr = list.next(curr);
 		}
 		return goal1 <= 1 && goal2 <= 1;
 	}
+*/
+    private boolean checkGoals(DList list, int color) {
+        int goal1 = 0;
+        int goal2 = 0;
+        DListNode curr = list.front();
+        while (curr != null) {
+            if (color == MachinePlayer.WHITE) {
+                if (((Chip) curr.item).getX() == 0) {
+                    goal1++;
+                }
+                if (((Chip) curr.item).getX() == 7) {
+                    goal2++;
+                }
+            } else {
+                if (((Chip) curr.item).getY() == 0) {
+                    goal1++;
+                }
+                if (((Chip) curr.item).getY() == 7) {
+                    goal2++;
+                }
+            }
+            curr = list.next(curr);
+        }
+        return ((goal1 <= 1) && (goal2 <= 1));
+    }
 
-	/**
-     * returns 1 if in end goal 1, 2 if in 2, and zero if in none.
+    /** returns 1 if in end goal 1, 2 if in 2, and zero if in none.
      *
      * curr - the chip being inspected
      * color - the color determines the valid goals
