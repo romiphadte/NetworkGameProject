@@ -286,10 +286,10 @@ class Board {
 
 		if (total >= 100) {
 			System.out.println("A");
-			return 99;
+			return 99.99;
 		} else if (total <= -100) {
 			System.out.println("B");
-			return -99;
+			return -99.99;
 		}
 
 		//System.out.println("\nVALUE IS" + total + "\n");
