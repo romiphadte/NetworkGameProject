@@ -192,7 +192,7 @@ class Board {
 			System.out.print("avoid");
 			return -100;
 		}
-		DList allNetworks = this.validNetworks(this.findNetworks(color), color);
+		DList allNetworks = this.findNetworks(color);
 		DListNode aNode = allNetworks.front();
 		double total = 0;
 		for (int i = 0; i < allNetworks.length(); i++) {
@@ -262,7 +262,7 @@ class Board {
 	 * in value code
 	 */
 	public boolean isFinished(int color) {
-		networks = validNetworks(findNetworks(color), color);
+		networks = findNetworks(color);
 		DListNode aNode = networks.front();
 		for (int i = 0; i < networks.length(); i++) {
 			DList aList = (DList) aNode.item;
