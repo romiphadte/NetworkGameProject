@@ -10,7 +10,11 @@ class Chip {
     private int y;
     public Chip[] inSight;
    
-    //makes a chip with no location
+    /**
+     * contructs and empty, invalid chip
+     * there are only 8 possible chip within ones sight but the 9th slot is to
+     * allow for a possible temporary slot for min/max
+     */
     public Chip() {
         x = -1;
         y = -1;
@@ -18,55 +22,41 @@ class Chip {
         inSight = new Chip[9];
     }
     
+    /**
+     * contructs a new chip with x, y coordinates and a color
+     * there are only 8 possible chip within ones sight but the 9th slot is to
+     * allow for a possible temporary slot for min/max
+     */
     public Chip(int X, int Y, int Color) {
         x = X;
         y = Y;
         color = Color;
-        //cannot have more than 8 chips in line of sight
         inSight = new Chip[9];
     }
     
-    /*public Chip copy()
-    {
-    	Chip aChip=new Chip(x,y,color);
-    	aChip.inSight=this.inSight.clone();
-    	
-    	return aChip;
-    }*/
-    
+    /**
+     * takes in no arguments and returns this chips x value
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * takes in no arguments and returns this chips y value
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * takes in no arguments and returns this chips color
+     */
     public int color() {
         return color;
     }
 
     /**
-     * makes self invalid
-     * deletes itself off everything its networked to
-     * cleans out own networkedto
-     * returns a copy of its inSight(that no longer exists)
-     */
-    /*public Chip[] dissapear() {
-        x = -1;
-        y = -1;
-        color = -1;
-        Chip[] tmp = new Chip[inSight.length];
-        for (int i = 0; i < inSight.length; i++) {
-            tmp[i] = inSight[i];
-            noC(inSight[i]);
-        }
-        inSight = null;
-        return tmp;
-    }*/
-
-    /**
-     * clears the chip's inSight
+     * clears the chip's inSight to be repopulated by Board.addChip
      */
     public void clear() {
         inSight = new Chip[9];
@@ -74,8 +64,8 @@ class Chip {
 
     /**
      * checks if each chip is already in each others list
-     * adds c to the chip's inSight 
-     * also adds self to c's inSight
+     * adds c to the chip's inSight if not already in
+     * also adds self to c's inSight if not already in
      */
     public void addC(Chip c) {
         int add1 = -1;
@@ -100,16 +90,13 @@ class Chip {
             inSight[add1] = c;
         }
         if (!added2) {
-            //System.out.println("c does not have you added!!");
-            //System.out.print("c ");
-            //c.visualChip(c);
             c.inSight[add2] = this;
         }
     }
 
     /**
-     * removes c from chip's inSight 
-     * also removes self from c's inSight
+     * removes all instances of c from chip's inSight 
+     * also removes all instances of self from c's inSight
      */
     public void noC(Chip c) {
         for (int i = 0; i < inSight.length; i++) {
@@ -124,7 +111,7 @@ class Chip {
 
     /**
      * return a DList of all possible networks(legal or illegal)
-     * that this chip is connected to(as a Dlist)
+     * that this chip is connected to(also represented as a Dlist)
      */
     public DList network(int color) {
         DList network = new DList();
@@ -137,8 +124,17 @@ class Chip {
     }
 
     /**
+     * This is called findTails because this network is implemented as a ripple, it starts
+     * from the center (could be considered the head) and branches outwards
      * searches and builds DLists using inSight
-     * blacklist are the previous chips, so search doesn't go looking back
+     *
+     * color - gives the color of the chips in these networks
+     * network - is a DList that holds all of the networks found which are also represented as DLists
+     * list - is the current network that is being used in the current recursive iteration
+     * it is copied and branched off into further networks
+     * blacklist - holds the previous chips, so search doesn't go looking back
+     * each iteration of findTails holds its own blacklist, because if the blacklist is
+     * simply mutated then you will end up choking off possible networks
      */
     private void findTails(int color, DList network, DList list, DList blacklist) {
         //for every non-null value in inSight except for what in the blacklist
@@ -160,8 +156,9 @@ class Chip {
     }
 
     /**
-     * knowing that all tails start with this chip,
-     * piece them all together in every combination
+     * takes in the load of all possible tails from findTails as network
+     * knowing that all tails start with "this" chip,
+     * piece them all together in every combination with tails pointing "outwards"
      */
     private void build(DList network) {
         int length = network.length();
@@ -177,13 +174,6 @@ class Chip {
             //link-mutate copies and add to the end
             for (int j = i + 1; j < length; j++) {
                 DList copy = ((DList) n1.item).copy();
-                /*//System.out.println("ARE WE THERE YET");
-                if (!copy.similar((DList) n2.item)) {
-                    System.out.println("NOTSIMILAR" + copy + ", " + (DList) n2.item);
-                    link(copy, (DList) n2.item);
-                    network.insertBack(copy);
-                }
-                */
                 link(copy, (DList) n2.item);
                 if (!copy.hasRepeats()) {
                     network.insertBack(copy);
@@ -194,6 +184,9 @@ class Chip {
         }
     }
 
+    /**
+     * takes 2 lists and mutates list1, adding list2 onto it
+     */
     private void link(DList list1, DList list2) {
         DListNode curr = list2.front();
         list1.remove(list1.front());
@@ -203,6 +196,10 @@ class Chip {
         }
     }
 
+    /**
+     * returns true if "this" and chip have equal x, y, and color fields
+     * returns false otherwise
+     */
     public boolean equals(Chip chip) {
         return (x == chip.x && y == chip.y && color == chip.color);
     } 
@@ -223,6 +220,8 @@ class Chip {
     	return s;
 	}
     
+/* ##########ANYTHING BELOW THIS POINT IS FOR TESTING PURPOSES ONLY########## */
+
     public String inSightString(){
     	String s=new String("[");
     	for (int i=0; i<inSight.length;i++)
@@ -274,7 +273,8 @@ class Chip {
         //board.makeMove(Board.WHITE, m5);
         board.printboard(board);
 
-        c1 = board.testChip(m1.x1, m1.y1);
+        c1 = new Chip();
+        //c1 = board.testChip(m1.x1, m1.y1);
         //ripped out of network()
         DList network = new DList();
         DList list = new DList();

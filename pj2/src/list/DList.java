@@ -67,6 +67,11 @@ public class DList {
 		return size == 0;
 	}
 
+	/**
+	 * copy() returns a new DList that contains the same information as "this" DList
+	 * 
+	 * @return an identical, new DList
+	 */
 	public DList copy() {
 		DList aDList = new DList();
 		DListNode aNode = front();
@@ -77,24 +82,11 @@ public class DList {
 		return aDList;
 	}
 
-    /**
-     * returns true if they have even 1 equal element
-     */
-    /*public boolean similar(DList list) {
-        DListNode aNode=front();
-        DListNode bNode=list.front();
-        for (int i=0; i<list.length(); i++) {
-            aNode = front();
-            for (int j = 0; j < list.length(); j++) {
-                if (!aNode.item.equals(bNode.item)) {
-                    return true;
-                }
-                aNode = aNode.next;
-            }
-            bNode = bNode.next;
-        }
-        return false;
-    }*/
+	/**
+	 * hasRepeats() checks to see if there are any repeated nodes in a DList.
+	 * 
+	 * @return true if there are repeated nodes, false otherwise.
+	 */
 
     public boolean hasRepeats() {
         DListNode aNode=front();
@@ -117,7 +109,19 @@ public class DList {
         }
         return false;
     }
-
+    
+    /**
+     * equals() checks to see if "this" DList is equivalent to a passed in list. Equivalence is determined by containing
+     * the same information in each node, in the same order in both the the forwards and backwards direction. That is, 
+     * equivalence occurs if two lists are equal as is, or if one were to be reversed. 
+     * 
+     * Ex. [ 1 2 3 ] & [ 1 2 3] are equivalent, but so are [ 1 2 3 ] & [ 3 2 1].
+     * 
+     * @param list
+     * 		The DList that is being compared to "this" list.
+     * 
+     * @return true if equivalence is satisfied, false otherwise.
+     */
 	public boolean equals(DList list) {
         boolean forwardEqual = true;
         boolean backwardEqual = true;
@@ -136,7 +140,7 @@ public class DList {
 				aNode = aNode.next;
 				bNode = bNode.next;
 			}
-			if (forwardEqual){ //If equals in the forward direction, return true
+			if (forwardEqual){
 				return true;
 				} else {
 					aNode=front();
@@ -153,9 +157,16 @@ public class DList {
 					}
 				}
 		}
-		return backwardEqual; //Since only here if not equals in the forward direction, return whether or not equals in the backwards direction
+		return backwardEqual;
 	}
 	
+	/**
+	 * has() checks to see if "this" DList has a node with an item that matches the passed in object.
+	 * 
+	 * @param item
+	 * 		The object that is being searched for
+	 * @return true if the object is found in the item field of a node, false otherwise.
+	 */
 	public boolean has(Object item) {
 		DListNode curr = head.next;
 		for (int i = 0; i < size; i++) {
@@ -166,11 +177,14 @@ public class DList {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * random() chooses a random node from "this" DList.
+	 * 
+	 * @return a randomly chosen node from "this" DList.
+	 */
 	public DListNode random() {
 		int nodeNumber = (int) (Math.random() * length() - 1);
-		System.out.println(nodeNumber);
-		System.out.println(length());
 		DListNode aNode = front();
 		for (int i = 0; i < nodeNumber; i++) {
 			aNode = next(aNode);
