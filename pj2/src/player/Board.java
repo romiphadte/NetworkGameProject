@@ -460,7 +460,7 @@ class Board {
 				if (chip != null && chip.color() == color) {
 					DList net = chip.network(color);
 					DList validNet = validNetworks(net, color);
-					mergeNetworks(networks, net);
+					mergeNetworks(networks, validNet);
 				}
 			}
 		}
