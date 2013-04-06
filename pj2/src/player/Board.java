@@ -182,42 +182,57 @@ class Board {
 	}
 
 	/**
-	 * returns a score from -100 to 100 for the board. 100 is a win for self. 
+	 * returns a score from -100 to 100 for the board. 100 is a win for self.
+	 * color is the color of the machineplayer 
 	 */
 	public double value(int color) {
-		DList allNetworks = this.findNetworks(color);
-		return value(allNetworks, color);
+		DList myNetworks = this.findNetworks(color);
+		DList otherNetworks=this.findNetworks(MachinePlayer.otherPlayer(color));
+		return value(myNetworks,otherNetworks, color);
 	}
 	
 	/*
 	 * same as value(int color) but avoids the expensive operation of findNetworks by being passed in as allNetworks.
+	 * color is the color of the machine player
 	 */
-	public double value(DList allNetworks, int color) {
-		if (isFinished(allNetworks, color)) {
+	public double value(DList myNetworks, DList otherNetworks, int color) {
+		if (isFinished(myNetworks, color)) {
+			//System.out.println("i got to here");
 			return 100;
-		} else if (isFinished(allNetworks, MachinePlayer.otherPlayer(color))) {
+		} else if (isFinished(otherNetworks, MachinePlayer.otherPlayer(color))) {
+			//System.out.println("i got to here too!");
 			return -100;
 		}
-		DListNode aNode = allNetworks.front();
+		DListNode aNode = myNetworks.front();
 		double total = 0;
-		for (int i = 0; i < allNetworks.length(); i++) {
-		//	System.out.println(total);
-			/*
-			 * if (((Chip) ((DList) aNode.item).front().item).color()==color) {
-			 * total+=((DList) aNode.item).length();
-			 * 
-			 * } else if (((Chip) ((DList)
-			 * aNode.item).front().item).color()==MachinePlayer
-			 * .otherPlayer(color)) { total-=((DList) aNode.item).length(); }
-			 */
+		for (int i = 0; i < myNetworks.length(); i++) {
 			DList aList = (DList) aNode.item;
 			if (inEndGoal((Chip) aList.front().item, color) == 1
-					|| inEndGoal((Chip) aList.back().item, color) == 2) {
-				if (((Chip) ((DList) aNode.item).front().item).color() == color) {
+					|| inEndGoal((Chip) aList.back().item, color) == 2||inEndGoal((Chip) aList.front().item, color) == 2
+					|| inEndGoal((Chip) aList.back().item, color) == 1) {
 					total += ((DList) aNode.item).length();
 					//	System.out.println(((DList) aNode.item).length());
 
-				} else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
+				} 
+			aNode = myNetworks.next(aNode);
+			}
+		DListNode bNode = otherNetworks.front();
+		for (int i = 0; i < otherNetworks.length(); i++) {
+			DList bList = (DList) bNode.item;
+			if (inEndGoal((Chip) bList.front().item, color) == 1
+					|| inEndGoal((Chip) bList.back().item, color) == 2||inEndGoal((Chip) bList.front().item, color) == 2
+					|| inEndGoal((Chip) bList.back().item, color) == 1) {
+					total -= ((DList) bNode.item).length();
+					//	System.out.println(((DList) aNode.item).length());
+
+				} 
+			bNode = otherNetworks.next(bNode);	
+		}
+
+			
+			
+			/*
+			else if (((Chip) ((DList) aNode.item).front().item).color() == MachinePlayer
 						.otherPlayer(color)) {
 					total -= ((DList) aNode.item).length();
 					//	System.out.println(-1*((DList) aNode.item).length());
@@ -240,7 +255,7 @@ class Board {
 
 			aNode = allNetworks.next(aNode);
 		}
-
+*/
 		if (total < 0) {
 			total = -1 * Math.sqrt(Math.abs(total));
 		} else {
@@ -253,7 +268,7 @@ class Board {
 			System.out.println("A");
 			return 99;
 		} else if (total <= -100) {
-			System.out.println("B");
+			//System.out.println("B");
 			return -99;
 		}
 		//System.out.println("\nVALUE IS" + total + "\n");
@@ -281,11 +296,12 @@ class Board {
 					&& inEndGoal((Chip) aList.front().item, color) == 1) {
 				if (inEndGoal((Chip) aList.back().item, color) == 2) {
 					DListNode aListNode = aList.front();
-					//System.out.print("\n\n");
+					System.out.print("\n\n");
 					for (int ii = 0; ii < aList.length(); ii++) {
-					//	System.out.print(aListNode.item);
+						System.out.print(aListNode.item);
 						aListNode = aList.next(aListNode);
 					}
+					System.out.println("\n\n"+color+" will win!"+"\n\n");
 					return true;
 				}
 			}
@@ -293,11 +309,12 @@ class Board {
 					&& inEndGoal((Chip) aList.front().item, color) == 2) {
 				if (inEndGoal((Chip) aList.back().item, color) == 1) {
 					DListNode aListNode = aList.front();
-					//System.out.print("\n\n");
+				//	System.out.print("\n\n");
 					for (int ii = 0; ii < aList.length(); ii++) {
-					//	System.out.print(aListNode.item);
+				//		System.out.print(aListNode.item);
 						aListNode = aList.next(aListNode);
 					}
+				//	System.out.println("\n\n"+color+" will win!"+"\n\n");
 					return true;
 				}
 			}

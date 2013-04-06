@@ -14,7 +14,7 @@ public class MachinePlayer extends Player {
 	public static final boolean RANDOMBOT = false;
 	public static final int WHITE = 1;
 	public static final int BLACK = 0;
-	public static final int SEARCHDEPTH = 2;
+	public static final int SEARCHDEPTH = 3;
 	protected Board gameboard;
 	protected int color;
 	protected int searchDepth;
@@ -116,15 +116,23 @@ public class MachinePlayer extends Player {
 	 */
 	private Best bestMove(Board board, int searchDepth, double alpha,
 			double beta, int color) {
-		//System.out.println("Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
+		String s="      ";
+		String ss="";
+		for(int i=0; i<this.SEARCHDEPTH-searchDepth+1; i++)
+		{
+			ss=ss+s;
+		}
+		
+		//System.out.println(ss+"Starting"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta);
 		Best myBest = new Best(0); // My best move
 		Best reply; // Opponent's best reply
-		DList allNetworks=board.findNetworks(color);
-		if (searchDepth == 0 || board.isFinished(allNetworks,color) || board.isFinished(allNetworks,otherPlayer(color))) {
-			//System.out.print("\nFINISHED" + searchDepth + " "
+		DList myNetworks=board.findNetworks(color);
+		DList otherNetworks=board.findNetworks(otherPlayer(color));
+		if (searchDepth == 0 || board.isFinished(myNetworks,color) || board.isFinished(otherNetworks,otherPlayer(color))) {
+		//	System.out.print("\nFINISHED" + searchDepth + " "
 			//		+ board.isFinished(color) + "\n");
-		//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
-			return new Best(board.value(allNetworks,this.color));
+			//System.out.println(ss+"Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+board.value(myNetworks,otherNetworks,this.color));
+			return new Best(board.value(myNetworks,otherNetworks,this.color));
 		}
 
 		if (color == this.color) {
@@ -137,31 +145,32 @@ public class MachinePlayer extends Player {
 		DListNode aNode = allMoves.front();
 		for (int i = 0; i < allMoves.length(); i++) {
 			board.makeMove(color, (Move) aNode.item);
+		//	System.out.println(color+" doing move"+aNode.item);
 			reply = bestMove(board, searchDepth - 1, alpha, beta,
 					otherPlayer(color));
 			board.undo((Move) aNode.item);
 			if ((color == this.color) && (reply.score >= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
-				//System.out.println("best score "+myBest.score);
+		//		System.out.println(ss+"best score "+myBest.score);
 				alpha = reply.score;
 			} else if ((color == otherPlayer(this.color))
 					&& (reply.score <= myBest.score)) {
 				myBest.move = (Move) aNode.item;
 				myBest.score = reply.score;
-				//System.out.println("best score "+myBest.score);
+		//		System.out.println(ss+"best score "+myBest.score);
 				beta = reply.score;
 			}
 			if (alpha >= beta) {
-			//	System.out.println("Leaving"+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
+		//		System.out.println(ss+"Leaving "+ searchDepth+" bestmove for "+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
 				return myBest;
 			}
 
 			aNode = allMoves.next(aNode);
 		}
-		//System.out.println("Leaving"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
+		//System.out.println(ss+"Leaving "+ searchDepth+" bestmove for"+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
 		return myBest;
-
+		
 	}
 
 	/*
