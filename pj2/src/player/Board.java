@@ -545,7 +545,7 @@ class Board {
             }
             curr = list.next(curr);
         }
-        return ((goal1 <= 1) && (goal2 <= 1));
+        return ((goal1 <= 1) || (goal2 <= 1));
     }
 
     /** returns 1 if in end goal 1, 2 if in 2, and zero if in none.
