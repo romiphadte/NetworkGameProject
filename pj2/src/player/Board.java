@@ -553,7 +553,7 @@ class Board {
      * curr - the chip being inspected
      * color - the color determines the valid goals
      */
-/*	private int inEndGoal(Chip curr, int color) {
+	private int inEndGoal(Chip curr, int color) {
 		if (color == MachinePlayer.WHITE) {
 			if ((curr).getX() == 0) {
 				return 1;
@@ -573,7 +573,7 @@ class Board {
 		}
 		return 0;
 	}
-*/
+
 
 	/**
 	 * returns true if there are any 3 chips aligned in a row within the network
@@ -587,15 +587,15 @@ class Board {
 		DListNode curr = list.front();
 		int x = -1;
 		int y = -1;
-		int diffx = 8;
-		int diffy = 8;
+		int diffx = 0;
+		int diffy = 0;
 		int vercount = 0;
 		int horcount = 0;
 		int diacount = 0;
 		while (curr != null) {
 			int tx = ((Chip) curr.item).getX();
 			int ty = ((Chip) curr.item).getY();
-			if (diffx != 8 && diffy != 8
+			if (!(diffx == 0 && diffy == 0)
 					&& ((tx - x) == (ty - y) || (tx - x) == -(ty - y))
 					&& ((tx - x) > 0) == (diffx > 0)
 					&& ((ty - y) > 0) == (diffy > 0)) {
@@ -613,7 +613,7 @@ class Board {
 			} else {
 				horcount = 0;
 			}
-			if (vercount >= 2 || horcount >= 2 || diacount >= 2) {
+			if (vercount >= 2 || horcount >= 2 || diacount >= 1) {
 				return true;
 			}
 			diffx = tx - x;
