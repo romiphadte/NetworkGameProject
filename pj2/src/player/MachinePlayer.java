@@ -112,7 +112,7 @@ public class MachinePlayer extends Player {
 	}
 	
 	/*
-	 * recursively calls itself for the min max algorithm
+	 * recursively calls itself for the min max algorithm. Uses alpha beta pruning.
 	 */
 	private Best bestMove(Board board, int searchDepth, double alpha,
 			double beta, int color) {
@@ -162,34 +162,11 @@ public class MachinePlayer extends Player {
 		//System.out.println("Leaving"+ searchDepth+"bestmove for"+color+"with A: "+alpha+"B: "+beta+ "with score"+myBest.score);
 		return myBest;
 
-		/*
-		 * Best myBest;
-		 * 
-		 * if (searchDepth == 0) //|| board.isFinished(color) return new
-		 * Best(board.value(this.color)); }
-		 * 
-		 * if (color == this.color) { myBest = new Best(Board.LOWESTVAL); } else
-		 * { myBest = new Best(Board.HIGHESTVAL); }
-		 * 
-		 * DList allMoves = board.validMoves(color);
-		 * 
-		 * System.out.print("\n "+color+" thinks these are valid\n"); DListNode
-		 * bNode = allMoves.front(); for (int i = 0; i < allMoves.length(); i++)
-		 * { System.out.println(bNode.item); bNode = allMoves.next(bNode); }
-		 * 
-		 * 
-		 * DListNode aNode = allMoves.front();
-		 * 
-		 * for (int i = 0; i < allMoves.length(); i++) { Best reply =
-		 * bestMove(new Board(board, color, (Move) aNode.item), searchDepth - 1,
-		 * otherPlayer(color)); System.out.print("out one level"); if (((color
-		 * == this.color) && (reply.score >= myBest.score)) || ((color !=
-		 * this.color) && (reply.score <= myBest.score))) { myBest.move = (Move)
-		 * aNode.item; myBest.score = reply.score; aNode=allMoves.next(aNode); }
-		 * } return myBest;
-		 */
 	}
 
+	/*
+	 * returns black if given white and white if given black.
+	 */
 	public static int otherPlayer(int color) {
 		if (color == WHITE) {
 			return BLACK;

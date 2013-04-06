@@ -169,7 +169,7 @@ class Board {
 	}
 
 	/*
-	 * does the necessary steps to undo anygiven move. This is used in the
+	 * does the necessary steps to undo any given move. This is used in the
 	 * minmax algorithm after leaving a searchDepth
 	 */
 	public void undo(Move m) {
@@ -182,7 +182,7 @@ class Board {
 	}
 
 	/**
-	 * returns a score from -100 to 100 100 is a win for self
+	 * returns a score from -100 to 100 for the board. 100 is a win for self. 
 	 */
 	public double value(int color) {
 		DList allNetworks = this.findNetworks(color);
@@ -190,9 +190,7 @@ class Board {
 	}
 	
 	/*
-	 * 
-	 *  
-	 *  
+	 * same as value(int color) but avoids the expensive operation of findNetworks by being passed in as allNetworks.
 	 */
 	public double value(DList allNetworks, int color) {
 		if (isFinished(allNetworks, color)) {
@@ -266,14 +264,17 @@ class Board {
 	}
 
 	/**
-	 * returns a bool to tell you if match is finished. Needed for min max. Use
+	 * returns a bool to tell you if match is finished. Needed for min max. Used also
 	 * in value code
 	 */
 	public boolean isFinished(int color) {
 		networks = findNetworks(color);
 		return isFinished(networks, color);
 	}
-
+	/*
+	 * same as isFinished(int color) but avoids the expensive operation of findNetworks by passing in the desired
+	 * network in the function prototype 
+	 */
 	public boolean isFinished(DList networks, int color) {
 		DListNode aNode = networks.front();
 		for (int i = 0; i < networks.length(); i++) {
